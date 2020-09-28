@@ -1,7 +1,7 @@
-package com.github.cc3002.finalreality.model.character;
+package com.github.doragonUni.finalreality.model.character;
 
-import com.github.cc3002.finalreality.model.character.player.CharacterClass;
-import com.github.cc3002.finalreality.model.weapon.Weapon;
+import com.github.doragonUni.finalreality.model.character.player.CharacterClass;
+import com.github.doragonUni.finalreality.model.weapon.Weapon;
 
 /**
  * This represents a character from the game.
@@ -26,15 +26,16 @@ public interface ICharacter {
   /**
    * Equips a weapon to the character.
    */
-  void equip(Weapon weapon);
+  //void equip(Weapon weapon);
 
   /**
    * Return this character's equipped weapon.
    */
-  Weapon getEquippedWeapon();
+  //Weapon getEquippedWeapon();
 
   /**
    * Returns this character's class.
    */
   CharacterClass getCharacterClass();
 }
+
