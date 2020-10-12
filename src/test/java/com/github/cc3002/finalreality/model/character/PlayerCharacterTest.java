@@ -1,83 +1,85 @@
 package com.github.cc3002.finalreality.model.character;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
-import com.github.doragonUni.finalreality.model.character.Enemy;
-import com.github.doragonUni.finalreality.model.character.player.CharacterClass;
-import com.github.doragonUni.finalreality.model.character.player.PlayerCharacter;
-import java.util.EnumMap;
-import java.util.Map;
+import com.github.doragonUni.finalreality.model.character.ICharacter;
+import com.github.doragonUni.finalreality.model.character.player.*;
+import com.github.doragonUni.finalreality.model.weapon.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * Set of tests for the {@code GameCharacter} class.
- *
- * @author Ignacio Slater Muñoz.
- * @author <Your name>
- * @see PlayerCharacter
- */
-class PlayerCharacterTest extends AbstractCharacterTest {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
-  private static final String BLACK_MAGE_NAME = "Vivi";
-  private static final String KNIGHT_NAME = "Adelbert";
-  private static final String WHITE_MAGE_NAME = "Eiko";
-  private static final String ENGINEER_NAME = "Cid";
-  private static final String THIEF_NAME = "Zidane";
-  private Map<CharacterClass, String> characterNames;
+public class PlayerCharacterTest {
 
-  /**
-   * Setup method.
-   * Creates a new character named Vivi with 10 speed and links it to a turn queue.
-   */
-  @BeforeEach
-  void setUp() {
-    super.basicSetUp();
+    protected BlockingQueue<ICharacter> turns;
+    protected List<ICharacter> CharactersList;
 
-    characterNames = new EnumMap<>(CharacterClass.class);
-    characterNames.put(CharacterClass.BLACK_MAGE, BLACK_MAGE_NAME);
-    characterNames.put(CharacterClass.KNIGHT, KNIGHT_NAME);
-    characterNames.put(CharacterClass.WHITE_MAGE, WHITE_MAGE_NAME);
-    characterNames.put(CharacterClass.ENGINEER, ENGINEER_NAME);
-    characterNames.put(CharacterClass.THIEF, THIEF_NAME);
+    private Engineer engineerTest;
+    private Knight knightTest;
+    private Thief thiefTest;
+    private BlackMage blackMageTest;
+    private WhiteMage whiteMageTest;
 
-    for (var characterClass :
-        characterNames.keySet()) {
-      testCharacters.add(
-          new PlayerCharacter(characterNames.get(characterClass), turns, characterClass));
-    }
-  }
+    private Axe axe;
+    private Bow bow;
+    private Knife knife;
+    private Staff staff;
+    private Sword sword;
 
-  /**
-   * Checks that the class' constructor and equals method works properly.
-   */
-  @Test
-  void constructorTest() {
-    var enemy = new Enemy("Enemy", 10, turns);
-    for (var character :
-        testCharacters) {
-      var characterClass = character.getCharacterClass();
-      var characterName = characterNames.get(characterClass);
-      checkConstruction(new PlayerCharacter(characterName, turns, characterClass),
-          character,
-          new PlayerCharacter("Test", turns, characterClass),
-          new PlayerCharacter(characterName, turns,
-              characterClass == CharacterClass.THIEF ? CharacterClass.BLACK_MAGE
-                  : CharacterClass.THIEF));
-      assertNotEquals(character, enemy);
+    @BeforeEach
+    void setUp(){
+
+        turns = new LinkedBlockingQueue<>();
+        CharactersList = new ArrayList<>();
+
+        axe = new Axe("axe", 10, 5);
+        bow = new Bow("bow", 15, 10);
+        knife = new Knife("knife",20,5);
+        staff = new Staff("staff", 10, 10, 10);
+        sword = new Sword("sword", 15, 5);
+
+        engineerTest = new Engineer("engineer", turns);
+        knightTest = new Knight("knight", turns);
+        thiefTest = new Thief("thief", turns);
+        blackMageTest = new BlackMage("blackMage", turns, 10);
+        whiteMageTest = new WhiteMage("whiteMage", turns, 10);
+
+        engineerTest.equipBow(bow);
+        knightTest.equipSword(sword);
+        thiefTest.equipKnife(knife);
+        blackMageTest.equipStaff(staff);
+        whiteMageTest.equipStaff(staff);
+
+        CharactersList.add(engineerTest);
+        CharactersList.add(knightTest);
+        CharactersList.add(thiefTest);
+        CharactersList.add(blackMageTest);
+        CharactersList.add(whiteMageTest);
+
     }
 
-  }
 
-  @Test
-  void equipWeaponTest() {
-    for (var character :
-        testCharacters) {
-      assertNull(character.getEquippedWeapon());
-      character.equip(testWeapon);
-      assertEquals(testWeapon, character.getEquippedWeapon());
+    @Test
+    void waitTurnTest() {
+        Assertions.assertTrue(turns.isEmpty());
+        CharactersList.get(0).waitTurn();
+        try {
+            // Thread.sleep is not accurate so this values may be changed to adjust the
+            // acceptable error margin.
+            // We're testing that the character waits approximately 1 second.
+            Thread.sleep(900);
+            Assertions.assertEquals(0, turns.size());
+            Thread.sleep(200);
+            Assertions.assertEquals(1, turns.size());
+            Assertions.assertEquals(CharactersList.get(0), turns.peek());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
-  }
+
+
 }
+

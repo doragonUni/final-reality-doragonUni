@@ -1,8 +1,5 @@
 package com.github.doragonUni.finalreality.model.character;
 
-import com.github.doragonUni.finalreality.model.character.player.CharacterClass;
-import com.github.doragonUni.finalreality.model.weapon.Weapon;
-
 /**
  * This represents a character from the game.
  * A character can be controlled by the player or by the CPU (an enemy).
@@ -18,24 +15,18 @@ public interface ICharacter {
    */
   void waitTurn();
 
+  void addToQueue();
+
   /**
    * Returns this character's name.
    */
   String getName();
 
-  /**
-   * Equips a weapon to the character.
-   */
-  //void equip(Weapon weapon);
 
-  /**
-   * Return this character's equipped weapon.
-   */
-  //Weapon getEquippedWeapon();
 
-  /**
-   * Returns this character's class.
-   */
-  CharacterClass getCharacterClass();
+  ///void equip(Weapon weapon);
+
+  ///Weapon getEquippedWeapon();
+
 }
 

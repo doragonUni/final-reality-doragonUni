@@ -1,12 +1,12 @@
 package com.github.doragonUni.finalreality.model.character;
 
-import com.github.doragonUni.finalreality.model.character.player.CharacterClass;
-import com.github.doragonUni.finalreality.model.character.player.PlayerCharacter;
-import com.github.doragonUni.finalreality.model.weapon.Weapon;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import com.github.doragonUni.finalreality.model.weapon.Bow;
+import com.github.doragonUni.finalreality.model.weapon.IWeapon;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -17,25 +17,24 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class AbstractCharacter implements ICharacter {
 
+  protected IWeapon equippedWeapon = null;
   protected final BlockingQueue<ICharacter> turnsQueue;
-  protected final String name;
-  private final CharacterClass characterClass;
+  private final String name;
   //private Weapon equippedWeapon = null; down to playercharacter
-  protected ScheduledExecutorService scheduledExecutor;
+  private ScheduledExecutorService scheduledExecutor;
 
   protected AbstractCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue,
-                              @NotNull String name, CharacterClass characterClass) {
+                              @NotNull String name) {
     this.turnsQueue = turnsQueue;
     this.name = name;
-    this.characterClass = characterClass;
   }
 
- //wait durn divided into enemy and playerChARACTER
+  //wait durn divided into enemy and playerChARACTER
 
   /**
    * Adds this character to the turns queue.
    */
-  protected void addToQueue() {
+  public void addToQueue() {
     turnsQueue.add(this);
     scheduledExecutor.shutdown();
   }
@@ -45,13 +44,25 @@ public abstract class AbstractCharacter implements ICharacter {
     return name;
   }
 
-  //void equipWeapon down to player character
+  public IWeapon getEquippedWeapon() {
+    return this.equippedWeapon;
+  }
+
+  @Override
+  public void waitTurn() {
+    scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
+
+    scheduledExecutor
+            .schedule(this::addToQueue, equippedWeapon.getWeight() / 10, TimeUnit.SECONDS);
+  }
+
+
+
+
+    //void equipWeapon down to player character
   // weapon getEquippedWeapon DOWN TO PLAYERCHARACTER
 
 
-  @Override
-  public CharacterClass getCharacterClass() {
-    return characterClass;
-  }
+
 }
 

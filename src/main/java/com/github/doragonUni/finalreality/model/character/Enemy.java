@@ -1,13 +1,11 @@
 package com.github.doragonUni.finalreality.model.character;
 
-import com.github.doragonUni.finalreality.model.character.player.CharacterClass;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import com.github.doragonUni.finalreality.model.character.player.PlayerCharacter;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -16,8 +14,11 @@ import org.jetbrains.annotations.NotNull;
  * @author Ignacio Slater Muñoz
  * @author <Your name>
  */
-public class Enemy extends AbstractCharacter {
+public class Enemy implements ICharacter {
 
+  protected final BlockingQueue<ICharacter> turnsQueue;
+  protected final String name;
+  private ScheduledExecutorService scheduledExecutor;
   private final int weight;
 
   /**
@@ -26,24 +27,39 @@ public class Enemy extends AbstractCharacter {
    */
   public Enemy(@NotNull final String name, final int weight,
                @NotNull final BlockingQueue<ICharacter> turnsQueue) {
-    super(turnsQueue, name, CharacterClass.ENEMY);
+    this.turnsQueue = turnsQueue;
+    this.name = name;
     this.weight = weight;
+
   }
 
   /**
    * Returns the weight of this enemy.
    */
-  public int getWeight() {
-    return weight;
+
+  @Override
+  public void addToQueue() {
+    turnsQueue.add(this);
+    scheduledExecutor.shutdown();
   }
 
   @Override
   public void waitTurn() {
     scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
-      var enemy = (Enemy) this;
-      scheduledExecutor
-              .schedule(this::addToQueue, enemy.getWeight() / 10, TimeUnit.SECONDS);
-    }
+    var enemy = (Enemy) this;
+    scheduledExecutor
+            .schedule(this::addToQueue, enemy.getWeight() / 10, TimeUnit.SECONDS);
+  }
+
+  @Override
+  public String getName() {
+    return this.name;
+  }
+
+  public int getWeight() {
+    return weight;
+  }
+
 
 
   @Override
@@ -55,7 +71,8 @@ public class Enemy extends AbstractCharacter {
       return false;
     }
     final Enemy enemy = (Enemy) o;
-    return getWeight() == enemy.getWeight();
+    return getWeight() == enemy.getWeight() &&
+            getName().equals(enemy.getName());
   }
 
   @Override
