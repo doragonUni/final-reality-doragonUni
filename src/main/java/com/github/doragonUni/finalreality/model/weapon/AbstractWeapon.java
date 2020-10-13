@@ -1,8 +1,17 @@
 package com.github.doragonUni.finalreality.model.weapon;
 
-
+/**
+ * An abstract class that holds the common behaviour of all the Weapons in the game.
+ *
+ * @author Ignacio Slater Muñoz.
+ * @author <Your name>
+ */
 public abstract class AbstractWeapon implements IWeapon {
-
+    /**
+     * @param name       weapon's name
+     * @param damage  it's damage
+     * @param weight     it's weight (speed)
+     */
     private final String name;
     private final int damage;
     private final int weight;
@@ -13,14 +22,23 @@ public abstract class AbstractWeapon implements IWeapon {
         this.weight = weight;
     }
 
+    /**
+     * gets the Weapon's Name
+     */
     @Override
     public String getName(){
         return this.name;
     }
+    /**
+     * gets the Weapon's damage
+     */
     @Override
     public int getDamage(){
         return this.damage;
     }
+    /**
+     *gets the Weapon's Weight
+     */
     @Override
     public int getWeight(){
         return this.weight;

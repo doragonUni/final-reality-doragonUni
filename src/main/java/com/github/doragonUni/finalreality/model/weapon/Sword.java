@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Sword extends AbstractWeapon {
     /**
-     * Creates a weapon with a name, a base damage, speed and (it's type).
+     * Creates a Sword with a name, a base damage, speed and (it's type).
      *
      * @param name
      *          weapon's name
@@ -17,9 +17,6 @@ public class Sword extends AbstractWeapon {
     public Sword(String name, int damage, int weight) {
         super(name, damage, weight);
     }
-
-
-
 
 
     public boolean equals(final Object o) {

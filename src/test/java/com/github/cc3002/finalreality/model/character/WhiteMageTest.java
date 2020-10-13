@@ -22,29 +22,71 @@ public class WhiteMageTest {
 
     protected BlockingQueue<ICharacter> turns;
     private static final String name = "whiteMage";
-    private int mana = 10;
+    private static int fakeName = 0;
+    private int hp = 760;
+    private int def = 100;
+    private int mana = 1000;
+    private static String fakeMana = "10";
     protected Staff staff = new Staff("staff", 10,5,10);
 
 
     private WhiteMage testWhiteMage;
+    private WhiteMage testWhiteMage1;
+    private WhiteMage testWhiteMage2;
+    private WhiteMage testWhiteMage3;
+    private WhiteMage testWhiteMage4;
+    private BlackMage fakeWhiteMage;
 
+    /**
+     * SETUP FOR TESTING
+     */
     @BeforeEach
     void setUp(){
-        testWhiteMage = new WhiteMage(name, turns, mana);
+        testWhiteMage = new WhiteMage(name, turns,hp, def, mana);
+        testWhiteMage1 = new WhiteMage("kadabra", turns,hp, def, mana);
+        testWhiteMage2 = new WhiteMage(name, turns, 500000, def, mana);
+        testWhiteMage3 = new WhiteMage(name, turns, hp, 20, mana);
+        testWhiteMage4 = new WhiteMage(name, turns,hp, def, 50);
+        fakeWhiteMage = new BlackMage("traitor",turns,hp, def , mana);
     }
-
+    /**
+     * CONSTRUCTOR TEST
+     */
     @Test
     void constructorTest(){
-        var expectedWhiteMage = new WhiteMage(name, turns, mana);
+        var expectedWhiteMage = new WhiteMage(name, turns,hp, def, mana);
         assertEquals(expectedWhiteMage, testWhiteMage);
-
         assertEquals(expectedWhiteMage.hashCode(), testWhiteMage.hashCode());
+        assertNotEquals(testWhiteMage.hashCode(), fakeWhiteMage.hashCode());
+        assertEquals(testWhiteMage, testWhiteMage);
+        assertNotEquals(testWhiteMage, fakeWhiteMage);
+
+        //BRANCHES
+        assertNotEquals(expectedWhiteMage, testWhiteMage1);
+        assertNotEquals(expectedWhiteMage, testWhiteMage2);
+        assertNotEquals(expectedWhiteMage, testWhiteMage3);
+        assertNotEquals(expectedWhiteMage, testWhiteMage4);
+
+    }
+    /**
+     * TEST FOR THE GETTERS
+     */
+    @Test
+    void getTest(){
+        assertEquals(name, testWhiteMage.getName());
+        assertEquals(mana, testWhiteMage.getMana());
+        assertEquals(hp, testWhiteMage.getHp());
+        assertEquals(def, testWhiteMage.getDef());
+    }
+    /**
+     * TEST FOR EQUIP WEAPONS
+     */
+    @Test
+    void equipTest(){
         assertNull(testWhiteMage.getEquippedWeapon());
         testWhiteMage.equipStaff(staff);
         assertEquals(staff, testWhiteMage.getEquippedWeapon());
 
-        assertEquals(name, testWhiteMage.getName());
-        assertEquals(mana, testWhiteMage.getMana());
-
     }
+
 }

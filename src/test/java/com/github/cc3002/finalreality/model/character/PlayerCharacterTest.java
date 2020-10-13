@@ -28,7 +28,9 @@ public class PlayerCharacterTest {
     private Knife knife;
     private Staff staff;
     private Sword sword;
-
+    /**
+     * setup for testing
+     */
     @BeforeEach
     void setUp(){
 
@@ -41,11 +43,11 @@ public class PlayerCharacterTest {
         staff = new Staff("staff", 10, 10, 10);
         sword = new Sword("sword", 15, 5);
 
-        engineerTest = new Engineer("engineer", turns);
-        knightTest = new Knight("knight", turns);
-        thiefTest = new Thief("thief", turns);
-        blackMageTest = new BlackMage("blackMage", turns, 10);
-        whiteMageTest = new WhiteMage("whiteMage", turns, 10);
+        engineerTest = new Engineer("engineer", turns, 360, 50);
+        knightTest = new Knight("knight", turns, 870, 150);
+        thiefTest = new Thief("thief", turns, 100, 100);
+        blackMageTest = new BlackMage("blackMage", turns, 340, 50, 120);
+        whiteMageTest = new WhiteMage("whiteMage", turns, 300, 70, 520);
 
         engineerTest.equipBow(bow);
         knightTest.equipSword(sword);
@@ -61,7 +63,9 @@ public class PlayerCharacterTest {
 
     }
 
-
+    /**
+     * TEST FOR WAIT TURN CHARACTERS
+     */
     @Test
     void waitTurnTest() {
         Assertions.assertTrue(turns.isEmpty());

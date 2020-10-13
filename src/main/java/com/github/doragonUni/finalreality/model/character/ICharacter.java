@@ -14,19 +14,24 @@ public interface ICharacter {
    * seconds before adding the character to the queue.
    */
   void waitTurn();
-
+  /**
+   * add an Icharacter to the Queue
+   */
   void addToQueue();
+  /**
+   * get the HP of the character
+   */
+  int getHp();
+  /**
+   *  get the Defense of the character
+   */
+  int getDef();
 
   /**
    * Returns this character's name.
    */
   String getName();
 
-
-
-  ///void equip(Weapon weapon);
-
-  ///Weapon getEquippedWeapon();
 
 }
 

@@ -16,30 +16,47 @@ import java.util.concurrent.TimeUnit;
 
 public class BlackMage extends AbstractCharacter {
     /**
-     * Creates a new character.
+     * Creates a new BlackMage
      *
      * @param name       the character's name
-     * @param turnsQueue the queue with the characters waiting for their turn
+     * @param turnsQueue     the queue with the characters waiting for their turn
+     * @param hp        this character's health points
+     * @param defense    this character defense points
+     * @param mana       mana value for this mage
      */
 
     private int mana;
 
-
-    public BlackMage(@NotNull String name, @NotNull BlockingQueue<ICharacter> turnsQueue, int mana) {
-        super(turnsQueue, name);
+    /**
+     * Constructor of BlackMage
+     */
+    public BlackMage(@NotNull String name, @NotNull BlockingQueue<ICharacter> turnsQueue, int hp, int defense,
+                     int mana) {
+        super(turnsQueue, name, hp, defense);
         this.mana = mana;
     }
+
+    /**
+     * equip a Staff to this BlackMage
+     */
 
     public void equipStaff(Staff staff) {
         this.equippedWeapon = staff;
     }
 
+    /**
+     * equip a Knife to this BlackMage
+     */
+
     public void equipKnife(Knife knife) {
         this.equippedWeapon = knife;
     }
 
+    /**
+     * get the Mana value of this Mage
+     */
     public int getMana(){
-        return mana;
+        return this.mana;
     }
 
     @Override
@@ -52,6 +69,8 @@ public class BlackMage extends AbstractCharacter {
         }
         final BlackMage that = (BlackMage) o;
         return getName().equals(that.getName()) &&
+                getHp() == that.getHp() &&
+                getDef() == that.getDef() &&
                 getMana() == that.getMana();
     }
 

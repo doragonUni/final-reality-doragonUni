@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Bow extends AbstractWeapon {
     /**
-     * Creates a weapon with a name, a base damage, speed and (it's type).
+     * Creates a Bow with a name, a base damage, speed and (it's type).
      *
      * @param name
      *          weapon's name

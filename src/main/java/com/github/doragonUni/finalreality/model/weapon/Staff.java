@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Staff extends AbstractWeapon {
     /**
-     * Creates a weapon with a name, a base damage, speed and (it's type).
+     * Creates a Staff with a name, a base damage & MagicDamage and speed and (it's type).
      *
      * @param name
      *          weapon's name
@@ -12,6 +12,8 @@ public class Staff extends AbstractWeapon {
      *          weapon's dmg
      * @param weight
      *          weapon's "speed"
+     * @param magicDamage
+     *           weapon's magic damage
      *
      */
 

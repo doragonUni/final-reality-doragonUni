@@ -14,24 +14,28 @@ import java.util.concurrent.TimeUnit;
 
 public class Engineer extends AbstractCharacter {
     /**
-     * Creates a new character.
+     * Creates a new Engineer.
      *
      * @param name       the character's name
-     * @param turnsQueue
+     * @param turnsQueue     the queue with the characters waiting for their turn
+     * @param hp        this character's health points
+     * @param defense    this character defense points
      */
 
-
-
-
-
-    public Engineer(@NotNull String name, @NotNull BlockingQueue<ICharacter> turnsQueue) {
-        super(turnsQueue, name);
+    public Engineer(@NotNull String name, @NotNull BlockingQueue<ICharacter> turnsQueue, int hp, int defense) {
+        super(turnsQueue, name, hp, defense);
     }
 
+
+    /**
+     * equip a Bow to This Engineer
+     */
     public void equipBow(Bow bow) {
         this.equippedWeapon = bow;
     }
-
+    /**
+     * equip an Axe to this Engineer
+     */
     public void equipAxe(Axe axe) {
         this.equippedWeapon = axe;
     }
@@ -47,7 +51,9 @@ public class Engineer extends AbstractCharacter {
             return false;
         }
         final Engineer that = (Engineer) o;
-        return getName().equals(that.getName());
+        return getName().equals(that.getName()) &&
+                getHp() == that.getHp() &&
+                getDef() == that.getDef();
     }
 
     @Override
