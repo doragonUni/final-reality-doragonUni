@@ -81,6 +81,7 @@ public abstract class AbstractCharacter implements ICharacter {
   /**
    * Adds this character to the turns queue.
    */
+  @Override
   public void addToQueue() {
     turnsQueue.add(this);
     scheduledExecutor.shutdown();
