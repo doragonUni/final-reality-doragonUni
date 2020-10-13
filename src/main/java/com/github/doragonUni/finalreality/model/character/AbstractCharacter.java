@@ -19,6 +19,7 @@ public abstract class AbstractCharacter implements ICharacter {
   /**
    * Abstract Class for Characters
    *
+   *
    * @param name       the character's name
    * @param turnsQueue the queue with the characters waiting for their turn
    * @param hp         this character's health points
