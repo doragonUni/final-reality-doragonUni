@@ -15,7 +15,7 @@ public interface ICharacter {
    */
   void waitTurn();
   /**
-   * add an Icharacter to the Queue
+   * add an ICharacter to the Queue
    */
   void addToQueue();
   /**

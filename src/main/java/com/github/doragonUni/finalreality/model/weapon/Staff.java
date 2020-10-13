@@ -24,11 +24,14 @@ public class Staff extends AbstractWeapon {
         this.magicDamage = magicDamage;
     }
 
+    /**
+     *gets this Staff's MagicDamage
+     */
     public int getMagicDamage(){
         return magicDamage;
     }
 
-
+    @Override
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
@@ -43,7 +46,7 @@ public class Staff extends AbstractWeapon {
                 getName().equals(staff.getName());
     }
 
-
+    @Override
     public int hashCode() {
         return Objects.hash(getName(), getDamage(), getWeight(), getMagicDamage());
     }

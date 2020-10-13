@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
  * @author <Your name>
  */
 public abstract class AbstractCharacter implements ICharacter {
-  
+
   /**
    * Abstract Class for Characters
    *
@@ -27,7 +27,7 @@ public abstract class AbstractCharacter implements ICharacter {
    * @param defense    this character defense points
    * @param equipWeapon the character's equipped weapon
    */
-  
+
   private ScheduledExecutorService scheduledExecutor;
   protected IWeapon equippedWeapon = null;
   protected final BlockingQueue<ICharacter> turnsQueue;
@@ -81,6 +81,7 @@ public abstract class AbstractCharacter implements ICharacter {
   /**
    * Adds this character to the turns queue.
    */
+  @Override
   public void addToQueue() {
     turnsQueue.add(this);
     scheduledExecutor.shutdown();
