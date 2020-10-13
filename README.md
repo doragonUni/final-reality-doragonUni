@@ -23,7 +23,6 @@ Se modifica el package Model con tal de respetar los principios SOLID, teniendo 
 Se crean las clases de cada tipo y se les agregan los atributos restantes a los PlayerCharacters y a Enemy
 Los Weapons por su parte, tambien se eliminan las enumeraciones y se crean las clases independientes de cada arma además que se agregan las clases IWeapon y AbstractWeapon que vienen a reemplazar la implementación de la clase Weapon.
 
-
 Puede ver en el Changelog.md seccion **VERSION 2.0 TAREA 1** los cambios explícitos para esta entrega.
 
 
