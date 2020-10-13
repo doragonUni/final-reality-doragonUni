@@ -19,7 +19,7 @@ CAMBIOS A CHARACTER
 - (B.5) POR EL MOMENTO Se añaden los equipBow, equipSword, equipKnife, equipStaff, equipAxe y se implementan 
    en las clases correspondientes.
 - (B.6) waitTurn(), addtoQueue() y los getters de HP, DEF son agregados a la interfaz
-- (B.7) por 6) la clase Enemy y Abstract Character implementan sus propios waitTurn(), addtoQueue() 
+- (B.7) por (B.6) la clase Enemy y Abstract Character implementan sus propios waitTurn(), addtoQueue() 
 
 CAMBIOS A WEAPON
 - (B.1) Class Weapon Pasa a IWeapon, AbstractWeapon Implements IWeapon
