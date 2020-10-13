@@ -16,10 +16,20 @@ import org.jetbrains.annotations.NotNull;
  * @author <Your name>
  */
 public abstract class AbstractCharacter implements ICharacter {
+  
+  /**
+   * Abstract Class for Characters
+   *
+   *
+   * @param name       the character's name
+   * @param turnsQueue the queue with the characters waiting for their turn
+   * @param hp         this character's health points
+   * @param defense    this character defense points
+   * @param equipWeapon the character's equipped weapon
+   */
+  
   private ScheduledExecutorService scheduledExecutor;
   protected IWeapon equippedWeapon = null;
-
-
   protected final BlockingQueue<ICharacter> turnsQueue;
   private final String name;
   private int hp;
