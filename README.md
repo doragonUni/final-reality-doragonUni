@@ -16,4 +16,17 @@ enemies controlled by the computer.
 
 ---
 
-**The rest of the documentation is left for the users of this template to complete**
+**Version Tarea1**
+
+
+Se modifica el package Model con tal de respetar los principios SOLID, teniendo esto en cuenta, lo que se hizo fue eliminar las enumeraciones debido a que limitan la extensibilidad del código a un futuro, luego se divide el método waitTurn() debido a que no estaba implendado bajo el principio de Single responsability por lo que se decide a bajarlo a cada clase correspondiente.
+Se crean las clases de cada tipo y se les agregan los atributos restantes a los PlayerCharacters y a Enemy
+Los Weapons por su parte, tambien se eliminan las enumeraciones y se crean las clases independientes de cada arma además que se agregan las clases IWeapon y AbstractWeapon que vienen a reemplazar la implementación de la clase Weapon.
+
+
+Puede ver en el Changelog.md seccion **VERSION 2.0 TAREA 1** los cambios explícitos para esta entrega.
+
+
+
+
+
