@@ -16,10 +16,7 @@ import org.jetbrains.annotations.NotNull;
  * @author <Your name>
  */
 public abstract class AbstractCharacter implements ICharacter {
-<<<<<<< HEAD
-=======
-  
->>>>>>> 18d24e8b567b89684bdf3bd66c15a3010ae06c5b
+
   /**
    * Abstract Class for Characters
    *
@@ -30,12 +27,7 @@ public abstract class AbstractCharacter implements ICharacter {
    * @param defense    this character defense points
    * @param equipWeapon the character's equipped weapon
    */
-<<<<<<< HEAD
 
-
-=======
-  
->>>>>>> 18d24e8b567b89684bdf3bd66c15a3010ae06c5b
   private ScheduledExecutorService scheduledExecutor;
   protected IWeapon equippedWeapon = null;
   protected final BlockingQueue<ICharacter> turnsQueue;
