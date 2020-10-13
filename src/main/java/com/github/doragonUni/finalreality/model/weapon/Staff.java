@@ -24,6 +24,9 @@ public class Staff extends AbstractWeapon {
         this.magicDamage = magicDamage;
     }
 
+    /**
+     *gets this Staff's MagicDamage
+     */
     public int getMagicDamage(){
         return magicDamage;
     }
