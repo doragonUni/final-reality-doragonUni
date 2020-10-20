@@ -24,9 +24,6 @@ public class Knight extends AbstractCharacter {
      */
 
 
-
-
-
     public Knight(@NotNull String name, @NotNull BlockingQueue<ICharacter> turnsQueue, int hp, int defense) {
         super(turnsQueue, name, hp, defense);
 

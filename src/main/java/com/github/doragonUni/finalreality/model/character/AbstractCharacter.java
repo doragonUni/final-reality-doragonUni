@@ -5,7 +5,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import com.github.doragonUni.finalreality.model.weapon.Bow;
 import com.github.doragonUni.finalreality.model.weapon.IWeapon;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,6 +25,7 @@ public abstract class AbstractCharacter implements ICharacter {
    * @param hp         this character's health points
    * @param defense    this character defense points
    * @param equipWeapon the character's equipped weapon
+   * @param isAlive     character live status
    */
 
   private ScheduledExecutorService scheduledExecutor;
@@ -33,7 +33,9 @@ public abstract class AbstractCharacter implements ICharacter {
   protected final BlockingQueue<ICharacter> turnsQueue;
   private final String name;
   private int hp;
-  private int defense;
+  private final int defense;
+  private boolean isAlive;
+
 
 
   protected AbstractCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue,
@@ -44,6 +46,7 @@ public abstract class AbstractCharacter implements ICharacter {
     this.name = name;
     this.hp = hp;
     this.defense = defense;
+    this.isAlive = true;
   }
 
 
@@ -70,12 +73,52 @@ public abstract class AbstractCharacter implements ICharacter {
     return this.defense;
   }
 
+  /**
+   * get the physical Damage of the weapon equipped by this mage
+   */
+  @Override
+  public int getAttack() {
+    if (this.equippedWeapon == null){
+      return 0;
+    }
+    else{
+      return equippedWeapon.getDamage();
+    }
+  }
 
   /**
    * gets the Weapon equipped by the Character
    */
   public IWeapon getEquippedWeapon() {
     return this.equippedWeapon;
+  }
+
+
+  /**
+   * sets the health points
+   */
+  @Override
+  public void setHp(int hp){
+    this.hp = hp;
+  }
+
+  @Override
+  public boolean isAlive(){
+    return this.isAlive;
+  }
+
+  @Override
+  public void attackedBy(int damage){
+
+    if (damage >= this.getHp()){
+      this.isAlive = false;
+    }
+    this.setHp(this.getHp()-(damage- this.getDef()));
+  }
+
+  @Override
+  public void attack(ICharacter pj){
+    pj.attackedBy(this.getAttack());
   }
 
   /**

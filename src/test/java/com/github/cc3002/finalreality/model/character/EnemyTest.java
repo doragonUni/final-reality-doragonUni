@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.WeakHashMap;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -24,6 +23,7 @@ class EnemyTest {
   private static final int WEIGHT = 10;
   private int hp = 500;
   private int def = 100;
+  private int attack = 430;
   protected BlockingQueue<ICharacter> turns;
   protected List<Enemy> EnemyList;
 
@@ -32,6 +32,7 @@ class EnemyTest {
   Enemy testEnemy2;
   Enemy testEnemy3;
   Enemy testEnemy4;
+  Enemy testEnemy5;
   Knight fakeEnemy;
 
   /**
@@ -43,11 +44,12 @@ class EnemyTest {
     turns = new LinkedBlockingQueue<>();
     EnemyList = new ArrayList<>();
 
-    testEnemy = new Enemy(ENEMY_NAME, turns, WEIGHT, hp, def);
-    testEnemy1 = new Enemy("minion",turns, WEIGHT, hp, def);
-    testEnemy2 = new Enemy(ENEMY_NAME, turns, 20, hp, def);
-    testEnemy3 = new Enemy(ENEMY_NAME, turns, WEIGHT, 5, def);
-    testEnemy4 = new Enemy(ENEMY_NAME, turns, WEIGHT, hp, 10);
+    testEnemy = new Enemy(ENEMY_NAME, turns, WEIGHT, hp, def, attack);
+    testEnemy1 = new Enemy("minion",turns, WEIGHT, hp, def, attack);
+    testEnemy2 = new Enemy(ENEMY_NAME, turns, 20, hp, def, attack);
+    testEnemy3 = new Enemy(ENEMY_NAME, turns, WEIGHT, 5, def, attack);
+    testEnemy4 = new Enemy(ENEMY_NAME, turns, WEIGHT, hp, 10, attack);
+    testEnemy5 = new Enemy(ENEMY_NAME, turns, WEIGHT, hp, def, 1000);
 
     fakeEnemy = new Knight("stealth", turns, hp, def);
 
@@ -65,7 +67,7 @@ class EnemyTest {
    */
   @Test
   void constructorTest(){
-    var expectedEnemy = new Enemy(ENEMY_NAME, turns, WEIGHT, hp, def);
+    var expectedEnemy = new Enemy(ENEMY_NAME, turns, WEIGHT, hp, def, attack);
     assertEquals(expectedEnemy, testEnemy);
     assertEquals(expectedEnemy.hashCode(), testEnemy.hashCode());
     assertNotEquals(testEnemy.hashCode(), fakeEnemy.hashCode());
@@ -76,6 +78,7 @@ class EnemyTest {
     assertNotEquals(expectedEnemy, testEnemy2);
     assertNotEquals(expectedEnemy, testEnemy3);
     assertNotEquals(expectedEnemy, testEnemy4);
+    assertNotEquals(expectedEnemy, testEnemy5);
 
   }
 
@@ -88,6 +91,7 @@ class EnemyTest {
     assertEquals(def, testEnemy.getDef());
     assertEquals(ENEMY_NAME, testEnemy.getName());
     assertEquals(WEIGHT, testEnemy.getWeight());
+    assertEquals(attack, testEnemy.getAttack());
 
   }
 

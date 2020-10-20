@@ -20,15 +20,18 @@ public class Enemy implements ICharacter {
   private ScheduledExecutorService scheduledExecutor;
   protected final String name;
   private final int weight;
-  private final int hp;
+  private int hp;
   private final int defense;
+  private final int attack;
+  private boolean isAlive;
+
 
   /**
    * Creates a new enemy with a name, a weight and the queue with the characters ready to
    * play.
    */
   public Enemy(@NotNull final String name, @NotNull final BlockingQueue<ICharacter> turnsQueue,
-               final int weight, final int hp, final int defense) {
+               final int weight, final int hp, final int defense, int attack) {
     /**
      * Creates a new Enemy.
      *
@@ -44,7 +47,8 @@ public class Enemy implements ICharacter {
     this.weight = weight;
     this.hp = hp;
     this.defense = defense;
-
+    this.attack = attack;
+    this.isAlive = true;
   }
 
 
@@ -87,6 +91,7 @@ public class Enemy implements ICharacter {
   }
 
 
+
   /**
    * gets the Enemy name
    */
@@ -102,6 +107,36 @@ public class Enemy implements ICharacter {
     return weight;
   }
 
+  /**
+  * gets the Enemy Atack
+   */
+  @Override
+  public int getAttack(){ return this.attack;}
+
+  @Override
+  public boolean isAlive() {
+    return this.isAlive;
+  }
+
+  @Override
+  public void attackedBy(int damage){
+
+    if (damage >= this.getHp()){
+      this.isAlive = false;
+    }
+    this.setHp(this.getHp()-(damage- this.getDef()));
+  }
+
+  @Override
+  public void attack(ICharacter pj){
+    pj.attackedBy(this.getAttack());
+  }
+
+
+  @Override
+  public void setHp(int hp){
+    this.hp = hp;
+  }
 
 
   @Override

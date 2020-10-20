@@ -47,6 +47,7 @@ public class WhiteMage  extends AbstractCharacter {
     }
 
 
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -65,5 +66,6 @@ public class WhiteMage  extends AbstractCharacter {
     public int hashCode() {
         return Objects.hashCode(WhiteMage.class);
     }
+
 
 }
