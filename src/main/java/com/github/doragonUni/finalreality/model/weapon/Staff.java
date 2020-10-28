@@ -40,21 +40,6 @@ public class Staff extends AbstractWeapon {
     }
 
     @Override
-    public void equipToEngineer(Engineer engineer) {
-        return;
-    }
-
-    @Override
-    public void equipToKnight(Knight knight) {
-        return;
-    }
-
-    @Override
-    public void equipToThief(Thief thief) {
-        return;
-    }
-
-    @Override
     public void equipToWhiteMage(WhiteMage whiteMage) {
         whiteMage.setEquippedWeapon(this);
     }

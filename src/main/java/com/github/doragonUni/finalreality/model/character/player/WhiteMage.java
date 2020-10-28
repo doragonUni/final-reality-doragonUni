@@ -1,6 +1,6 @@
 package com.github.doragonUni.finalreality.model.character.player;
 
-import com.github.doragonUni.finalreality.model.character.AbstractCharacter;
+import com.github.doragonUni.finalreality.model.character.AbstractPlayerCharacter;
 import com.github.doragonUni.finalreality.model.character.ICharacter;
 import com.github.doragonUni.finalreality.model.weapon.IWeapon;
 import com.github.doragonUni.finalreality.model.weapon.Staff;
@@ -11,7 +11,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class WhiteMage  extends AbstractCharacter {
+public class WhiteMage  extends AbstractPlayerCharacter {
     /**
      * Creates a new WhiteMage.
      *

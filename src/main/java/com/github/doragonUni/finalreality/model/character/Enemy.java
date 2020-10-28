@@ -14,61 +14,38 @@ import org.jetbrains.annotations.NotNull;
  * @author Ignacio Slater Muñoz
  * @author <Your name>
  */
-public class Enemy implements ICharacter {
+public class Enemy extends AbstractCharacter {
 
-  protected final BlockingQueue<ICharacter> turnsQueue;
   private ScheduledExecutorService scheduledExecutor;
-  protected final String name;
   private final int weight;
-  private int hp;
-  private final int defense;
   private final int attack;
-  private boolean isAlive;
 
 
   /**
    * Creates a new enemy with a name, a weight and the queue with the characters ready to
    * play.
    */
+  /**
+   * Creates a new Enemy.
+   *
+   * @param name       the character's name
+   * @param weight      enemy's weight
+   * @param turnsQueue     the queue with the characters waiting for their turn
+   * @param hp        this character's health points
+   * @param defense    this character defense points
+   *
+   */
+
   public Enemy(@NotNull final String name, @NotNull final BlockingQueue<ICharacter> turnsQueue,
                final int weight, final int hp, final int defense, int attack) {
-    /**
-     * Creates a new Enemy.
-     *
-     * @param name       the character's name
-     * @param weight      enemy's weight
-     * @param turnsQueue     the queue with the characters waiting for their turn
-     * @param hp        this character's health points
-     * @param defense    this character defense points
-     *
-     */
-    this.turnsQueue = turnsQueue;
-    this.name = name;
+    super(turnsQueue,name, hp, defense);
+
     this.weight = weight;
-    this.hp = hp;
-    this.defense = defense;
     this.attack = attack;
-    this.isAlive = true;
+
   }
 
 
-
-  /**
-   * gets the Enemy Health Points
-   */
-  @Override
-  public int getHp() {
-    return this.hp;
-  }
-
-
-  /**
-   * gets the Enemy Defense
-   */
-  @Override
-  public int getDef() {
-    return this.defense;
-  }
 
   /**
    *Adds an Enemy to the Queue
@@ -93,14 +70,6 @@ public class Enemy implements ICharacter {
 
 
   /**
-   * gets the Enemy name
-   */
-  @Override
-  public String getName() {
-    return this.name;
-  }
-
-  /**
    * gets the Enemy Weight
    */
   public int getWeight() {
@@ -108,37 +77,14 @@ public class Enemy implements ICharacter {
   }
 
   /**
-  * gets the Enemy Atack
+  * gets the Enemy Attack
    */
   @Override
   public int getAttack(){ return this.attack;}
 
   @Override
-  public boolean isAlive() {
-    return this.isAlive;
-  }
-
-  @Override
-  public void attackedBy(int damage){
-    int damageDealt = damage - this.getDef();
-    if (damageDealt >= this.getHp()){
-      this.isAlive = false;
-    }
-    if(damageDealt < 0){
-      damageDealt = 0;
-    }
-    this.setHp(this.getHp()-damageDealt);
-  }
-
-  @Override
   public void attack(ICharacter pj){
     pj.attackedBy(this.getAttack());
-  }
-
-
-  @Override
-  public void setHp(int hp){
-    this.hp = hp;
   }
 
 

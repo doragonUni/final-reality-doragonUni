@@ -44,12 +44,6 @@ public class Axe extends AbstractWeapon {
         return Objects.hashCode(Axe.class);
     }
 
-
-    @Override
-    public void equipToBlackMage(BlackMage blackMage) {
-        return;
-    }
-
     @Override
     public void equipToEngineer(Engineer engineer) {
         engineer.setEquippedWeapon(this);
@@ -60,13 +54,5 @@ public class Axe extends AbstractWeapon {
         knight.setEquippedWeapon(this);
     }
 
-    @Override
-    public void equipToThief(Thief thief) {
-        return;
-    }
 
-    @Override
-    public void equipToWhiteMage(WhiteMage WhiteMage) {
-        return;
-    }
 }

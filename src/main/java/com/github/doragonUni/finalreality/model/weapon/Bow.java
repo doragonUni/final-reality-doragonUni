@@ -20,30 +20,19 @@ public class Bow extends AbstractWeapon {
         super(name, damage, weight);
     }
 
-    @Override
-    public void equipToBlackMage(BlackMage blackMage) {
-        return;
-    }
 
     @Override
     public void equipToEngineer(Engineer engineer) {
         engineer.setEquippedWeapon(this);
     }
 
-    @Override
-    public void equipToKnight(Knight knight) {
-        return;
-    }
+
 
     @Override
     public void equipToThief(Thief thief) {
         thief.setEquippedWeapon(this);
     }
 
-    @Override
-    public void equipToWhiteMage(WhiteMage WhiteMage) {
-        return;
-    }
 
 
     @Override

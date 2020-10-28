@@ -20,17 +20,7 @@ public class Sword extends AbstractWeapon {
         super(name, damage, weight);
     }
 
-
-    @Override
-    public void equipToBlackMage(BlackMage blackMage) {
-        return ;
-    }
-
-    @Override
-    public void equipToEngineer(Engineer engineer) {
-        return;
-    }
-
+    
     @Override
     public void equipToKnight(Knight knight) {
         knight.setEquippedWeapon(this);
@@ -41,10 +31,6 @@ public class Sword extends AbstractWeapon {
         thief.setEquippedWeapon(this);
     }
 
-    @Override
-    public void equipToWhiteMage(WhiteMage WhiteMage) {
-        return;
-    }
 
     @Override
     public boolean equals(final Object o) {

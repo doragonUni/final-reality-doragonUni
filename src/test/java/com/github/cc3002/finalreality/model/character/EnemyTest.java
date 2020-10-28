@@ -96,21 +96,9 @@ class EnemyTest {
 
   }
 
-  @Test
-  void attackTest(){
-    assertEquals(attack, testEnemy.getAttack());
-    assertEquals(true, testEnemy.isAlive());
-    testEnemy.attack(fakeEnemy);
-    assertEquals(true, fakeEnemy.isAlive());
-    assertNotEquals(hp, fakeEnemy.getHp());
-    fakeEnemy.attack(testEnemy);
-    assertTrue(fakeEnemy.isAlive());
-    assertEquals(hp, testEnemy.getHp());
-    fakeEnemy.equipWeapon(sword);
-    fakeEnemy.attack(testEnemy);
-    assertFalse(testEnemy.isAlive());
 
-  }
+
+
   /**
    * TEST FOR WAIT TURN ENEMY
    */
