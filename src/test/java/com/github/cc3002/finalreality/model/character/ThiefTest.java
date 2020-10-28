@@ -26,6 +26,7 @@ public class ThiefTest {
     protected Sword sword = new Sword("sword", 5, 50 );
     protected Bow bow = new Bow("bow", 10 , 5 );
     protected Knife knife = new Knife( "knife",15, 15);
+    protected Axe axe = new Axe("axe", 10, 10);
 
     private Thief testThief;
     private Thief testThief1;
@@ -79,12 +80,16 @@ public class ThiefTest {
     @Test
     void equipTest(){
         assertNull(testThief.getEquippedWeapon());
-        testThief.equipBow(bow);
+        testThief.equipWeapon(axe);
+        assertNull(testThief.getEquippedWeapon());
+        testThief.equipWeapon(bow);
         assertEquals(bow, testThief.getEquippedWeapon());
-        testThief.equipKnife(knife);
+        testThief.equipWeapon(knife);
         assertEquals(knife, testThief.getEquippedWeapon());
-        testThief.equipSword(sword);
+        testThief.equipWeapon(sword);
         assertEquals(sword, testThief.getEquippedWeapon());
+        testThief.equipWeapon(axe);
+        assertNotNull(testThief.getEquippedWeapon());
 
     }
 

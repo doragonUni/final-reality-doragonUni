@@ -36,20 +36,12 @@ public class BlackMage extends AbstractCharacter {
         this.mana = mana;
     }
 
-    /**
-     * equip a Staff to this BlackMage
-     */
 
-    public void equipStaff(Staff staff) {
-        this.equippedWeapon = staff;
-    }
-
-    /**
-     * equip a Knife to this BlackMage
-     */
-
-    public void equipKnife(Knife knife) {
-        this.equippedWeapon = knife;
+    @Override
+    public void equipWeapon(IWeapon weapon) {
+        if (this.getHp()>0) {
+            weapon.equipToBlackMage(this);
+        }
     }
 
     /**

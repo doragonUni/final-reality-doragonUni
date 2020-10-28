@@ -30,25 +30,13 @@ public class Thief extends AbstractCharacter {
         super(turnsQueue, name, hp, defense);
     }
 
-    /**
-     * equip a Sword to this Thief
-     */
-    public void equipSword(Sword sword) {
-        this.equippedWeapon = sword;
-    }
+    @Override
+    public void equipWeapon(IWeapon weapon) {
+        if (this.isAlive()){
 
-    /**
-     * equip a Bow to this Thief
-     */
-    public void equipBow(Bow bow) {
-        this.equippedWeapon = bow;
-    }
+            weapon.equipToThief(this);
 
-    /**
-     * equip a Knife to this Thief
-     */
-    public void equipKnife(Knife knife) {
-        this.equippedWeapon = knife;
+        }
     }
 
 

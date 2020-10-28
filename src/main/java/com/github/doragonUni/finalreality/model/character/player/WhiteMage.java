@@ -32,12 +32,14 @@ public class WhiteMage  extends AbstractCharacter {
 
 
     /**
-     * equip a Staff to this WhiteMage
+     *
      */
-    public void equipStaff(Staff staff) {
-        this.equippedWeapon = staff;
+    @Override
+    public void equipWeapon(IWeapon weapon) {
+        if (this.isAlive()) {
+            weapon.equipToWhiteMage(this);
+        }
     }
-
 
     /**
      * get the Mana value of this WhiteMage

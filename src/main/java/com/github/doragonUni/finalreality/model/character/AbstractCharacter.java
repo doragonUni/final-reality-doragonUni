@@ -29,7 +29,7 @@ public abstract class AbstractCharacter implements ICharacter {
    */
 
   private ScheduledExecutorService scheduledExecutor;
-  protected IWeapon equippedWeapon = null;
+  private IWeapon equippedWeapon = null;
   protected final BlockingQueue<ICharacter> turnsQueue;
   private final String name;
   private int hp;
@@ -99,7 +99,16 @@ public abstract class AbstractCharacter implements ICharacter {
    */
   @Override
   public void setHp(int hp){
+    if (hp <= 0){
+      hp = 0;
+      this.isAlive = false;
+    }
     this.hp = hp;
+  }
+
+  public void setEquippedWeapon(IWeapon weapon){
+    this.equippedWeapon = weapon;
+
   }
 
   @Override
@@ -109,17 +118,22 @@ public abstract class AbstractCharacter implements ICharacter {
 
   @Override
   public void attackedBy(int damage){
+    int damageDealt = damage - this.getDef();
 
-    if (damage >= this.getHp()){
-      this.isAlive = false;
+    if(damageDealt < 0){
+      damageDealt = 0;
     }
-    this.setHp(this.getHp()-(damage- this.getDef()));
+    this.setHp(this.getHp()-damageDealt);
   }
+
+
 
   @Override
   public void attack(ICharacter pj){
     pj.attackedBy(this.getAttack());
   }
+
+  public abstract void equipWeapon(IWeapon weapon);
 
   /**
    * Adds this character to the turns queue.

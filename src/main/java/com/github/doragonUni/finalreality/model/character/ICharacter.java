@@ -44,8 +44,7 @@ public interface ICharacter {
   void attackedBy(int damage);
 
   void attack(ICharacter pj);
-
-
+  
 
   void setHp(int hp);
 

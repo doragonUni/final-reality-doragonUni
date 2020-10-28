@@ -26,20 +26,13 @@ public class Engineer extends AbstractCharacter {
         super(turnsQueue, name, hp, defense);
     }
 
+    @Override
+    public void equipWeapon(IWeapon weapon) {
+        if (this.isAlive()) {
+            weapon.equipToEngineer(this);
 
-    /**
-     * equip a Bow to This Engineer
-     */
-    public void equipBow(Bow bow) {
-        this.equippedWeapon = bow;
+        }
     }
-    /**
-     * equip an Axe to this Engineer
-     */
-    public void equipAxe(Axe axe) {
-        this.equippedWeapon = axe;
-    }
-
 
 
     @Override

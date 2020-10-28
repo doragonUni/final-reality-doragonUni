@@ -15,6 +15,7 @@ import com.github.doragonUni.finalreality.model.character.player.BlackMage;
 import com.github.doragonUni.finalreality.model.character.player.WhiteMage;
 import com.github.doragonUni.finalreality.model.weapon.Knife;
 import com.github.doragonUni.finalreality.model.weapon.Staff;
+import com.github.doragonUni.finalreality.model.weapon.Sword;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +29,7 @@ public class WhiteMageTest {
     private int mana = 1000;
     private static String fakeMana = "10";
     protected Staff staff = new Staff("staff", 10,5,10);
-
+    protected Sword sword = new Sword("sword", 10, 5);
 
     private WhiteMage testWhiteMage;
     private WhiteMage testWhiteMage1;
@@ -84,7 +85,9 @@ public class WhiteMageTest {
     @Test
     void equipTest(){
         assertNull(testWhiteMage.getEquippedWeapon());
-        testWhiteMage.equipStaff(staff);
+        testWhiteMage.equipWeapon(sword);
+        assertNull(testWhiteMage.getEquippedWeapon());
+        testWhiteMage.equipWeapon(staff);
         assertEquals(staff, testWhiteMage.getEquippedWeapon());
 
     }

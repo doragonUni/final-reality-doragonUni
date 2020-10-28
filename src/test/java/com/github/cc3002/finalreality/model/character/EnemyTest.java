@@ -4,6 +4,7 @@ import com.github.doragonUni.finalreality.model.character.Enemy;
 import com.github.doragonUni.finalreality.model.character.ICharacter;
 import com.github.doragonUni.finalreality.model.character.player.Knight;
 
+import com.github.doragonUni.finalreality.model.weapon.Sword;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,8 +14,7 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class EnemyTest {
@@ -34,6 +34,7 @@ class EnemyTest {
   Enemy testEnemy4;
   Enemy testEnemy5;
   Knight fakeEnemy;
+  Sword sword;
 
   /**
    * TEST FOR THE GETTERS
@@ -52,7 +53,7 @@ class EnemyTest {
     testEnemy5 = new Enemy(ENEMY_NAME, turns, WEIGHT, hp, def, 1000);
 
     fakeEnemy = new Knight("stealth", turns, hp, def);
-
+    sword = new Sword("AliexpressSword", 100000, 40);
 
     EnemyList.add(testEnemy);
     EnemyList.add(testEnemy1);
@@ -95,12 +96,27 @@ class EnemyTest {
 
   }
 
+  @Test
+  void attackTest(){
+    assertEquals(attack, testEnemy.getAttack());
+    assertEquals(true, testEnemy.isAlive());
+    testEnemy.attack(fakeEnemy);
+    assertEquals(true, fakeEnemy.isAlive());
+    assertNotEquals(hp, fakeEnemy.getHp());
+    fakeEnemy.attack(testEnemy);
+    assertTrue(fakeEnemy.isAlive());
+    assertEquals(hp, testEnemy.getHp());
+    fakeEnemy.equipWeapon(sword);
+    fakeEnemy.attack(testEnemy);
+    assertFalse(testEnemy.isAlive());
+
+  }
   /**
    * TEST FOR WAIT TURN ENEMY
    */
   @Test
   void waitTurnTest() {
-    Assertions.assertTrue(turns.isEmpty());
+    assertTrue(turns.isEmpty());
     EnemyList.get(0).waitTurn();
     try {
       // Thread.sleep is not accurate so this values may be changed to adjust the

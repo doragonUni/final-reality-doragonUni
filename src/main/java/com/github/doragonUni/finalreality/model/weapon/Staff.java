@@ -1,5 +1,7 @@
 package com.github.doragonUni.finalreality.model.weapon;
 
+import com.github.doragonUni.finalreality.model.character.player.*;
+
 import java.util.Objects;
 
 public class Staff extends AbstractWeapon {
@@ -29,6 +31,32 @@ public class Staff extends AbstractWeapon {
      */
     public int getMagicDamage(){
         return magicDamage;
+    }
+
+
+    @Override
+    public void equipToBlackMage(BlackMage blackMage) {
+        blackMage.setEquippedWeapon(this);
+    }
+
+    @Override
+    public void equipToEngineer(Engineer engineer) {
+        return;
+    }
+
+    @Override
+    public void equipToKnight(Knight knight) {
+        return;
+    }
+
+    @Override
+    public void equipToThief(Thief thief) {
+        return;
+    }
+
+    @Override
+    public void equipToWhiteMage(WhiteMage whiteMage) {
+        whiteMage.setEquippedWeapon(this);
     }
 
     @Override

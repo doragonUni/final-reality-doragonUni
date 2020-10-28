@@ -29,23 +29,12 @@ public class Knight extends AbstractCharacter {
 
     }
 
-    /**
-     * equip an Axe to this Knight
-     */
-    public void equipAxe(Axe axe) {
-        this.equippedWeapon = axe;
-    }
-    /**
-     * equip a Sword to this Knight
-     */
-    public void equipSword(Sword sword) {
-        this.equippedWeapon = sword;
-    }
-    /**
-     * equip a Knife to this Knight
-     */
-    public void equipKnife(Knife knife) {
-        this.equippedWeapon = knife;
+    @Override
+    public void equipWeapon(IWeapon weapon) {
+        if (this.isAlive()) {
+            weapon.equipToKnight(this);
+
+        }
     }
 
     @Override

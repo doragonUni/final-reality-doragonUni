@@ -120,11 +120,14 @@ public class Enemy implements ICharacter {
 
   @Override
   public void attackedBy(int damage){
-
-    if (damage >= this.getHp()){
+    int damageDealt = damage - this.getDef();
+    if (damageDealt >= this.getHp()){
       this.isAlive = false;
     }
-    this.setHp(this.getHp()-(damage- this.getDef()));
+    if(damageDealt < 0){
+      damageDealt = 0;
+    }
+    this.setHp(this.getHp()-damageDealt);
   }
 
   @Override
@@ -151,6 +154,7 @@ public class Enemy implements ICharacter {
     return getWeight() == enemy.getWeight() &&
             getName().equals(enemy.getName()) &&
             getHp() == enemy.getHp() &&
+            getAttack() == enemy.getAttack() &&
             getDef() == enemy.getDef();
   }
 

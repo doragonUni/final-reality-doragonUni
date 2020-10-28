@@ -1,9 +1,5 @@
 package com.github.cc3002.finalreality.model.character;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
 import com.github.doragonUni.finalreality.model.character.Enemy;
 
 import java.util.EnumMap;
@@ -15,9 +11,13 @@ import com.github.doragonUni.finalreality.model.character.player.Engineer;
 import com.github.doragonUni.finalreality.model.character.player.WhiteMage;
 import com.github.doragonUni.finalreality.model.weapon.Axe;
 import com.github.doragonUni.finalreality.model.weapon.Bow;
+import com.github.doragonUni.finalreality.model.weapon.Sword;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class EngineerTest {
@@ -28,6 +28,7 @@ public class EngineerTest {
     private int def = 300;
     protected Bow bow = new Bow("bow", 10, 5 );
     protected Axe axe = new Axe("axe", 10 , 5 );
+    protected Sword sword = new Sword("sword",10, 1000);
 
     private Engineer testEngineer;
     private Engineer testEngineer1;
@@ -82,11 +83,13 @@ public class EngineerTest {
     @Test
     void equipTest(){
         assertNull(testEngineer.getEquippedWeapon());
-        testEngineer.equipAxe(axe);
+        testEngineer.equipWeapon(sword);
+        assertNull(testEngineer.getEquippedWeapon());
+        testEngineer.equipWeapon(axe);
         assertEquals(axe, testEngineer.getEquippedWeapon());
-        testEngineer.equipBow(bow);
+        testEngineer.equipWeapon(bow);
         assertEquals(bow, testEngineer.getEquippedWeapon());
-
     }
+
 
 }
