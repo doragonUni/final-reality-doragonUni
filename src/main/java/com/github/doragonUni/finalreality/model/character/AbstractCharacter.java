@@ -22,7 +22,7 @@ public abstract class AbstractCharacter  implements  ICharacter {
     }
 
     @Override
-    public abstract void waitTurn(); //DUDA
+    public abstract void waitTurn();
 
     @Override
     public abstract void addToQueue();
@@ -30,8 +30,7 @@ public abstract class AbstractCharacter  implements  ICharacter {
     @Override
     public abstract int getAttack();
 
-    @Override
-    public abstract void attack(ICharacter pj);
+
 
     @Override
     public String getName() {
@@ -60,7 +59,10 @@ public abstract class AbstractCharacter  implements  ICharacter {
         return this.isAlive;
     }
 
-
+    @Override
+    public void attack(ICharacter pj){
+        pj.attackedBy(this.getAttack());
+    }
 
     @Override
     public void attackedBy(int damage){

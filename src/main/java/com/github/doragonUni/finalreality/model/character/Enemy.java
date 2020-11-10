@@ -82,11 +82,6 @@ public class Enemy extends AbstractCharacter {
   @Override
   public int getAttack(){ return this.attack;}
 
-  @Override
-  public void attack(ICharacter pj){
-    pj.attackedBy(this.getAttack());
-  }
-
 
   @Override
   public boolean equals(final Object o) {

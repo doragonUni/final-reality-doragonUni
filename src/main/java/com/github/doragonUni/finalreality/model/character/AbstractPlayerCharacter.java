@@ -29,13 +29,14 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
    */
 
   private ScheduledExecutorService scheduledExecutor;
-  private IWeapon equippedWeapon = null;
+  private IWeapon equippedWeapon;
 
 
 
 
   protected AbstractPlayerCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue, String name, int hp, int defense) {
     super(turnsQueue, name, hp, defense);
+    this.equippedWeapon = null;
 
 
   }
@@ -74,10 +75,7 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
     }
   }
 
-  @Override
-  public void attack(ICharacter pj){
-    pj.attackedBy(this.getAttack());
-  }
+
 
 
 

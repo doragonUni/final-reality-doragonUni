@@ -48,23 +48,22 @@ public abstract class AbstractWeapon implements IWeapon {
 
     @Override
     public void equipToBlackMage(BlackMage blackMage){
-        return;
+
     }
     @Override
     public void equipToEngineer(Engineer engineer){
-        return;
     }
     @Override
     public void equipToKnight(Knight knight){
-        return;
+
     }
     @Override
     public void equipToThief(Thief thief){
-        return;
+
     }
     @Override
-    public void equipToWhiteMage(WhiteMage WhiteMage){
-        return;
+    public void equipToWhiteMage(WhiteMage whiteMage){
+
     }
 
 
