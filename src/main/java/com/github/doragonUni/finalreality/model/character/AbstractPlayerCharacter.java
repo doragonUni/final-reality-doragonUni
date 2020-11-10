@@ -28,8 +28,9 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
    * @param isAlive     character live status
    */
 
-  private ScheduledExecutorService scheduledExecutor;
+
   private IWeapon equippedWeapon;
+  private ScheduledExecutorService scheduledExecutor;
 
 
 
