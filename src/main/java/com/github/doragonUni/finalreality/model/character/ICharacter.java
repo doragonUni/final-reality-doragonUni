@@ -41,7 +41,7 @@ public interface ICharacter {
    * sets this character health points
    */
 
-  void attackedBy(int damage);
+  void attackedBy(ICharacter character);
 
   void attack(ICharacter pj);
   

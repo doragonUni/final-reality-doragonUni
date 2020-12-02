@@ -1,17 +1,11 @@
 package com.github.doragonUni.finalreality.model.character.player;
 
-import com.github.doragonUni.finalreality.model.character.AbstractPlayerCharacter;
 import com.github.doragonUni.finalreality.model.character.ICharacter;
-import com.github.doragonUni.finalreality.model.weapon.Axe;
 import com.github.doragonUni.finalreality.model.weapon.IWeapon;
-import com.github.doragonUni.finalreality.model.weapon.Knife;
-import com.github.doragonUni.finalreality.model.weapon.Sword;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class Knight extends AbstractPlayerCharacter {
     /**
