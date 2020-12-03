@@ -36,16 +36,27 @@ public interface ICharacter {
    */
   int getAttack();
 
+  /**
+   * verify if the character is Alive or not
+   *
+   */
   boolean isAlive();
+
+
+  /**
+   * Double dispatch for attack method
+   *
+   */
+  void attackedBy(ICharacter character);
+
+  /**
+   * attacks to another Character lowering his hp
+   */
+  void attack(ICharacter pj);
+
   /**
    * sets this character health points
    */
-
-  void attackedBy(ICharacter character);
-
-  void attack(ICharacter pj);
-  
-
   void setHp(int hp);
 
 

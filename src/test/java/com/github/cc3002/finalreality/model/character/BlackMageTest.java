@@ -51,7 +51,7 @@ public class BlackMageTest {
         testBlackMage4 = new BlackMage(name, turns, hp, 3, mana);
         testBlackMage5 = new BlackMage(name, turns, hp, def, 5040);
 
-        testEnemy = new Enemy("Bigboss", turns, 10, 100, 50, 10000);
+        testEnemy = new Enemy("Bigboss", turns, 10, 100, 50, 10000000);
         testEnemy2 = new Enemy("Bigboss", turns, 10, 100, 50, 50);
 
         testEngineer = new Engineer("Engineer", turns, hp, def);
@@ -114,6 +114,7 @@ public class BlackMageTest {
 
         testBlackMage.equipWeapon(sword);
         assertNotNull(testBlackMage.getEquippedWeapon());
+        assertEquals(staff, testBlackMage.getEquippedWeapon());
 
     }
 

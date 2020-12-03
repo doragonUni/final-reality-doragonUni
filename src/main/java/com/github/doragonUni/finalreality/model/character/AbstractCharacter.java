@@ -34,7 +34,10 @@ public abstract class AbstractCharacter  implements  ICharacter {
     public abstract int getAttack();
 
 
-
+    /**
+     * get's the name of this Character
+     * @return
+     */
     @Override
     public String getName() {
         return this.name;
@@ -56,17 +59,28 @@ public abstract class AbstractCharacter  implements  ICharacter {
         return this.defense;
     }
 
-
+    /**
+     * verify if this character is alive or nto
+     * @return
+     */
     @Override
     public boolean isAlive(){
         return this.isAlive;
     }
 
+    /**
+     * this attacks to a target (pj)
+     * @param pj
+     */
     @Override
     public void attack(ICharacter pj){
         pj.attackedBy(this);
     }
 
+    /**
+     * double dispatch for the attack method
+     * @param character
+     */
     @Override
     public void attackedBy(ICharacter character){
 
@@ -78,7 +92,10 @@ public abstract class AbstractCharacter  implements  ICharacter {
         this.setHp(this.getHp()-damageDealt);
     }
 
-
+    /**
+     * set's the healthpoint of the character
+     * @param hp
+     */
     @Override
     public void setHp(int hp){
         if (hp <= 0){
@@ -89,7 +106,10 @@ public abstract class AbstractCharacter  implements  ICharacter {
         this.hp = hp;
     }
 
-
+    /**
+     * adds a listener for the dead event
+     * @param handler
+     */
     public void addDeathListener(IDeathHandler handler){
         characterDeathEvent.addPropertyChangeListener(handler);
     }

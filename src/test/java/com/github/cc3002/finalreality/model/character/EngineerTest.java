@@ -24,7 +24,7 @@ public class EngineerTest {
 
     protected BlockingQueue<ICharacter> turns;
     private static final String name = "Engineer";
-    private int hp = 700;
+    private int hp = 150;
     private int def = 300;
     protected Bow bow = new Bow("bow", 10, 5 );
     protected Axe axe = new Axe("axe", 10 , 5 );
@@ -35,6 +35,7 @@ public class EngineerTest {
     private Engineer testEngineer2;
     private Engineer testEngineer3;
     private WhiteMage fakeEngineer;
+    private Enemy testEnemy;
 
     /**
      * SETUP FOR TESTING
@@ -42,6 +43,7 @@ public class EngineerTest {
 
     @BeforeEach
     void setUp(){
+        testEnemy = new Enemy("Bigboss", turns, 10, 100, 50, 10000000);
         testEngineer = new Engineer(name, turns, hp, def);
         testEngineer1 = new Engineer("engine", turns, hp, def);
         testEngineer2 = new Engineer(name, turns, 500, def);
@@ -88,6 +90,12 @@ public class EngineerTest {
         testEngineer.equipWeapon(axe);
         assertEquals(axe, testEngineer.getEquippedWeapon());
         testEngineer.equipWeapon(bow);
+        assertEquals(bow, testEngineer.getEquippedWeapon());
+
+
+        testEnemy.attack(testEngineer);
+        assertEquals(false, testEngineer.isAlive());
+        testEngineer.equipWeapon(sword);
         assertEquals(bow, testEngineer.getEquippedWeapon());
     }
 
