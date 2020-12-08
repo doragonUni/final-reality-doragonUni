@@ -34,11 +34,13 @@ public class KnightTest {
     private Knight testKnight2;
     private Knight testKnight3;
     private BlackMage fakeKnight;
+    private Enemy testEnemy;
     /**
      * SETUP FOR TESTING
      */
     @BeforeEach
     void setUp(){
+        testEnemy = new Enemy("Bigboss", turns, 10, 100, 50, 10000000);
         testKnight = new Knight(name, turns, hp, def);
         testKnight1 = new Knight("Saber", turns, hp, def);
         testKnight2 = new Knight(name, turns, 400, def);
@@ -85,6 +87,12 @@ public class KnightTest {
         testKnight.equipWeapon(sword);
         assertEquals(sword, testKnight.getEquippedWeapon());
         testKnight.equipWeapon(knife);
+        assertEquals(knife, testKnight.getEquippedWeapon());
+
+
+        testEnemy.attack(testKnight);
+        assertEquals(false, testKnight.isAlive());
+        testKnight.equipWeapon(sword);
         assertEquals(knife, testKnight.getEquippedWeapon());
     }
 

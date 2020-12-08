@@ -29,6 +29,7 @@ public class WhiteMageTest {
     private int mana = 1000;
     private static String fakeMana = "10";
     protected Staff staff = new Staff("staff", 10,5,10);
+    protected Staff staff1 = new Staff("staff", 10,5,10);
     protected Sword sword = new Sword("sword", 10, 5);
 
     private WhiteMage testWhiteMage;
@@ -37,12 +38,14 @@ public class WhiteMageTest {
     private WhiteMage testWhiteMage3;
     private WhiteMage testWhiteMage4;
     private BlackMage fakeWhiteMage;
+    private Enemy testEnemy;
 
     /**
      * SETUP FOR TESTING
      */
     @BeforeEach
     void setUp(){
+        testEnemy = new Enemy("Bigboss", turns, 10, 100, 50, 10000000);
         testWhiteMage = new WhiteMage(name, turns,hp, def, mana);
         testWhiteMage1 = new WhiteMage("kadabra", turns,hp, def, mana);
         testWhiteMage2 = new WhiteMage(name, turns, 500000, def, mana);
@@ -90,6 +93,10 @@ public class WhiteMageTest {
         testWhiteMage.equipWeapon(staff);
         assertEquals(staff, testWhiteMage.getEquippedWeapon());
 
+        testEnemy.attack(testWhiteMage);
+        assertEquals(false, testWhiteMage.isAlive());
+        testWhiteMage.equipWeapon(staff1);
+        assertEquals(staff1, testWhiteMage.getEquippedWeapon());
     }
 
 }

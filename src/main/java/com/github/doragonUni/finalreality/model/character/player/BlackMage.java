@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 
-public class BlackMage extends AbstractPlayerCharacter {
+public class BlackMage extends AbstractMage {
     /**
      * Creates a new BlackMage
      *
@@ -18,14 +18,12 @@ public class BlackMage extends AbstractPlayerCharacter {
      * @param mana       mana value for this mage
      */
 
-    private int mana;
-
     /**
      * Constructor of BlackMage
      */
     public BlackMage(@NotNull String name, @NotNull BlockingQueue<ICharacter> turnsQueue, int hp, int defense,
                      int mana) {
-        super(turnsQueue, name, hp, defense);
+        super(turnsQueue, name, hp, defense, mana);
         this.mana = mana;
     }
 
@@ -37,12 +35,7 @@ public class BlackMage extends AbstractPlayerCharacter {
         }
     }
 
-    /**
-     * get the Mana value of this Mage
-     */
-    public int getMana(){
-        return this.mana;
-    }
+
 
     @Override
     public boolean equals(final Object o) {

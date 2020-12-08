@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class Enemy extends AbstractCharacter {
 
-  private ScheduledExecutorService scheduledExecutor;
+
   private final int weight;
   private final int attack;
 
@@ -47,14 +47,6 @@ public class Enemy extends AbstractCharacter {
 
 
 
-  /**
-   *Adds an Enemy to the Queue
-   */
-  @Override
-  public void addToQueue() {
-    turnsQueue.add(this);
-    scheduledExecutor.shutdown();
-  }
 
   /**
    * @see ICharacter
@@ -81,6 +73,10 @@ public class Enemy extends AbstractCharacter {
    */
   @Override
   public int getAttack(){ return this.attack;}
+
+
+  //public int takeTurn()
+
 
 
   @Override

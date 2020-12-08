@@ -3,5 +3,8 @@ package com.github.doragonUni.finalreality.controller;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public interface IDeathHandler extends PropertyChangeListener {
+/**
+ * Interface for all the game handlers
+ */
+public interface IHandler extends PropertyChangeListener {
 }

@@ -32,7 +32,7 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
 
 
   private IWeapon equippedWeapon;
-  private ScheduledExecutorService scheduledExecutor;
+
 
 
 
@@ -46,9 +46,7 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
 
 
 
-  /**
-   * get the physical Damage of the weapon equipped by this mage
-   */
+
 
 
   /**
@@ -59,15 +57,24 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
     return this.equippedWeapon;
   }
 
-
+  /**
+   * change the current equipWeapon
+   * @param weapon
+   */
   @Override
   public void setEquippedWeapon(IWeapon weapon){
     this.equippedWeapon = weapon;
   }
 
+  /**
+   * equips this weapon to the character
+   * @param weapon
+   */
   public abstract void equipWeapon(IWeapon weapon);
 
-
+  /**
+   * get the physical Damage of the weapon equipped by this mage
+   */
   @Override
   public int getAttack() {
     if (this.equippedWeapon == null){
@@ -80,19 +87,6 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
 
 
 
-
-
-
-
-  /**
-   * Adds this character to the turns queue.
-   */
-  @Override
-  public void addToQueue() {
-    turnsQueue.add(this);
-    scheduledExecutor.shutdown();
-  }
-
   /**
    * function that wait the turn of the round
    */
@@ -103,5 +97,7 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
             .schedule(this::addToQueue, equippedWeapon.getWeight() / 10, TimeUnit.SECONDS);
   }
 
-}
 
+  //public int takeTurn()
+
+}
