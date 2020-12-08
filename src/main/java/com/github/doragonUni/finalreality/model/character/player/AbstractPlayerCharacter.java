@@ -32,7 +32,7 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
 
 
   private IWeapon equippedWeapon;
-  private ScheduledExecutorService scheduledExecutor;
+
 
 
 
@@ -87,19 +87,6 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
 
 
 
-
-
-
-
-  /**
-   * Adds this character to the turns queue.
-   */
-  @Override
-  public void addToQueue() {
-    turnsQueue.add(this);
-    scheduledExecutor.shutdown();
-  }
-
   /**
    * function that wait the turn of the round
    */
@@ -110,5 +97,7 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
             .schedule(this::addToQueue, equippedWeapon.getWeight() / 10, TimeUnit.SECONDS);
   }
 
-}
 
+  //public int takeTurn()
+
+}

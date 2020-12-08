@@ -5,13 +5,10 @@ import com.github.doragonUni.finalreality.model.character.ICharacter;
 import com.github.doragonUni.finalreality.model.character.player.*;
 import com.github.doragonUni.finalreality.model.weapon.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
 
 public class GameController {
     private final int partyNum;
@@ -19,24 +16,26 @@ public class GameController {
     private int playersAlive;
     private int enemiesAlive;
     protected BlockingQueue<ICharacter> turns = new LinkedBlockingQueue<>();
-    Inventory inventory;
-    private final IDeathHandler playerDeathHandler = new PlayerDeathHandler(this);
-    private final IDeathHandler enemyDeathHandler = new EnemyDeathHandler(this);
+
+    private HashMap<String, IWeapon> inventory;
+    private final IHandler playerDeathHandler = new PlayerDeathHandler(this);
+    private final IHandler enemyDeathHandler = new EnemyDeathHandler(this);
+
+
     private ArrayList<IPlayerCharacter> party = new ArrayList();
     private ArrayList<Enemy> enemyParty = new ArrayList();
     private ICharacter actualCharacter;
 
+
     /**
      * Creates a controller of the game
-     * @param partyNum
-     * @param enemyNum
      */
-    public GameController(int partyNum, int enemyNum) {
-        this.inventory = new Inventory();
-        this.partyNum = partyNum; //para no perder la referencia
-        this.enemyNum = enemyNum;
-        this.playersAlive = partyNum; //visor contador editable
-        this.enemiesAlive = enemyNum;
+    public GameController() {
+        this.inventory = new HashMap<>();
+        this.partyNum = 4; //para no perder la referencia
+        this.enemyNum = 5; //new Random().nextInt( (9-1) + 1 ) + 1;
+        this.playersAlive = 0; //visor contador editable
+        this.enemiesAlive = 0;
 
     }
 
@@ -45,23 +44,16 @@ public class GameController {
 
     /**
      * creates a BlackMage and is added to the party
-     * @param name
-     * @param hp
-     * @param def
-     * @param mana
      */
     public void blackMageCreator(String name, int hp, int def, int mana){
         BlackMage blackMage = new BlackMage(name, turns, hp, def, mana);
         blackMage.addDeathListener(playerDeathHandler);
+
         addToParty(blackMage);
     }
 
     /**
      * creates a whiteMageCreator and is added to the party
-     * @param name
-     * @param hp
-     * @param def
-     * @param mana
      */
     public void whiteMageCreator(String name, int hp, int def, int mana){
         WhiteMage whiteMage = new WhiteMage(name, turns, hp, def, mana);
@@ -71,78 +63,73 @@ public class GameController {
 
     /**
      * creates a engineer and is added to the party
-     * @param name
-     * @param hp
-     * @param def
      */
     public void engineerCreator(String name, int hp, int def){
         Engineer engineer = new Engineer(name, turns, hp, def);
         engineer.addDeathListener(playerDeathHandler);
+
         addToParty(engineer);
     }
 
     /**
      * creates a thief and is added to the party
-     * @param name
-     * @param hp
-     * @param def
      */
     public void thiefCreator(String name, int hp, int def){
         Thief thief = new Thief(name, turns, hp, def);
         thief.addDeathListener(playerDeathHandler);
+
         addToParty(thief);
     }
 
     /**
      * creates a knight and is added to the party
-     * @param name
-     * @param hp
-     * @param def
      */
     public void knightCreator(String name, int hp, int def){
         Knight knight = new Knight(name, turns, hp, def);
         knight.addDeathListener(playerDeathHandler);
+
         addToParty(knight);
     }
 
     /**
      * creates an enemy and is added to the enemy's party
-     * @param name
-     * @param weight
-     * @param hp
-     * @param def
-     * @param attack
      */
     public void enemyCreator(String name, int weight, int hp, int def, int attack){
 
         Enemy enemy = new Enemy(name, turns, weight, hp, def, attack);
         enemy.addDeathListener(enemyDeathHandler);
+
         addToEnemy(enemy);
 
     }
 
     /**
-     * given a IPlayerCharacter is added to the party if the limit is not reached
+     * adds an IPlayer to the Party
      * @param character
      */
     public void addToParty(IPlayerCharacter character){
-        if (party.size() < partyNum){
+        if(party.size() < partyNum){
             party.add(character);
+            playersAlive++;
         }
+
     }
     /**
-     * given an enemy is added to the enemy's party if the limit is not reached
+     * adds an Enemy to the enemyParty
      * @param enemy
      */
     public void addToEnemy(Enemy enemy){
-        if (enemyParty.size()< enemyNum){
+        if(enemyParty.size() < enemyNum){
             enemyParty.add(enemy);
+            enemiesAlive++;
+
         }
     }
 
+
+
     /**
      * returns the entire party
-     * @return
      */
     public ArrayList<IPlayerCharacter> getParty(){
         return party;
@@ -150,7 +137,6 @@ public class GameController {
 
     /**
      * returns the enemy's entire party
-     * @return
      */
     public ArrayList<Enemy> getEnemyParty(){
         return enemyParty;
@@ -158,16 +144,12 @@ public class GameController {
 
     /**
      * get an specific playerChacter from the party
-     * @param pos
-     * @return
      */
     public IPlayerCharacter getFromParty( int pos){
         return party.get(pos);
     }
     /**
      * get an specific enemy from the enemy's party
-     * @param pos
-     * @return
      */
     public Enemy getFromEnemy( int pos){
         return enemyParty.get(pos);
@@ -177,9 +159,6 @@ public class GameController {
 
     /**
      * create a Bow and is added to the inventory
-     * @param name
-     * @param damage
-     * @param weight
      */
     public void bowCreator(String name, int damage, int weight){
         Bow bow = new Bow(name, damage, weight);
@@ -188,10 +167,6 @@ public class GameController {
 
     /**
      * create a staff and is added to the inventory
-     * @param name
-     * @param damage
-     * @param weight
-     * @param magicDamage
      */
     public void staffCreator(String name, int damage, int weight, int magicDamage){
         Staff staff =  new Staff(name, damage, weight, magicDamage);
@@ -200,9 +175,6 @@ public class GameController {
 
     /**
      * create an axe and is added to the inventory
-     * @param name
-     * @param damage
-     * @param weight
      */
     public void axeCreator(String name, int damage, int weight){
         Axe axe = new Axe(name, damage, weight);
@@ -211,9 +183,6 @@ public class GameController {
 
     /**
      * create a knife and is added to the inventory
-     * @param name
-     * @param damage
-     * @param weight
      */
     public void knifeCreator(String name, int damage, int weight){
         Knife knife = new Knife(name, damage, weight);
@@ -221,10 +190,7 @@ public class GameController {
     }
 
     /**
-     * create a sword and is added to the inventory
-     * @param name
-     * @param damage
-     * @param weight
+     * create a sword and is added to the inventoryt
      */
     public void swordCreator(String name, int damage, int weight){
         Sword sword = new Sword(name, damage, weight);
@@ -235,8 +201,6 @@ public class GameController {
 
     /**
      * get any Character's name
-     * @param character
-     * @return
      */
     public String getCharacterName(ICharacter character){
         return character.getName();
@@ -244,8 +208,6 @@ public class GameController {
 
     /**
      * get any Character's health points
-     * @param character
-     * @return
      */
     public int getCharacterHp(ICharacter character){
         return character.getHp();
@@ -253,24 +215,18 @@ public class GameController {
 
     /**
      * get any Character's defense
-     * @param character
-     * @return
      */
     public int getCharacterDef(ICharacter character){
         return character.getDef();
     }
     /**
      * get any Character's attack
-     * @param character
-     * @return
      */
     public int getCharacterAttack(ICharacter character){
         return character.getAttack();
     }
     /**
      * get enemy's weight defense
-     * @param enemy
-     * @return
      */
     public int getEnemyWeight(Enemy enemy){
         return enemy.getWeight();
@@ -278,8 +234,6 @@ public class GameController {
 
     /**
      * get only mage mana points
-     * @param mage
-     * @return
      */
     public int getMageMana(IMage mage){
         return mage.getMana();
@@ -287,8 +241,6 @@ public class GameController {
 
     /**
      * get IPlayerCharacter's equipped Weapon
-     * @param character
-     * @return
      */
     public IWeapon getCharacterEquipWeapon(IPlayerCharacter character){
         return character.getEquippedWeapon();
@@ -298,8 +250,6 @@ public class GameController {
 
     /**
      * equip's a Weapon directly from the inventory
-     * @param weapon
-     * @param pj
      */
     public void equipWeaponInventory(IWeapon weapon, IPlayerCharacter pj){
         IWeapon oldWeapon = pj.getEquippedWeapon();
@@ -321,55 +271,50 @@ public class GameController {
 //attack--------------------//
 
     /**
-     * the attacker attacks target lowering the target's healthpoint
-     * @param attacker
-     * @param target
+     * the attacker attacks target lowering the target's health point
+     * and calls the end of the turn
      */
     public void controllerAttack(ICharacter attacker, ICharacter target){
         attacker.attack(target);
+        endTurn(attacker);
+
+
     }
 
 //inventory-----------------------//
 
     /**
      * puts the weapon into the inventory
-     * @param weapon
      */
     public void putInventoryItem(IWeapon weapon){
         if(!(weapon == null)) {
-            inventory.putItem(weapon);
+            inventory.put(weapon.getName(), weapon);
         }
     }
 
     /**
-     * select's an item from the inventory but it doesnt no remove it
-     * @param itemName
-     * @return
+     * selects an item from the inventory but it doesnt no remove it
      */
     public IWeapon selectInventoryItem(String itemName){
-        return inventory.selectItem(itemName);
+        return inventory.get(itemName);
     }
 
     /**
      * removes an item from the inventory
-     * @param itemName
      */
     public void removeInventoryItem(String itemName) {
-        inventory.removeItem(itemName);
+        inventory.remove(itemName);
     }
 
     /**
      * check if given the weapon's name is stored in the inventory
-     * @param weaponName
-     * @return
      */
     public boolean isItemInventory(String weaponName){
-        return inventory.isStored(weaponName);
+        return inventory.containsKey(weaponName);
     }
 
     /**
      * verify if the inventory is or not empty
-     * @return
      */
     public boolean isInventoryEmpty(){
         return inventory.isEmpty();
@@ -378,32 +323,31 @@ public class GameController {
 
     /**
      * notify every time a player is dead and announce if your entire party is dead
-     * @param character
      */
-    public void playerDeathNotification(IPlayerCharacter character){
-        System.out.println(character.getEquippedWeapon().getName());
+    public void playerDeathNotification(){
         playersAlive--;
+
         if(looser()){
             System.out.println("u lost :/");
         }
     }
     /**
      * notify every time a enemy is dead and announce if the enemy's party is dead
-     * @param enemy
      */
-    public void enemyDeathNotification(Enemy enemy){
-        System.out.println(enemy.getWeight());
+    public void enemyDeathNotification(){
         enemiesAlive--;
+
         if(winner()){
             System.out.println("u win :)");
         }
-
     }
+
+
+
 
     /**
      * return true if the enemy party is all dead
      * false otherwise
-     * @return
      */
     public boolean winner(){
         return enemiesAlive == 0;
@@ -411,7 +355,6 @@ public class GameController {
     /**
      * return true if the party is all dead
      * false otherwise
-     * @return
      */
     public boolean looser(){
         return playersAlive == 0;
@@ -419,6 +362,49 @@ public class GameController {
 
 
 //turns
+
+    /**
+     * puts everyone in the queue according to the weight
+     */
+    public void start(){
+        for(var enemy : enemyParty){
+            enemy.waitTurn();
+        }
+        for (var character : party ){
+            character.waitTurn();
+        }
+
+    }
+
+    /**
+     * begin of a turn
+     */
+    public void beginTurn(){
+        actualCharacter = turns.poll();
+
+
+    }
+
+    /**
+     * called by controllerAttack
+     * calls the end of the turn;
+     * @param character
+     */
+    public void endTurn(ICharacter character){
+        character.waitTurn();
+
+    }
+
+    /**
+     * getter for the popped character of the queue
+     */
+    public ICharacter getActualCharacter(){
+        return actualCharacter;
+    }
+
+
+
+
 
 //
 }

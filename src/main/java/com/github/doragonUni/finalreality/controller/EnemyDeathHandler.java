@@ -1,17 +1,15 @@
 package com.github.doragonUni.finalreality.controller;
 
 import com.github.doragonUni.finalreality.model.character.Enemy;
-import com.github.doragonUni.finalreality.model.character.ICharacter;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 /**
  * Handler for every Enemy's Death
  * @Params controller
  *
  */
-public class EnemyDeathHandler implements IDeathHandler {
+public class EnemyDeathHandler implements IHandler {
     private final GameController controller;
 
     public EnemyDeathHandler(GameController controller) {
@@ -24,7 +22,7 @@ public class EnemyDeathHandler implements IDeathHandler {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        controller.enemyDeathNotification((Enemy) evt.getNewValue());
+        controller.enemyDeathNotification();
     }
 
 }

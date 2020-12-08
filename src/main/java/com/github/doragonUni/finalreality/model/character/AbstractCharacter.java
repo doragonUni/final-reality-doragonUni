@@ -1,11 +1,12 @@
 package com.github.doragonUni.finalreality.model.character;
 
 
-import com.github.doragonUni.finalreality.controller.IDeathHandler;
+import com.github.doragonUni.finalreality.controller.IHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.beans.PropertyChangeSupport;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ScheduledExecutorService;
 
 public abstract class AbstractCharacter  implements  ICharacter {
 
@@ -14,6 +15,7 @@ public abstract class AbstractCharacter  implements  ICharacter {
     private final int defense;
     private boolean isAlive;
     protected final BlockingQueue<ICharacter> turnsQueue;
+    protected ScheduledExecutorService scheduledExecutor;
     private final PropertyChangeSupport characterDeathEvent = new PropertyChangeSupport(this);
 
     public AbstractCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue, String name, int hp, int defense) {
@@ -27,8 +29,7 @@ public abstract class AbstractCharacter  implements  ICharacter {
     @Override
     public abstract void waitTurn();
 
-    @Override
-    public abstract void addToQueue();
+
 
     @Override
     public abstract int getAttack();
@@ -75,6 +76,8 @@ public abstract class AbstractCharacter  implements  ICharacter {
     @Override
     public void attack(ICharacter pj){
         pj.attackedBy(this);
+
+
     }
 
     /**
@@ -107,12 +110,27 @@ public abstract class AbstractCharacter  implements  ICharacter {
     }
 
     /**
+     *Adds an Enemy to the Queue
+     */
+    @Override
+    public void addToQueue() {
+        turnsQueue.add(this);
+        scheduledExecutor.shutdown();
+
+    }
+
+
+    /**
      * adds a listener for the dead event
      * @param handler
      */
-    public void addDeathListener(IDeathHandler handler){
+    public void addDeathListener(IHandler handler){
         characterDeathEvent.addPropertyChangeListener(handler);
     }
+
+
+
+
 
 
 
