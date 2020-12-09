@@ -14,9 +14,11 @@ public class TurnTest {
 
         controller = new GameController();
         controller.swordCreator("sword", 10000000,1);
+        controller.swordCreator("sword1", 10000000,20);
         controller.enemyCreator("enemy1", 10, 20, 0, 1);
         controller.enemyCreator("enemy2", 15, 20, 0, 1);
         controller.knightCreator("knight", 10, 10);
+        controller.knightCreator("knight1", 10, 10);
 
 
 
@@ -27,10 +29,10 @@ public class TurnTest {
     @Test
     public void turnTest() {
         controller.equipWeaponInventory(controller.selectInventoryItem("sword"), controller.getFromParty(0) );
-        
+        controller.equipWeaponInventory(controller.selectInventoryItem("sword1"), controller.getFromParty(1) );
         controller.start();
         try {
-            Thread.sleep(4000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
