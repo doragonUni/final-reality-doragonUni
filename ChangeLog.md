@@ -3,6 +3,12 @@ ChangeLog
 Version 3.0 TAREA 2
 -------------------
 Se añade el ataque con double dispatch
+Se añade el equip con double dispatch
+Se corrigen errores de la tarea pasada
+Se añade el controller y sus funcionalidades
+Se añade el observer para poder el ganador del match
+Se añade la cola de turnos en el controller
+
 
 
 Version 2.0 TAREA 1
