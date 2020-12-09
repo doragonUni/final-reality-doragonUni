@@ -26,9 +26,7 @@ public class WhiteMage extends AbstractMage {
     }
 
 
-    /**
-     *
-     */
+
     @Override
     public void equipWeapon(IWeapon weapon) {
         if (this.isAlive()) {
