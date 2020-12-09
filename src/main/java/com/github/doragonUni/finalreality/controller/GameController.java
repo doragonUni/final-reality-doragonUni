@@ -34,7 +34,7 @@ public class GameController {
         this.inventory = new HashMap<>();
         this.partyNum = 4; //para no perder la referencia
         this.enemyNum = 5; //new Random().nextInt( (9-1) + 1 ) + 1;
-        this.playersAlive = 0; //visor contador editable
+        this.playersAlive = 0; //contador editable
         this.enemiesAlive = 0;
 
     }
@@ -331,6 +331,7 @@ public class GameController {
             System.out.println("u lost :/");
         }
     }
+
     /**
      * notify every time a enemy is dead and announce if the enemy's party is dead
      */
@@ -341,9 +342,6 @@ public class GameController {
             System.out.println("u win :)");
         }
     }
-
-
-
 
     /**
      * return true if the enemy party is all dead

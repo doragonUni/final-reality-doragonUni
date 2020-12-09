@@ -1,30 +1,31 @@
 ChangeLog
 =========
+Version 3.0 TAREA 2
+-------------------
+Se añade el ataque con double dispatch
+
 
 Version 2.0 TAREA 1
 -------------------
 Notas de la VERSION TAREA 1:
-Se hicieron los siguientes cambios:
+Se hicieron los siguientes cambios en el modelo:
+Se crea la clase AbstractMage y IMage
+Se corrigen los cambios de la Tarea 1
+Se crea el ataque con double dispatch
+se crea el equip con double dispatch 
+Se agregan los addListener para notificar la muerte al controller
 
-CAMBIOS GLOBALES:
-- (B.1)SE ELIMINAN LAS ENUMERACIONES TANTO PARA WEAPON Y CHARACTER
-- (B.2)SE ACUTALIZAN LOS EQUALS Y HASHCODE DE ACUERDO A LA CLASE EN CUESTIÓN
-- (B.3)SE CREAN LOS GETTERS DE LOS ATRIBUTOS
+Se agrega la clase Controller:
+Capacidad de crear objetos del modelo
+Capacidad de "gettear" los atributos de los IChacters
+Creación del inventario + manipulación de esta
+Se crea el Observer para notificar la muerte de enemigos y playerChacters
+Inicio de turno con BeginTurn()
+Para saber el fin del turno se llama a endTurn() después de realizar un ataque
+Notificación de victoria cuando se muerten todos los enemigos
+Notificación de derrora cuando se muere toda la party
 
-CAMBIOS A CHARACTER
-- (B.1) Class Enemy extends AbstractCharacter PASA A  Class Enemy implements ICharacter
-- (B.2)Se crean las 5 clases: Knight, Thief, Engineer, BlackMage, WhiteMage. Todas implementan AbstractCharacter
-- (B.3)Se añaden nuevos atributos: Hp, Defense a toda clase que implemente ICharacter
-- (B.4) Se añade atributo mana a BlackMage, WhiteMage
-- (B.5) POR EL MOMENTO Se añaden los equipBow, equipSword, equipKnife, equipStaff, equipAxe y se implementan 
-   en las clases correspondientes.
-- (B.6) waitTurn(), addtoQueue() y los getters de HP, DEF son agregados a la interfaz
-- (B.7) por (B.6) la clase Enemy y Abstract Character implementan sus propios waitTurn(), addtoQueue() 
 
-CAMBIOS A WEAPON
-- (B.1) Class Weapon Pasa a IWeapon, AbstractWeapon Implements IWeapon
-- (B.2) Se crean las clases: Axe, Bow, Staff, Sword, Knife y todas extienden de AbstractWeapon
-- (B.3) Se añade el atributo magicDamage a la clase Staff
 
 Version 1.0
 -----------
