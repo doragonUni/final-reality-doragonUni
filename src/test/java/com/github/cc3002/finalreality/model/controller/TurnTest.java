@@ -27,9 +27,7 @@ public class TurnTest {
     @Test
     public void turnTest() {
         controller.equipWeaponInventory(controller.selectInventoryItem("sword"), controller.getFromParty(0) );
-
-
-
+        
         controller.start();
         try {
             Thread.sleep(4000);
@@ -41,7 +39,7 @@ public class TurnTest {
         controller.beginTurn();
         controller.controllerAttack(controller.getActualCharacter(), controller.getFromParty(0));
         controller.beginTurn();
-        controller.controllerAttack(controller.getActualCharacter(), controller.getFromParty(1));
+        controller.controllerAttack(controller.getActualCharacter(), controller.getFromParty(0));
         controller.beginTurn();
         controller.controllerAttack(controller.getActualCharacter(), controller.getFromEnemy(1));
 
