@@ -1,5 +1,7 @@
 package com.github.doragonUni.finalreality.model.weapon;
 
+import com.github.doragonUni.finalreality.model.character.player.*;
+
 import java.util.Objects;
 
 public class Knife extends AbstractWeapon {
@@ -17,6 +19,22 @@ public class Knife extends AbstractWeapon {
     public Knife(String name, int damage, int weight) {
 
         super(name, damage, weight);
+    }
+
+    @Override
+    public void equipToBlackMage(BlackMage blackMage) {
+        blackMage.setEquippedWeapon(this);
+    }
+
+
+    @Override
+    public void equipToKnight(Knight knight) {
+        knight.setEquippedWeapon(this);
+    }
+
+    @Override
+    public void equipToThief(Thief thief) {
+        thief.setEquippedWeapon(this);
     }
 
 

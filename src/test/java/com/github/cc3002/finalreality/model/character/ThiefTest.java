@@ -1,5 +1,6 @@
 package com.github.cc3002.finalreality.model.character;
 
+import com.github.doragonUni.finalreality.model.character.Enemy;
 import com.github.doragonUni.finalreality.model.character.ICharacter;
 import com.github.doragonUni.finalreality.model.character.player.Knight;
 import com.github.doragonUni.finalreality.model.character.player.Thief;
@@ -26,17 +27,20 @@ public class ThiefTest {
     protected Sword sword = new Sword("sword", 5, 50 );
     protected Bow bow = new Bow("bow", 10 , 5 );
     protected Knife knife = new Knife( "knife",15, 15);
+    protected Axe axe = new Axe("axe", 10, 10);
 
     private Thief testThief;
     private Thief testThief1;
     private Thief testThief2;
     private Thief testThief3;
     private Knight fakeThief;
+    private Enemy testEnemy;
     /**
      * SETUP FOR TESTING
      */
     @BeforeEach
     void setUp(){
+        testEnemy = new Enemy("Bigboss", turns, 10, 100, 50, 10000000);
         testThief = new Thief(name, turns, hp, def);
         testThief1 = new Thief("T1", turns, hp, def);
         testThief2 = new Thief(name, turns, 1003, def);
@@ -79,12 +83,23 @@ public class ThiefTest {
     @Test
     void equipTest(){
         assertNull(testThief.getEquippedWeapon());
-        testThief.equipBow(bow);
+        testThief.equipWeapon(axe);
+        assertNull(testThief.getEquippedWeapon());
+        testThief.equipWeapon(bow);
         assertEquals(bow, testThief.getEquippedWeapon());
-        testThief.equipKnife(knife);
+        testThief.equipWeapon(knife);
         assertEquals(knife, testThief.getEquippedWeapon());
-        testThief.equipSword(sword);
+        testThief.equipWeapon(sword);
         assertEquals(sword, testThief.getEquippedWeapon());
+        testThief.equipWeapon(axe);
+        assertEquals(sword, testThief.getEquippedWeapon());
+        assertNotNull(testThief.getEquippedWeapon());
+
+        testEnemy.attack(testThief);
+        assertEquals(false, testThief.isAlive());
+        testThief.equipWeapon(knife);
+        assertEquals(sword, testThief.getEquippedWeapon());
+
 
     }
 

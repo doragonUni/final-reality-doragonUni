@@ -1,20 +1,13 @@
 package com.github.doragonUni.finalreality.model.character.player;
 
-import com.github.doragonUni.finalreality.model.character.AbstractCharacter;
 import com.github.doragonUni.finalreality.model.character.ICharacter;
-import com.github.doragonUni.finalreality.model.weapon.AbstractWeapon;
 import com.github.doragonUni.finalreality.model.weapon.IWeapon;
-import com.github.doragonUni.finalreality.model.weapon.Knife;
-import com.github.doragonUni.finalreality.model.weapon.Staff;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Base64;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
-public class BlackMage extends AbstractCharacter {
+public class BlackMage extends AbstractMage {
     /**
      * Creates a new BlackMage
      *
@@ -25,39 +18,24 @@ public class BlackMage extends AbstractCharacter {
      * @param mana       mana value for this mage
      */
 
-    private int mana;
-
     /**
      * Constructor of BlackMage
      */
     public BlackMage(@NotNull String name, @NotNull BlockingQueue<ICharacter> turnsQueue, int hp, int defense,
                      int mana) {
-        super(turnsQueue, name, hp, defense);
+        super(turnsQueue, name, hp, defense, mana);
         this.mana = mana;
     }
 
-    /**
-     * equip a Staff to this BlackMage
-     */
 
-    public void equipStaff(Staff staff) {
-        this.equippedWeapon = staff;
+    @Override
+    public void equipWeapon(IWeapon weapon) {
+        if (this.isAlive()) {
+            weapon.equipToBlackMage(this);
+        }
     }
 
-    /**
-     * equip a Knife to this BlackMage
-     */
 
-    public void equipKnife(Knife knife) {
-        this.equippedWeapon = knife;
-    }
-
-    /**
-     * get the Mana value of this Mage
-     */
-    public int getMana(){
-        return this.mana;
-    }
 
     @Override
     public boolean equals(final Object o) {

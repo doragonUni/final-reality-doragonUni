@@ -1,17 +1,13 @@
 package com.github.doragonUni.finalreality.model.character.player;
 
-import com.github.doragonUni.finalreality.model.character.AbstractCharacter;
 import com.github.doragonUni.finalreality.model.character.ICharacter;
 import com.github.doragonUni.finalreality.model.weapon.IWeapon;
-import com.github.doragonUni.finalreality.model.weapon.Staff;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
-public class WhiteMage  extends AbstractCharacter {
+public class WhiteMage extends AbstractMage {
     /**
      * Creates a new WhiteMage.
      *
@@ -22,29 +18,25 @@ public class WhiteMage  extends AbstractCharacter {
      * @param mana       mana value for this mage
      */
 
-    private int mana;
 
     public WhiteMage(@NotNull String name, @NotNull BlockingQueue<ICharacter> turnsQueue, int hp, int defense,
                      int mana) {
-        super(turnsQueue, name, hp, defense);
-        this.mana = mana;
+        super(turnsQueue, name, hp, defense, mana);
+
     }
 
 
     /**
-     * equip a Staff to this WhiteMage
+     *
      */
-    public void equipStaff(Staff staff) {
-        this.equippedWeapon = staff;
+    @Override
+    public void equipWeapon(IWeapon weapon) {
+        if (this.isAlive()) {
+            weapon.equipToWhiteMage(this);
+        }
     }
 
 
-    /**
-     * get the Mana value of this WhiteMage
-     */
-    public int getMana(){
-        return this.mana;
-    }
 
 
     @Override
@@ -65,5 +57,6 @@ public class WhiteMage  extends AbstractCharacter {
     public int hashCode() {
         return Objects.hashCode(WhiteMage.class);
     }
+
 
 }

@@ -1,14 +1,9 @@
 package com.github.cc3002.finalreality.model.character;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
-
-
 
 import java.util.concurrent.BlockingQueue;
 
+import com.github.doragonUni.finalreality.model.character.Enemy;
 import com.github.doragonUni.finalreality.model.character.ICharacter;
 import com.github.doragonUni.finalreality.model.character.player.BlackMage;
 
@@ -17,8 +12,11 @@ import com.github.doragonUni.finalreality.model.character.player.Engineer;
 import com.github.doragonUni.finalreality.model.weapon.Knife;
 import com.github.doragonUni.finalreality.model.weapon.Staff;
 
+import com.github.doragonUni.finalreality.model.weapon.Sword;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BlackMageTest {
 
@@ -28,8 +26,9 @@ public class BlackMageTest {
     private int hp = 300;
     private int def = 70;
 
-    protected Staff staff = new Staff("staff", 10,5,10);
-    protected Knife knife = new Knife( "knife",10, 5);
+    protected Staff staff = new Staff("staff", 90,5,10);
+    protected Knife knife = new Knife( "knife",90, 5);
+    protected Sword sword = new Sword("katana", 100000, 1000000);
 
     private BlackMage testBlackMage;
     private BlackMage testBlackMage5;
@@ -38,6 +37,8 @@ public class BlackMageTest {
     private BlackMage testBlackMage4;
     private Engineer testEngineer;
     private static String fakeBM;
+    private Enemy testEnemy;
+    private Enemy testEnemy2;
 
     /**
      * SETUP FOR TESTING
@@ -49,6 +50,9 @@ public class BlackMageTest {
         testBlackMage3 = new BlackMage(name, turns, 30, def, mana);
         testBlackMage4 = new BlackMage(name, turns, hp, 3, mana);
         testBlackMage5 = new BlackMage(name, turns, hp, def, 5040);
+
+        testEnemy = new Enemy("Bigboss", turns, 10, 100, 50, 10000000);
+        testEnemy2 = new Enemy("Bigboss", turns, 10, 100, 50, 50);
 
         testEngineer = new Engineer("Engineer", turns, hp, def);
         fakeBM = "boosted";
@@ -98,11 +102,49 @@ public class BlackMageTest {
     @Test
     void equipTests(){
         assertNull(testBlackMage.getEquippedWeapon());
-        testBlackMage.equipKnife(knife);
+
+        testBlackMage.equipWeapon(sword);
+        assertNull(testBlackMage.getEquippedWeapon());
+
+        testBlackMage.equipWeapon(knife);
         assertEquals(knife, testBlackMage.getEquippedWeapon());
-        testBlackMage.equipStaff(staff);
+
+        testBlackMage.equipWeapon(staff);
         assertEquals(staff, testBlackMage.getEquippedWeapon());
+
+        testBlackMage.equipWeapon(sword);
+        assertNotNull(testBlackMage.getEquippedWeapon());
+        assertEquals(staff, testBlackMage.getEquippedWeapon());
+
     }
+
+    @Test
+    void attackTest(){
+        assertEquals(true, testBlackMage.isAlive());
+        assertEquals(0, testBlackMage.getAttack());
+        testBlackMage.attack(testEnemy);
+        assertEquals(100, testEnemy.getHp());
+        testBlackMage.equipWeapon(knife);
+        assertNotEquals(0, testBlackMage.getAttack());
+        assertEquals(90, testBlackMage.getAttack());
+        testBlackMage.attack(testEnemy);
+        assertEquals(true, testEnemy.isAlive());
+        assertEquals(100-(90-testEnemy.getDef()), testEnemy.getHp());
+        testEnemy.attack(testBlackMage);
+        assertFalse(testBlackMage.isAlive());
+        assertTrue(testEnemy.isAlive());
+        testBlackMage.equipWeapon(staff);
+        assertEquals(knife, testBlackMage.getEquippedWeapon());
+
+
+        testEnemy2.attack(testBlackMage2);
+        assertEquals(hp, testBlackMage2.getHp());
+
+    }
+
+
+
+
 
 
 }

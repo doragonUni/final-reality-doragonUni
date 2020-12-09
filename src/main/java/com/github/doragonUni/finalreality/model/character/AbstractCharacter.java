@@ -1,101 +1,137 @@
 package com.github.doragonUni.finalreality.model.character;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
-import com.github.doragonUni.finalreality.model.weapon.Bow;
-import com.github.doragonUni.finalreality.model.weapon.IWeapon;
+import com.github.doragonUni.finalreality.controller.IHandler;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * An abstract class that holds the common behaviour of all the PLAYER characters in the game.
- *
- * @author Ignacio Slater Muñoz.
- * @author <Your name>
- */
-public abstract class AbstractCharacter implements ICharacter {
+import java.beans.PropertyChangeSupport;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ScheduledExecutorService;
 
-  /**
-   * Abstract Class for Characters
-   *
-   *
-   * @param name       the character's name
-   * @param turnsQueue the queue with the characters waiting for their turn
-   * @param hp         this character's health points
-   * @param defense    this character defense points
-   * @param equipWeapon the character's equipped weapon
-   */
+public abstract class AbstractCharacter  implements  ICharacter {
 
-  private ScheduledExecutorService scheduledExecutor;
-  protected IWeapon equippedWeapon = null;
-  protected final BlockingQueue<ICharacter> turnsQueue;
-  private final String name;
-  private int hp;
-  private int defense;
+    private final String name;
+    private int hp;
+    private final int defense;
+    private boolean isAlive;
+    protected final BlockingQueue<ICharacter> turnsQueue;
+    protected ScheduledExecutorService scheduledExecutor;
+    private final PropertyChangeSupport characterDeathEvent = new PropertyChangeSupport(this);
 
+    public AbstractCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue, String name, int hp, int defense) {
+        this.turnsQueue = turnsQueue;
+        this.name = name;
+        this.hp = hp;
+        this.defense = defense;
+        this.isAlive = true;
+    }
 
-  protected AbstractCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue,
-                              @NotNull String name,
-                              int hp,
-                              int defense) {
-    this.turnsQueue = turnsQueue;
-    this.name = name;
-    this.hp = hp;
-    this.defense = defense;
-  }
+    @Override
+    public abstract void waitTurn();
 
 
 
-  /**
-   * gets the name (String) of the Character
-   */
-  @Override
-  public String getName() {
-    return this.name;
-  }
-
-  /**
-   * gets the name Hp of the Character
-   */
-  public int getHp(){
-    return this.hp;
-  }
-
-  /**
-   * gets the defense of the Character
-   */
-  public int getDef(){
-    return this.defense;
-  }
+    @Override
+    public abstract int getAttack();
 
 
-  /**
-   * gets the Weapon equipped by the Character
-   */
-  public IWeapon getEquippedWeapon() {
-    return this.equippedWeapon;
-  }
+    /**
+     * get's the name of this Character
+     * @return
+     */
+    @Override
+    public String getName() {
+        return this.name;
+    }
 
-  /**
-   * Adds this character to the turns queue.
-   */
-  @Override
-  public void addToQueue() {
-    turnsQueue.add(this);
-    scheduledExecutor.shutdown();
-  }
+    /**
+     * gets the name Hp of the Character
+     */
+    @Override
+    public int getHp(){
+        return this.hp;
+    }
 
-  /**
-   * function that wait the turn of the round
-   */
-  @Override
-  public void waitTurn() {
-    scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
-    scheduledExecutor
-            .schedule(this::addToQueue, equippedWeapon.getWeight() / 10, TimeUnit.SECONDS);
-  }
+    /**
+     * gets the defense of the Character
+     */
+    @Override
+    public int getDef(){
+        return this.defense;
+    }
+
+    /**
+     * verify if this character is alive or nto
+     * @return
+     */
+    @Override
+    public boolean isAlive(){
+        return this.isAlive;
+    }
+
+    /**
+     * this attacks to a target (pj)
+     * @param pj
+     */
+    @Override
+    public void attack(ICharacter pj){
+        pj.attackedBy(this);
+
+
+    }
+
+    /**
+     * double dispatch for the attack method
+     * @param character
+     */
+    @Override
+    public void attackedBy(ICharacter character){
+
+        int damageDealt = character.getAttack() - this.getDef();
+
+        if(damageDealt < 0){
+            damageDealt = 0;
+        }
+        this.setHp(this.getHp()-damageDealt);
+    }
+
+    /**
+     * set's the healthpoint of the character
+     * @param hp
+     */
+    @Override
+    public void setHp(int hp){
+        if (hp <= 0){
+            hp = 0;
+            characterDeathEvent.firePropertyChange("Dead Character: " + name, null, this);
+            this.isAlive = false;
+        }
+        this.hp = hp;
+    }
+
+    /**
+     *Adds an Enemy to the Queue
+     */
+    @Override
+    public void addToQueue() {
+        turnsQueue.add(this);
+        scheduledExecutor.shutdown();
+
+    }
+
+
+    /**
+     * adds a listener for the dead event
+     * @param handler
+     */
+    public void addDeathListener(IHandler handler){
+        characterDeathEvent.addPropertyChangeListener(handler);
+    }
+
+
+
+
+
+
 
 }
-

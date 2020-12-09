@@ -49,11 +49,11 @@ public class PlayerCharacterTest {
         blackMageTest = new BlackMage("blackMage", turns, 340, 50, 120);
         whiteMageTest = new WhiteMage("whiteMage", turns, 300, 70, 520);
 
-        engineerTest.equipBow(bow);
-        knightTest.equipSword(sword);
-        thiefTest.equipKnife(knife);
-        blackMageTest.equipStaff(staff);
-        whiteMageTest.equipStaff(staff);
+        engineerTest.equipWeapon(bow);
+        knightTest.equipWeapon(sword);
+        thiefTest.equipWeapon(knife);
+        blackMageTest.equipWeapon(staff);
+        whiteMageTest.equipWeapon(staff);
 
         CharactersList.add(engineerTest);
         CharactersList.add(knightTest);

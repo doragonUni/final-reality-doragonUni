@@ -14,66 +14,39 @@ import org.jetbrains.annotations.NotNull;
  * @author Ignacio Slater Muñoz
  * @author <Your name>
  */
-public class Enemy implements ICharacter {
+public class Enemy extends AbstractCharacter {
 
-  protected final BlockingQueue<ICharacter> turnsQueue;
-  private ScheduledExecutorService scheduledExecutor;
-  protected final String name;
+
   private final int weight;
-  private final int hp;
-  private final int defense;
+  private final int attack;
+
 
   /**
    * Creates a new enemy with a name, a weight and the queue with the characters ready to
    * play.
    */
+  /**
+   * Creates a new Enemy.
+   *
+   * @param name       the character's name
+   * @param weight      enemy's weight
+   * @param turnsQueue     the queue with the characters waiting for their turn
+   * @param hp        this character's health points
+   * @param defense    this character defense points
+   *
+   */
+
   public Enemy(@NotNull final String name, @NotNull final BlockingQueue<ICharacter> turnsQueue,
-               final int weight, final int hp, final int defense) {
-    /**
-     * Creates a new Enemy.
-     *
-     * @param name       the character's name
-     * @param weight      enemy's weight
-     * @param turnsQueue     the queue with the characters waiting for their turn
-     * @param hp        this character's health points
-     * @param defense    this character defense points
-     *
-     */
-    this.turnsQueue = turnsQueue;
-    this.name = name;
+               final int weight, final int hp, final int defense, int attack) {
+    super(turnsQueue,name, hp, defense);
+
     this.weight = weight;
-    this.hp = hp;
-    this.defense = defense;
+    this.attack = attack;
 
   }
 
 
 
-  /**
-   * gets the Enemy Health Points
-   */
-  @Override
-  public int getHp() {
-    return this.hp;
-  }
-
-
-  /**
-   * gets the Enemy Defense
-   */
-  @Override
-  public int getDef() {
-    return this.defense;
-  }
-
-  /**
-   *Adds an Enemy to the Queue
-   */
-  @Override
-  public void addToQueue() {
-    turnsQueue.add(this);
-    scheduledExecutor.shutdown();
-  }
 
   /**
    * @see ICharacter
@@ -87,13 +60,6 @@ public class Enemy implements ICharacter {
   }
 
 
-  /**
-   * gets the Enemy name
-   */
-  @Override
-  public String getName() {
-    return this.name;
-  }
 
   /**
    * gets the Enemy Weight
@@ -101,6 +67,15 @@ public class Enemy implements ICharacter {
   public int getWeight() {
     return weight;
   }
+
+  /**
+  * gets the Enemy Attack
+   */
+  @Override
+  public int getAttack(){ return this.attack;}
+
+
+  //public int takeTurn()
 
 
 
@@ -116,6 +91,7 @@ public class Enemy implements ICharacter {
     return getWeight() == enemy.getWeight() &&
             getName().equals(enemy.getName()) &&
             getHp() == enemy.getHp() &&
+            getAttack() == enemy.getAttack() &&
             getDef() == enemy.getDef();
   }
 

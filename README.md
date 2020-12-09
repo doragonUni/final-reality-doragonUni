@@ -25,6 +25,17 @@ Los Weapons por su parte, tambien se eliminan las enumeraciones y se crean las c
 
 Puede ver en el Changelog.md seccion **VERSION 2.0 TAREA 1** los cambios explícitos para esta entrega.
 
+---
+**Version Tarea2**
+
+
+Corrección de errores de la entrega previa, implementación del ataque  y equipamiento de armas usando Double Dispatch, se agrega
+el controlador el cual es capaz de crear los objetos del modelo, conocer sus datos y manipular el inventario y los ataques. Adicionalmente se 
+crea el patrón de diseño Observer Pattern para avisar cuando un jugador queda fuera de combate. Finalmente el controlador también sabrá cuando empieza
+el turno con el método beginTurn() y el fin con endTurn() el cual es llamado después de realizar un ataque.
+
+Puede ver en el Changelog.md seccion **VERSION 3.0 TAREA 2** los cambios explícitos para esta entrega.
+
 
 
 

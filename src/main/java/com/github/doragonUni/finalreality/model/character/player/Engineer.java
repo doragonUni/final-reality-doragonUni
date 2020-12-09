@@ -1,18 +1,13 @@
 package com.github.doragonUni.finalreality.model.character.player;
 
-import com.github.doragonUni.finalreality.model.character.AbstractCharacter;
 import com.github.doragonUni.finalreality.model.character.ICharacter;
-import com.github.doragonUni.finalreality.model.weapon.Axe;
-import com.github.doragonUni.finalreality.model.weapon.Bow;
 import com.github.doragonUni.finalreality.model.weapon.IWeapon;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
-public class Engineer extends AbstractCharacter {
+public class Engineer extends AbstractPlayerCharacter {
     /**
      * Creates a new Engineer.
      *
@@ -26,20 +21,13 @@ public class Engineer extends AbstractCharacter {
         super(turnsQueue, name, hp, defense);
     }
 
+    @Override
+    public void equipWeapon(IWeapon weapon) {
+        if (this.isAlive()) {
+            weapon.equipToEngineer(this);
 
-    /**
-     * equip a Bow to This Engineer
-     */
-    public void equipBow(Bow bow) {
-        this.equippedWeapon = bow;
+        }
     }
-    /**
-     * equip an Axe to this Engineer
-     */
-    public void equipAxe(Axe axe) {
-        this.equippedWeapon = axe;
-    }
-
 
 
     @Override

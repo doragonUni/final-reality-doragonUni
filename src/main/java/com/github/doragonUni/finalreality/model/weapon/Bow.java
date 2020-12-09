@@ -1,5 +1,7 @@
 package com.github.doragonUni.finalreality.model.weapon;
 
+import com.github.doragonUni.finalreality.model.character.player.*;
+
 import java.util.Objects;
 
 public class Bow extends AbstractWeapon {
@@ -16,6 +18,19 @@ public class Bow extends AbstractWeapon {
      */
     public Bow(String name, int damage, int weight) {
         super(name, damage, weight);
+    }
+
+
+    @Override
+    public void equipToEngineer(Engineer engineer) {
+        engineer.setEquippedWeapon(this);
+    }
+
+
+
+    @Override
+    public void equipToThief(Thief thief) {
+        thief.setEquippedWeapon(this);
     }
 
 
@@ -38,6 +53,7 @@ public class Bow extends AbstractWeapon {
     public int hashCode() {
         return Objects.hashCode(Bow.class);
     }
+
 
 
 }

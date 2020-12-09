@@ -26,12 +26,44 @@ public interface ICharacter {
    *  get the Defense of the character
    */
   int getDef();
-
   /**
    * Returns this character's name.
    */
   String getName();
 
+  /**
+   *get this character attack points
+   */
+  int getAttack();
+
+  /**
+   * verify if the character is Alive or not
+   *
+   */
+  boolean isAlive();
+
+
+  /**
+   * Double dispatch for attack method
+   *
+   */
+  void attackedBy(ICharacter character);
+
+  /**
+   * attacks to another Character lowering his hp
+   */
+  void attack(ICharacter pj);
+
+  /**
+   * sets this character health points
+   */
+  void setHp(int hp);
+
+
+
+
+
 
 }
+
 

@@ -1,5 +1,7 @@
 package com.github.doragonUni.finalreality.model.weapon;
 
+import com.github.doragonUni.finalreality.model.character.player.*;
+
 /**
  * An abstract class that holds the common behaviour of all the Weapons in the game.
  *
@@ -44,6 +46,25 @@ public abstract class AbstractWeapon implements IWeapon {
         return this.weight;
     }
 
+    @Override
+    public void equipToBlackMage(BlackMage blackMage){
+
+    }
+    @Override
+    public void equipToEngineer(Engineer engineer){
+    }
+    @Override
+    public void equipToKnight(Knight knight){
+
+    }
+    @Override
+    public void equipToThief(Thief thief){
+
+    }
+    @Override
+    public void equipToWhiteMage(WhiteMage whiteMage){
+
+    }
 
 
 }
