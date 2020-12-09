@@ -27,7 +27,7 @@ public class TurnTest {
     @Test
     public void turnTest() {
         controller.equipWeaponInventory(controller.selectInventoryItem("sword"), controller.getFromParty(0) );
-        
+
         controller.start();
         try {
             Thread.sleep(4000);
