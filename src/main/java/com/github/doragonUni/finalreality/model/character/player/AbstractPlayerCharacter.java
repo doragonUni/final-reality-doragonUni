@@ -97,7 +97,9 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
             .schedule(this::addToQueue, equippedWeapon.getWeight() / 10, TimeUnit.SECONDS);
   }
 
-
-  //public int takeTurn()
+  @Override
+  public int getCharacter(){
+    return 1;
+  }
 
 }

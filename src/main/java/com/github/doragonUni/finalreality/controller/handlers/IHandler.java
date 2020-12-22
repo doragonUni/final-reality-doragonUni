@@ -1,4 +1,4 @@
-package com.github.doragonUni.finalreality.controller;
+package com.github.doragonUni.finalreality.controller.handlers;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

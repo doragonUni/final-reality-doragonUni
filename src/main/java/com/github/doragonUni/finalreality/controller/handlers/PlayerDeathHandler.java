@@ -1,6 +1,7 @@
-package com.github.doragonUni.finalreality.controller;
+package com.github.doragonUni.finalreality.controller.handlers;
 
-import com.github.doragonUni.finalreality.model.character.player.IPlayerCharacter;
+import com.github.doragonUni.finalreality.controller.GameController;
+import com.github.doragonUni.finalreality.controller.handlers.IHandler;
 
 import java.beans.PropertyChangeEvent;
 

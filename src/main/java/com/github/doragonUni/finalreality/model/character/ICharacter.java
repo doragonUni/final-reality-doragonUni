@@ -1,5 +1,7 @@
 package com.github.doragonUni.finalreality.model.character;
 
+import com.github.doragonUni.finalreality.controller.handlers.IHandler;
+
 /**
  * This represents a character from the game.
  * A character can be controlled by the player or by the CPU (an enemy).
@@ -58,6 +60,12 @@ public interface ICharacter {
    * sets this character health points
    */
   void setHp(int hp);
+
+  void addDeathListener(IHandler handler);
+
+  void addTurnListener(IHandler handler);
+
+  int getCharacter();
 
 
 
