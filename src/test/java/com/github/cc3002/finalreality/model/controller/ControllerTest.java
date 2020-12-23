@@ -1,6 +1,7 @@
 package com.github.cc3002.finalreality.model.controller;
 
 import com.github.doragonUni.finalreality.controller.*;
+import com.github.doragonUni.finalreality.controller.phases.LoadingPhase;
 import com.github.doragonUni.finalreality.controller.phases.SelectPhase;
 import com.github.doragonUni.finalreality.model.character.player.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +29,7 @@ public class ControllerTest {
         controller.enemyCreator("enemy2", 13, 2, 0, 13);
         controller.enemyCreator("enemy3", 10,2,4,56);
         controller.enemyCreator("enemy4", 1,200,40,6);
-        controller.enemyCreator("no deberia agregarse", 100000,200000,40000,56000);
+        controller.enemyCreator("XD", 100000,200000,40000,56000);
         controller.knightCreator("knight", 10, 10);
         controller.whiteMageCreator("white", 16, 0, 10);
         controller.blackMageCreator("nibba", 1,2,30);
@@ -45,7 +46,7 @@ public class ControllerTest {
         assertEquals(expectedEnemyParty, controller.getEnemyParty());
 
         assertEquals(4, controller.getParty().size());
-        assertEquals(4, controller.getEnemyParty().size());
+        assertEquals(5, controller.getEnemyParty().size());
 
         assertEquals("knight", controller.getCharacterName(controller.getFromParty(0)));
         assertEquals(0, controller.getCharacterAttack(controller.getFromParty(1)));
@@ -61,21 +62,22 @@ public class ControllerTest {
     void inventoryTest()   {
 
         assertFalse(controller.isInventoryEmpty());
-        controller.equipWeaponInventory(controller.selectInventoryItem("sword"), controller.getFromParty(0));
-        controller.equipWeaponInventory(controller.selectInventoryItem("staff"), controller.getFromParty(1));
+        controller.tryToEquip(controller.selectInventoryItem("sword"), controller.getFromParty(0));
+        controller.setPhase(new SelectPhase());
+        controller.tryToEquip(controller.selectInventoryItem("staff"), controller.getFromParty(1));
         assertFalse(controller.isItemInventory("sword"));
-
+        controller.setPhase(new LoadingPhase());
         assertNull(controller.getCharacterEquipWeapon(controller.getFromParty(3)));
-        controller.equipWeaponInventory(controller.selectInventoryItem("axe"), controller.getFromParty(3));
+        controller.tryToEquip(controller.selectInventoryItem("axe"), controller.getFromParty(3));
         assertTrue(controller.isItemInventory("axe"));
         assertNull(controller.getCharacterEquipWeapon(controller.getFromParty(3)));
-        controller.equipWeaponInventory(controller.selectInventoryItem("bow"), controller.getFromParty(3));
+        controller.tryToEquip(controller.selectInventoryItem("bow"), controller.getFromParty(3));
         assertEquals(47, controller.getCharacterAttack(controller.getFromParty(3)));
         assertFalse(controller.isItemInventory("bow"));
-        controller.equipWeaponInventory(controller.selectInventoryItem("axe"), controller.getFromParty(3));
+        controller.tryToEquip(controller.selectInventoryItem("axe"), controller.getFromParty(3));
         assertEquals("bow", controller.getFromParty(3).getEquippedWeapon().getName());
         assertTrue(controller.isItemInventory("axe"));
-        controller.equipWeaponInventory(controller.selectInventoryItem("knife"), controller.getFromParty(3));
+        controller.tryToEquip(controller.selectInventoryItem("knife"), controller.getFromParty(3));
         assertEquals("knife", controller.getFromParty(3).getEquippedWeapon().getName());
         assertTrue(controller.isItemInventory("bow"));
         assertFalse(controller.isItemInventory("knife"));

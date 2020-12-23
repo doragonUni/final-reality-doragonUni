@@ -16,35 +16,36 @@ class TurnTest {
         controller = new GameController();
         controller.engineerCreator("Elon Musk",100,10);
         controller.knightCreator("KNGHT",100,30);
-        controller.thiefCreator("Thief",100,10);
+        controller.thiefCreator("Thief",1000,10);
         controller.blackMageCreator("BM1",100,10,1);
-        controller.enemyCreator("Enemy",14,100,10,100000);
-        controller.enemyCreator("Enemy2",15,100,10,100);
-        controller.enemyCreator("Enemy3",20,100,5,300);
+        controller.enemyCreator("Enemy",22,100,10,100000);
+        controller.enemyCreator("Enemy2",15,100,13,100);
+        controller.enemyCreator("Enemy3",10,100,5,300);
         controller.enemyCreator("Enemy4",12,100,0,70);
+        controller.enemyCreator("Enemy5",15,120,0,240);
 
 
-        controller.bowCreator("Bow0",110,15);
-        controller.bowCreator("Bow1",70,13);
+        controller.bowCreator("Bow0",110,18);
+        controller.bowCreator("Bow1",70,15);
         controller.swordCreator("excaliber", 100000,20);
-        controller.knifeCreator("karambit", 69,12);
+        controller.knifeCreator("karambit", 69,11);
 
-        controller.equipWeaponInventory(controller.selectInventoryItem("Bow0"), controller.getFromParty(0));
-        controller.equipWeaponInventory(controller.selectInventoryItem("Bow1"), controller.getFromParty(2));
-        controller.equipWeaponInventory(controller.selectInventoryItem("excaliber"), controller.getFromParty(1));
-        controller.equipWeaponInventory(controller.selectInventoryItem("karambit"), controller.getFromParty(3));
+        controller.tryToEquip(controller.selectInventoryItem("Bow0"), controller.getFromParty(0));
+        controller.tryToEquip(controller.selectInventoryItem("Bow1"), controller.getFromParty(2));
+        controller.tryToEquip(controller.selectInventoryItem("excaliber"), controller.getFromParty(1));
+        controller.tryToEquip(controller.selectInventoryItem("karambit"), controller.getFromParty(3));
 
 
 
 
     }
-    @RepeatedTest(1)
+    @RepeatedTest(15)
     void turnTest() throws InterruptedException {
 
 
         controller.loadingGame();
-        Thread.sleep(5000);
-
+        Thread.sleep(5500);
+        System.out.println("END OF THE GAME");
         controller.blackMageCreator("jaja", 1,2,4);
         controller.whiteMageCreator("jaja1", 1,2,4);
         controller.knightCreator("jaja2", 1,2);

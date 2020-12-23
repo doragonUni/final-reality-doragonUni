@@ -1,6 +1,9 @@
 package com.github.doragonUni.finalreality.controller.phases;
 
 import com.github.doragonUni.finalreality.controller.GameController;
+import com.github.doragonUni.finalreality.model.character.ICharacter;
+import com.github.doragonUni.finalreality.model.character.player.IPlayerCharacter;
+import com.github.doragonUni.finalreality.model.weapon.IWeapon;
 
 public class Phase {
     protected GameController controller;
@@ -30,18 +33,22 @@ public class Phase {
 
     }
 
+    public void tryAttack(ICharacter attacker, ICharacter target) {
 
+    }
+    public void tryBeginTurn(){
 
-    public boolean isWaitingPhase(){
-        return false;
     }
-    public boolean isTurnPhase(){
-        return false;
+    public void tryEquip(IWeapon weapon, IPlayerCharacter player){
+
     }
+
+    public boolean isTurnPhase(){return false;}
+    public boolean isWaitingPhase(){return false;}
     public boolean isSetUpPhase(){
         return false;
     }
-    public boolean isSelectPhase(){return false;}
+
 
 
 }

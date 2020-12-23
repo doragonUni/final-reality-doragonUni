@@ -20,7 +20,7 @@ public class GameController {
     private final int partyNum;
     private  final int enemyNum;
     private int playersAlive;
-    private int enemiesAlive;
+    private int enemyKilled;
     protected BlockingQueue<ICharacter> turns = new LinkedBlockingQueue<>();
 
     private HashMap<String, IWeapon> inventory;
@@ -45,9 +45,9 @@ public class GameController {
     public GameController() {
         this.inventory = new HashMap<>();
         this.partyNum = 4; //para no perder la referencia
-        this.enemyNum = 4; //new Random().nextInt( (9-1) + 1 ) + 1;
+        this.enemyNum = 5; //new Random().nextInt( (9-1) + 1 ) + 1;
         this.playersAlive = partyNum; //contador editable
-        this.enemiesAlive = enemyNum;
+        this.enemyKilled = 0;
         setPhase(new LoadingPhase());
 
     }
@@ -269,7 +269,7 @@ public class GameController {
      * equip's a Weapon directly from the inventory
      */
     public void equipWeaponInventory(IWeapon weapon, IPlayerCharacter pj){
-        if(phase.isSelectPhase() || phase.isSetUpPhase()){
+
             IWeapon oldWeapon = pj.getEquippedWeapon();
             pj.equipWeapon(selectInventoryItem(weapon.getName()));
             removeInventoryItem(weapon.getName());
@@ -282,9 +282,13 @@ public class GameController {
             else{
                 putInventoryItem(oldWeapon);
             }
-        }
 
 
+
+    }
+
+    public void tryToEquip(IWeapon weapon, IPlayerCharacter pj){
+        phase.tryEquip(weapon, pj);
     }
 
 
@@ -295,14 +299,12 @@ public class GameController {
      * and calls the end of the turn
      */
     public void controllerAttack(ICharacter attacker, ICharacter target)  {
-        if(phase.isSelectPhase()) {
             attacker.attack(target);
             System.out.println("Player Alive: " + playersAlive);
-            System.out.println("Enemy Alive: " + enemiesAlive);
+            System.out.println("Enemy Killed: " + enemyKilled + "/" + enemyParty.size());
             System.out.println(target.getName() + " " + target.getHp() + " hp");
             endTurn();
 
-        }
 
 
     }
@@ -364,7 +366,7 @@ public class GameController {
      * notify every time a enemy is dead and announce if the enemy's party is dead
      */
     public void enemyDeathNotification(){
-        enemiesAlive--;
+        enemyKilled++;
 
         if(winner()){
             phase.toMatchOverPhase();
@@ -378,7 +380,7 @@ public class GameController {
      * false otherwise
      */
     public boolean winner(){
-        return enemiesAlive == 0;
+        return enemyKilled == enemyParty.size();
     }
     /**
      * return true if the party is all dead
@@ -403,46 +405,42 @@ public class GameController {
                 for(var enemy : enemyParty){
                     enemy.waitTurn();
                 }
-
-                phase.toWaitingPhase();
+            phase.toWaitingPhase();
 
         }
+
 
     }
 
     /**
      * begin of a turn
      */
-    public void beginTurn()  {
+    /**
+     * begin of a turn
+     */
+    public void characterTurn()  {
 
         if(phase.isTurnPhase() && !beginTurnTaken)  {
             beginTurnTaken = true;
             System.out.println("a new turn has started");
             actualCharacter = turns.poll();
-
+            phase.toSelectPhase();
             System.out.println(actualCharacter.getName() + "has begin his turn");
             if (actualCharacter.isAlive()) {
                 if (actualCharacter.getCharacter() == 0) {
                     System.out.println("paso por el 0");
-                    phase.toSelectPhase();
+
                     IPlayerCharacter target = rngPlayerCharacter();
                     System.out.println(actualCharacter.getName() + " attacked " + target.getName());
-                    controllerAttack(actualCharacter, target);
-
-
-
+                    tryToAttack(actualCharacter, target);
                 } else if (actualCharacter.getCharacter() == 1) {
-                    phase.toSelectPhase();
+
                     Enemy eTarget = rngEnemy();
                     System.out.println(actualCharacter.getName() + " attacked " + eTarget.getName());
-                    controllerAttack(actualCharacter, eTarget);
-
-
-
+                    tryToAttack(actualCharacter, eTarget);
                 }
             } else {
                 System.out.println(actualCharacter.getName() + " tried to begin his turn but he is dead");
-                phase.toSelectPhase();
                 endTurn();
 
             }
@@ -453,26 +451,27 @@ public class GameController {
 
 
     public IPlayerCharacter rngPlayerCharacter(){
-        int partySize = party.size();
 
+        int rng = new Random().nextInt( getParty().size() );
         while(true){
-            int rng = new Random().nextInt( partySize );
+
             IPlayerCharacter candidate = getFromParty(rng);
             if(candidate.isAlive()){
                 return candidate;
             }
+            rng = (rng+1)%getParty().size();
         }
     }
 
     public Enemy rngEnemy(){
-        int partySize = enemyParty.size();
 
+        int rng = new Random().nextInt( getEnemyParty().size() );
         while(true){
-            int rng = new Random().nextInt( partySize );
             Enemy candidate = getFromEnemy(rng);
             if(candidate.isAlive()){
                 return candidate;
             }
+            rng = (rng+1)%getEnemyParty().size();
         }
     }
 
@@ -480,18 +479,19 @@ public class GameController {
 
 
     public void tryToBeginTurn(){
-       if(phase.isWaitingPhase() && !tryTurnTaken) {
-           tryTurnTaken = true;
-           System.out.println("tried to begin turn");
-           phase.toTurnPhase();
-           beginTurn();
-
-       }
-        else{
-           System.out.println("sigue esperando");
+        if(phase.isWaitingPhase() && !tryTurnTaken) {
+            tryTurnTaken = true;
+            System.out.println("tried to begin turn");
+            phase.toTurnPhase();
+            characterTurn();
         }
+        else{
+            System.out.println("sigue esperando");
+        }
+    }
 
-
+    public void tryToAttack(ICharacter attacker, ICharacter target){
+        phase.tryAttack(attacker, target);
     }
 
     /**
@@ -511,6 +511,7 @@ public class GameController {
             }
 
 
+
     }
 
     /**
@@ -522,11 +523,23 @@ public class GameController {
 
 
 
+
     public void setPhase(Phase phase){
         this.phase = phase;
         phase.setController(this);
     }
 
+    public int getPartyNum(){
+        return partyNum;
+    }
+    public int getPartySize(){
+        return party.size();
+    }
+
+
+    public int getInventorySpace(){
+        return inventory.size();
+    }
 
 
 

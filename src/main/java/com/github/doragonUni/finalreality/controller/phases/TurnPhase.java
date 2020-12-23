@@ -9,9 +9,7 @@ public class TurnPhase extends Phase{
     }
 
     @Override
-    public boolean isTurnPhase(){
-        return true;
-    }
+    public boolean isTurnPhase(){return true;}
 
 
 

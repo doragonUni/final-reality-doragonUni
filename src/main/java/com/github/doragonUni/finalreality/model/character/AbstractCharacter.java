@@ -78,7 +78,9 @@ public abstract class AbstractCharacter  implements  ICharacter {
      */
     @Override
     public void attack(ICharacter pj){
-        pj.attackedBy(this);
+        if(pj.isAlive() && this.isAlive()) {
+            pj.attackedBy(this);
+        }
 
 
     }
@@ -120,8 +122,8 @@ public abstract class AbstractCharacter  implements  ICharacter {
 
         if(this.isAlive()){
             turnsQueue.add(this);
-            characterTurnEvent.firePropertyChange("someone entered to the Q", null, this);
             scheduledExecutor.shutdown();
+            characterTurnEvent.firePropertyChange("someone entered to the Q", null, this);
 
         }
     }
