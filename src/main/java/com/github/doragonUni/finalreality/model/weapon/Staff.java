@@ -33,16 +33,22 @@ public class Staff extends AbstractWeapon {
         return magicDamage;
     }
 
-
+    /**
+     * double dispatch for equipping weapons
+     */
     @Override
     public void equipToBlackMage(BlackMage blackMage) {
         blackMage.setEquippedWeapon(this);
     }
-
+    /**
+     * double dispatch for equipping weapons
+     */
     @Override
     public void equipToWhiteMage(WhiteMage whiteMage) {
         whiteMage.setEquippedWeapon(this);
     }
+
+
 
     @Override
     public boolean equals(final Object o) {

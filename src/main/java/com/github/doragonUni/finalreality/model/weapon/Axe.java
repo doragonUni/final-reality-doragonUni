@@ -43,16 +43,19 @@ public class Axe extends AbstractWeapon {
     public int hashCode() {
         return Objects.hashCode(Axe.class);
     }
-
+    /**
+     * double dispatch for equipping weapons
+     */
     @Override
     public void equipToEngineer(Engineer engineer) {
         engineer.setEquippedWeapon(this);
     }
-
+    /**
+     * double dispatch for equipping weapons
+     */
     @Override
     public void equipToKnight(Knight knight) {
         knight.setEquippedWeapon(this);
     }
-
 
 }

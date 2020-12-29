@@ -15,6 +15,7 @@ public abstract class AbstractCharacter  implements  ICharacter {
     private final String name;
     private int hp;
     private final int defense;
+    private final int totalHp;
 
     protected final BlockingQueue<ICharacter> turnsQueue;
     protected ScheduledExecutorService scheduledExecutor;
@@ -25,6 +26,7 @@ public abstract class AbstractCharacter  implements  ICharacter {
         this.turnsQueue = turnsQueue;
         this.name = name;
         this.hp = hp;
+        this.totalHp = hp;
         this.defense = defense;
 
     }
@@ -78,11 +80,9 @@ public abstract class AbstractCharacter  implements  ICharacter {
      */
     @Override
     public void attack(ICharacter pj){
-        if(pj.isAlive() && this.isAlive()) {
+        if(this.isAlive()  && pj.isAlive()) {
             pj.attackedBy(this);
         }
-
-
     }
 
     /**
@@ -138,10 +138,23 @@ public abstract class AbstractCharacter  implements  ICharacter {
         characterDeathEvent.addPropertyChangeListener(handler);
     }
 
+    /**
+     * adds a listener for the turn event
+     * @param handler
+     */
     @Override
     public void addTurnListener(IHandler handler){
         characterTurnEvent.addPropertyChangeListener(handler);
 
+    }
+
+    /**
+     * get the totalHp of this character
+     * @return
+     */
+    @Override
+    public int getTotalHp(){
+        return this.totalHp;
     }
 
 

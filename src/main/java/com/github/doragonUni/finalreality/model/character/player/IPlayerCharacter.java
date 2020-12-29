@@ -11,7 +11,6 @@ public interface IPlayerCharacter extends ICharacter {
     void equipWeapon(IWeapon weapon);
     /**
      * get the  weapon to the character
-     * @param weapon
      */
     IWeapon getEquippedWeapon();
 
@@ -20,5 +19,11 @@ public interface IPlayerCharacter extends ICharacter {
      * @param weapon
      */
     void setEquippedWeapon(IWeapon weapon);
+
+    /**
+     * get the Weapon Name
+     * @return
+     */
+    String getWeaponName();
 
 }

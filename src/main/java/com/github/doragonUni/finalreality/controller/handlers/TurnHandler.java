@@ -11,7 +11,11 @@ public class TurnHandler implements IHandler {
         this.controller = controller;
     }
 
-
+    /**
+     * notify every time a character enter to the Turns Queue
+     * and try to begin a turn
+     * @param evt
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
             controller.tryToBeginTurn();

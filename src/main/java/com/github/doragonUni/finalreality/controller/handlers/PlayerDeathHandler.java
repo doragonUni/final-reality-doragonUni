@@ -2,6 +2,7 @@ package com.github.doragonUni.finalreality.controller.handlers;
 
 import com.github.doragonUni.finalreality.controller.GameController;
 import com.github.doragonUni.finalreality.controller.handlers.IHandler;
+import com.github.doragonUni.finalreality.model.character.player.IPlayerCharacter;
 
 import java.beans.PropertyChangeEvent;
 
@@ -24,7 +25,7 @@ public class PlayerDeathHandler implements IHandler {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        controller.playerDeathNotification();
+        controller.playerDeathNotification((IPlayerCharacter) evt.getNewValue());
     }
 
 }

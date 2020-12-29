@@ -22,6 +22,8 @@ public class GameController {
     private int playersAlive;
     private int enemyKilled;
     protected BlockingQueue<ICharacter> turns = new LinkedBlockingQueue<>();
+    private String log = "";
+
 
     private HashMap<String, IWeapon> inventory;
     private final IHandler playerDeathHandler = new PlayerDeathHandler(this);
@@ -118,7 +120,6 @@ public class GameController {
 
     /**
      * adds an IPlayer to the Party
-     * @param character
      */
     public void addToParty(IPlayerCharacter character){
         if(party.size() < partyNum){
@@ -131,7 +132,6 @@ public class GameController {
     }
     /**
      * adds an Enemy to the enemyParty
-     * @param enemy
      */
     public void addToEnemy(Enemy enemy){
         if(enemyParty.size() < enemyNum){
@@ -263,6 +263,11 @@ public class GameController {
         return character.getEquippedWeapon();
     }
 
+    /**
+     * get the player's weapon name
+     */
+    public String getCharacterWeaponName(IPlayerCharacter character){return character.getWeaponName();}
+
 //equip------------------------------//
 
     /**
@@ -315,7 +320,7 @@ public class GameController {
      * puts the weapon into the inventory
      */
     public void putInventoryItem(IWeapon weapon){
-        if(!(weapon == null)) {
+        if(!(weapon == null) && inventory.size()<10) {
             inventory.put(weapon.getName(), weapon);
         }
     }
@@ -352,11 +357,12 @@ public class GameController {
     /**
      * notify every time a player is dead and announce if your entire party is dead
      */
-    public void playerDeathNotification(){
+    public void playerDeathNotification(IPlayerCharacter character){
+        this.turns.remove(character);
         playersAlive--;
 
         if(looser()){
-            phase.toMatchOverPhase();
+            phase.toLosePhase();
             System.out.println("u lost :/");
 
         }
@@ -365,11 +371,12 @@ public class GameController {
     /**
      * notify every time a enemy is dead and announce if the enemy's party is dead
      */
-    public void enemyDeathNotification(){
+    public void enemyDeathNotification(Enemy enemy){
+        this.turns.remove(enemy);
         enemyKilled++;
 
         if(winner()){
-            phase.toMatchOverPhase();
+            phase.toWinPhase();
             System.out.println("u win :)");
 
         }
@@ -413,17 +420,21 @@ public class GameController {
     }
 
     /**
-     * begin of a turn
+     * return the action made by an Enemy when his turn arrive
      */
+    public String getLog(){
+        return log;
+    }
+
     /**
-     * begin of a turn
+     * the begin of a turn
      */
     public void characterTurn()  {
 
         if(phase.isTurnPhase() && !beginTurnTaken)  {
             beginTurnTaken = true;
             System.out.println("a new turn has started");
-            actualCharacter = turns.poll();
+            actualCharacter = turns.peek();
             phase.toSelectPhase();
             System.out.println(actualCharacter.getName() + "has begin his turn");
             if (actualCharacter.isAlive()) {
@@ -431,25 +442,21 @@ public class GameController {
                     System.out.println("paso por el 0");
 
                     IPlayerCharacter target = rngPlayerCharacter();
-                    System.out.println(actualCharacter.getName() + " attacked " + target.getName());
+                    log = actualCharacter.getName() + " attacked " + target.getName();
+
                     tryToAttack(actualCharacter, target);
                 } else if (actualCharacter.getCharacter() == 1) {
-
-                    Enemy eTarget = rngEnemy();
-                    System.out.println(actualCharacter.getName() + " attacked " + eTarget.getName());
-                    tryToAttack(actualCharacter, eTarget);
+                    System.out.println("now is your turn small timmy");
                 }
-            } else {
-                System.out.println(actualCharacter.getName() + " tried to begin his turn but he is dead");
-                endTurn();
-
             }
         }
 
     }
 
 
-
+    /**
+     * used when the actual character is an Enemy to select a random character from the player's party
+     */
     public IPlayerCharacter rngPlayerCharacter(){
 
         int rng = new Random().nextInt( getParty().size() );
@@ -463,21 +470,9 @@ public class GameController {
         }
     }
 
-    public Enemy rngEnemy(){
-
-        int rng = new Random().nextInt( getEnemyParty().size() );
-        while(true){
-            Enemy candidate = getFromEnemy(rng);
-            if(candidate.isAlive()){
-                return candidate;
-            }
-            rng = (rng+1)%getEnemyParty().size();
-        }
-    }
-
-
-
-
+    /**
+     * method used to verify if now is it possible to begin a new turn
+     */
     public void tryToBeginTurn(){
         if(phase.isWaitingPhase() && !tryTurnTaken) {
             tryTurnTaken = true;
@@ -490,6 +485,9 @@ public class GameController {
         }
     }
 
+    /**
+     * method used to verify if now the character can attack
+     */
     public void tryToAttack(ICharacter attacker, ICharacter target){
         phase.tryAttack(attacker, target);
     }
@@ -501,8 +499,9 @@ public class GameController {
      */
     public void endTurn()   {
             System.out.println(actualCharacter.getName() + " ended his turn");
-            actualCharacter.waitTurn();
             phase.toWaitingPhase();
+            turns.poll();
+            actualCharacter.waitTurn();
             beginTurnTaken = false;
             tryTurnTaken = false;
             System.out.println("turn is now open to begin a new one");
@@ -522,26 +521,74 @@ public class GameController {
     }
 
 
-
-
+    /**
+     * set's the current phase of the controller
+     */
     public void setPhase(Phase phase){
         this.phase = phase;
         phase.setController(this);
     }
 
+
+    /**
+     * return the expected amount of party members
+     */
     public int getPartyNum(){
         return partyNum;
     }
+
+    /**
+     * gets the amount of characters in the party
+     */
     public int getPartySize(){
         return party.size();
     }
 
-
+    /**
+     * return the size of the inventory
+     */
     public int getInventorySpace(){
         return inventory.size();
     }
 
+    /**
+     * return the inventory of the game
+     */
+    public HashMap<String, IWeapon> getInventory(){
+        return inventory;
+    }
+
+    /**
+     * return the enemy size
+     */
+    public int getEnemySize(){
+        return enemyParty.size();
+    }
+
+    /**
+     * used in the GUI
+     * get the name of the actual cHaracter
+     */
+    public String getActualName(){
+        if(actualCharacter == null){
+            return "no name";
+        }
+        else{
+            return actualCharacter.getName();
+        }
+    }
+
+    /**
+     * returns this controller current phase
+     */
+    public Phase getPhase(){
+        return this.phase;
+    }
 
 
-//
+
+
+
+
+    //
 }

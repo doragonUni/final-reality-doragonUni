@@ -81,6 +81,7 @@ public class WhiteMageTest {
         assertEquals(mana, testWhiteMage.getMana());
         assertEquals(hp, testWhiteMage.getHp());
         assertEquals(def, testWhiteMage.getDef());
+        assertEquals(hp, testWhiteMage.getTotalHp());
     }
     /**
      * TEST FOR EQUIP WEAPONS

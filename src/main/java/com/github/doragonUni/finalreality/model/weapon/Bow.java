@@ -20,18 +20,25 @@ public class Bow extends AbstractWeapon {
         super(name, damage, weight);
     }
 
-
+    /**
+     * double dispatch for equipping weapons
+     */
     @Override
     public void equipToEngineer(Engineer engineer) {
         engineer.setEquippedWeapon(this);
     }
 
 
-
+    /**
+     * double dispatch for equipping weapons
+     */
     @Override
     public void equipToThief(Thief thief) {
         thief.setEquippedWeapon(this);
     }
+
+
+
 
 
 

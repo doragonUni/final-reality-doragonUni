@@ -92,6 +92,7 @@ public class BlackMageTest {
         assertEquals(mana, testBlackMage.getMana());
         assertEquals(hp, testBlackMage.getHp());
         assertEquals(def, testBlackMage.getDef());
+        assertEquals(hp, testBlackMage.getTotalHp());
 
     }
 
@@ -103,11 +104,14 @@ public class BlackMageTest {
     void equipTests(){
         assertNull(testBlackMage.getEquippedWeapon());
 
+        assertEquals("------", testBlackMage.getWeaponName());
+
         testBlackMage.equipWeapon(sword);
         assertNull(testBlackMage.getEquippedWeapon());
 
         testBlackMage.equipWeapon(knife);
         assertEquals(knife, testBlackMage.getEquippedWeapon());
+        assertEquals(knife.getName(), testBlackMage.getWeaponName());
 
         testBlackMage.equipWeapon(staff);
         assertEquals(staff, testBlackMage.getEquippedWeapon());

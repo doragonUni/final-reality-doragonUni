@@ -73,6 +73,19 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
   public abstract void equipWeapon(IWeapon weapon);
 
   /**
+   * get the weapon name if there is any null weapon;
+   */
+  @Override
+  public String getWeaponName(){
+    if (this.equippedWeapon==null){
+      return "------";
+    }
+    else{
+      return this.equippedWeapon.getName();
+    }
+  }
+
+  /**
    * get the physical Damage of the weapon equipped by this mage
    */
   @Override
@@ -97,6 +110,9 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
             .schedule(this::addToQueue, equippedWeapon.getWeight() / 10, TimeUnit.SECONDS);
   }
 
+  /**
+   * return 1 to verify that is a playerCharacter
+   */
   @Override
   public int getCharacter(){
     return 1;
