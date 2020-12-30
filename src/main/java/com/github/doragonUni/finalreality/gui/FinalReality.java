@@ -261,7 +261,7 @@ public class FinalReality extends Application {
                 new Random().nextInt(200-70) + 70, new Random().nextInt(40-10) + 10,
                 new Random().nextInt(70-30) + 30);
         enemyMask.put(controller.getFromEnemy(j).getName(), controller.getEnemySize());
-        System.out.println(enemyMask);
+
       }
       enemyTextField.setText("");
     });
@@ -684,10 +684,6 @@ public class FinalReality extends Application {
           controller.blackMageCreator(nameInput.getText(), Integer.parseInt(hpInput.getText()),
                   Integer.parseInt(defenseInput.getText()), 10);
           playerMask.put(nameInput.getText(), controller.getPartySize());
-          System.out.println(playerMask);
-
-          System.out.println(controller.getParty());
-
           nameInput.setText("");
           hpInput.setText("");
           defenseInput.setText("");
@@ -697,9 +693,6 @@ public class FinalReality extends Application {
           controller.whiteMageCreator(nameInput.getText(), Integer.parseInt(hpInput.getText()),
                   Integer.parseInt(defenseInput.getText()), 10);
           playerMask.put(nameInput.getText(), controller.getPartySize());
-          System.out.println(playerMask);
-          System.out.println(controller.getParty());
-
           nameInput.setText("");
           hpInput.setText("");
           defenseInput.setText("");
@@ -709,9 +702,6 @@ public class FinalReality extends Application {
           controller.knightCreator(nameInput.getText(), Integer.parseInt(hpInput.getText()),
                   Integer.parseInt(defenseInput.getText()));
           playerMask.put(nameInput.getText(), controller.getPartySize());
-          System.out.println(playerMask);
-          System.out.println(controller.getParty());
-
           nameInput.setText("");
           hpInput.setText("");
           defenseInput.setText("");
@@ -721,9 +711,6 @@ public class FinalReality extends Application {
           controller.thiefCreator(nameInput.getText(), Integer.parseInt(hpInput.getText()),
                   Integer.parseInt(defenseInput.getText()));
           playerMask.put(nameInput.getText(), controller.getPartySize());
-          System.out.println(playerMask);
-          System.out.println(controller.getParty());
-
           nameInput.setText("");
           hpInput.setText("");
           defenseInput.setText("");
@@ -733,9 +720,6 @@ public class FinalReality extends Application {
           controller.engineerCreator(nameInput.getText(), Integer.parseInt(hpInput.getText()),
                   Integer.parseInt(defenseInput.getText()));
           playerMask.put(nameInput.getText(), controller.getPartySize());
-          System.out.println(playerMask);
-          System.out.println(controller.getParty());
-
           nameInput.setText("");
           hpInput.setText("");
           defenseInput.setText("");
@@ -774,14 +758,14 @@ public class FinalReality extends Application {
     if ("Create Axe".equals(weaponButton.getText())) {
       weaponButton.setOnAction(action -> {
         nameInput.setPromptText("Axe name");
-        controller.axeCreator(nameInput.getText(), new Random().nextInt(25) + 15,
+        controller.axeCreator(nameInput.getText(), new Random().nextInt(50-40) + 40,
                 new Random().nextInt(30) + 10);
         nameInput.setText("");
       });
     } else if ("Create Bow".equals(weaponButton.getText())) {
       weaponButton.setOnAction(action -> {
         nameInput.setPromptText("Bow name");
-        controller.bowCreator(nameInput.getText(), new Random().nextInt(40-10) + 10,
+        controller.bowCreator(nameInput.getText(), new Random().nextInt(46-30) + 30,
                 new Random().nextInt(40-15) + 15);
 
 

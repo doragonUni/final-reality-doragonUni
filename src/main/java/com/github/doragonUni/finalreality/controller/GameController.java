@@ -448,15 +448,13 @@ public class GameController {
      * used when the actual character is an Enemy to select a random character from the player's party
      */
     public IPlayerCharacter rngPlayerCharacter(){
-
-        int rng = new Random().nextInt( getParty().size() );
         while(true){
-
+            int rng = new Random().nextInt( getParty().size() );
             IPlayerCharacter candidate = getFromParty(rng);
             if(candidate.isAlive()){
                 return candidate;
             }
-            rng = (rng+1)%getParty().size();
+
         }
     }
 
