@@ -536,8 +536,9 @@ public class FinalReality extends Application {
     AttackButton.setOnAction(actionEvent -> {
       if(controller.getActualCharacter().getCharacter() == 1) {
         int enemyPos = enemyMask.get(selectTargetField.getText());
-        controller.tryToAttack(controller.getActualCharacter(), controller.getFromEnemy(enemyPos - 1));
-
+        if(controller.getFromEnemy(enemyPos - 1).isAlive()) {
+          controller.tryToAttack(controller.getActualCharacter(), controller.getFromEnemy(enemyPos - 1));
+        }
 
         if (controller.winner()) {
           try {
