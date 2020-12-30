@@ -39,6 +39,14 @@ Usted ganará si es que logra matar a todos los enemigos y perderá si se le mue
 Utilicé una escena del anime Dr. Stone para la escena de creación de armas, para el equipamiento utilicé el fondo de la pelicula Kimi no na Wa, para los sonidos todos fueron "samples" gratuitos extraidos de Youtube y para la escena de Victoria créditos a Fornite con su logotipo Victory Royale
 
 
+---
+# **Architecture**
+
+Se utilizó el MVC para el desarrollo del juego, donde el modelo corresponde a los characters y weapon donde los characters son la unidad básica del juego donde engloban a los enemigos y a los personajes del jugador. Y weapon corresponde a las armas que el jugador se puede "equipar" para obtener el daño y peso de esta para poder realizar un ataque.
+El controlador por su parte es el encargado de llamar a los objetos del modelo además de encargarse de la lógica del juego como la logica de turnos, notificar cuando se mueren los personajes y enemigos y ser capaz de crear los objetos del model y poder controlarlos.
+La vista finalmente es quien se encarga de utilizar el controller de tal forma que pueda llevarlo visualmente. La vista sólo utiliza métodos del controlador y es a través de esta donde el jugador puede interactual con la lógica y diseño del modelo.
+
+
 
 ---
 **Version Tarea2**
