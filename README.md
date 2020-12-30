@@ -33,14 +33,14 @@ Una vez cumplido los requisitos si presiona el botón Start Game! podrá empezar
 ## Fin del juego
 Usted ganará si es que logra matar a todos los enemigos y perderá si se le mueren sus personajes. Si gana deberá aparecer un fondo y un sonido de victoria, si pierde le aparecerá otro fondo de tonalidad morada y sin sonido. En ambos casos tendrá 2 opciones; Exit y Play Again. Exit lo que hace es cerrar la ventana y Play Again inicia otro juego, pero para este caso sus personajes desaparecerán por lo que tendrá que crear las armas, enemigos, personajes y equiparle las armas nuevamente. Por ejemplo si es que encontró que la partida estuvo muy fácil, podría disminuir el Hp y la Defensa de sus jugadores ó si encontró el juego muy dificil podría aumentar su hp y su defensa para un mayor aguante.
 ## Fast Game setup
--Para un juego "normal"
+- Para un juego "normal"
 Crear sus personajes, aproximadamente,con hp = 120, def = 20, name = tipo del personaje para no perder tiempo en el equipamiento
 Armas como el staff tienen daño fijo = 30.
--Si quiere ganar para ver la escena ganadora
+- Si quiere ganar para ver la escena ganadora
 Crear personajes que puedan equipar Knives y Swords como el Knight, Thief, BlackMage. (pues son las armas con mayor daño)
 Crear sus personajes con hp = 1000, def = 100, name = tipo del personaje para no perder tiempo en el equipamiento
 Crear 1 enemigo
--Si quiere ganar para ver la escena perdedora
+- Si quiere ganar para ver la escena perdedora
 Crear cualquier personaje que quiera
 Crear sus personajes con hp = 10, def = 1, name = tipo del personaje para no perder tiempo en el equipamiento
 Crear 5 enemigos
