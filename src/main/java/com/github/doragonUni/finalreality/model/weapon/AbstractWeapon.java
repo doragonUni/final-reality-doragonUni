@@ -46,21 +46,36 @@ public abstract class AbstractWeapon implements IWeapon {
         return this.weight;
     }
 
+    /**
+     * double dispatch for equipping weapons
+     */
     @Override
     public void equipToBlackMage(BlackMage blackMage){
 
     }
+    /**
+     * double dispatch for equipping weapons
+     */
     @Override
     public void equipToEngineer(Engineer engineer){
     }
+    /**
+     * double dispatch for equipping weapons
+     */
     @Override
     public void equipToKnight(Knight knight){
 
     }
+    /**
+     * double dispatch for equipping weapons
+     */
     @Override
     public void equipToThief(Thief thief){
 
     }
+    /**
+     * double dispatch for equipping weapons
+     */
     @Override
     public void equipToWhiteMage(WhiteMage whiteMage){
 

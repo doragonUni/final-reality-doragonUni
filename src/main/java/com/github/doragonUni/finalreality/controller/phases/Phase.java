@@ -83,7 +83,7 @@ public class Phase {
      */
     public boolean isWaitingPhase(){return false;}
     /**
-     * erify whether or not is in setup Phase
+     * verify whether or not is in setup Phase
      */
     public boolean isSetUpPhase(){
         return false;

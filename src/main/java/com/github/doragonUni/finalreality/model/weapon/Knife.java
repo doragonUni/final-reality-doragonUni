@@ -23,7 +23,6 @@ public class Knife extends AbstractWeapon {
 
     /**
      * double dispatch for equipping weapons
-     * @param BlackMage
      */
     @Override
     public void equipToBlackMage(BlackMage blackMage) {

@@ -31,6 +31,7 @@ public abstract class AbstractCharacter  implements  ICharacter {
 
     }
 
+
     @Override
     public abstract void waitTurn();
 
