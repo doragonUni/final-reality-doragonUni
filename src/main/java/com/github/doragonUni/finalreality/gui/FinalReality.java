@@ -389,7 +389,7 @@ public class FinalReality extends Application {
     VBox characterBox = characterVBox(true, 0,0,0);
     VBox enemyBox = enemyVBox(true,0,0,0 );
     FlowPane inventoryBox = inventoryBox();
-    GridPane equipGroup = equipGroup();
+    GridPane equipGroup = equipGroup(true);
     Button backToCharacter = new Button("Back to Character");
     Button backToWeapon = new Button("Back to Weapon");
     Button backToManu = new Button("Back to Main Menu");
@@ -831,7 +831,7 @@ public class FinalReality extends Application {
 
     VBox characterBox = characterVBox(true, 0,0,0);
     FlowPane inventoryBox = inventoryBox();
-    GridPane equipGroup = equipGroup();
+    GridPane equipGroup = equipGroup(false);
 
     Image kiminonawa = new Image(new FileInputStream("src/main/resources/pregameBackground.jpg"));
     ImageView background = new ImageView(kiminonawa);
@@ -1008,7 +1008,7 @@ public class FinalReality extends Application {
    * @param
    * @return
    */
-  public GridPane equipGroup(){
+  public GridPane equipGroup(boolean bool){
 
     GridPane equipGroup = new GridPane();
 
@@ -1034,7 +1034,13 @@ public class FinalReality extends Application {
       characterTextField.setText("");
       weaponTextField.setText("");
       try {
-        stage.setScene(preGameScene());
+        if(bool == true){
+          stage.setScene(preGameScene());
+        }
+        else{
+          stage.setScene(inGameInventory());
+        }
+
       } catch (FileNotFoundException e) {
         e.printStackTrace();
       }

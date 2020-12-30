@@ -305,9 +305,6 @@ public class GameController {
      */
     public void controllerAttack(ICharacter attacker, ICharacter target)  {
             attacker.attack(target);
-            System.out.println("Player Alive: " + playersAlive);
-            System.out.println("Enemy Killed: " + enemyKilled + "/" + enemyParty.size());
-            System.out.println(target.getName() + " " + target.getHp() + " hp");
             endTurn();
 
 
@@ -363,7 +360,6 @@ public class GameController {
 
         if(looser()){
             phase.toLosePhase();
-            System.out.println("u lost :/");
 
         }
     }
@@ -377,7 +373,6 @@ public class GameController {
 
         if(winner()){
             phase.toWinPhase();
-            System.out.println("u win :)");
 
         }
     }
@@ -433,20 +428,15 @@ public class GameController {
 
         if(phase.isTurnPhase() && !beginTurnTaken)  {
             beginTurnTaken = true;
-            System.out.println("a new turn has started");
             actualCharacter = turns.peek();
             phase.toSelectPhase();
-            System.out.println(actualCharacter.getName() + "has begin his turn");
             if (actualCharacter.isAlive()) {
                 if (actualCharacter.getCharacter() == 0) {
-                    System.out.println("paso por el 0");
-
                     IPlayerCharacter target = rngPlayerCharacter();
                     log = actualCharacter.getName() + " attacked " + target.getName();
-
                     tryToAttack(actualCharacter, target);
                 } else if (actualCharacter.getCharacter() == 1) {
-                    System.out.println("now is your turn small timmy");
+
                 }
             }
         }
@@ -476,12 +466,10 @@ public class GameController {
     public void tryToBeginTurn(){
         if(phase.isWaitingPhase() && !tryTurnTaken) {
             tryTurnTaken = true;
-            System.out.println("tried to begin turn");
             phase.toTurnPhase();
             characterTurn();
         }
         else{
-            System.out.println("sigue esperando");
         }
     }
 
@@ -498,13 +486,11 @@ public class GameController {
      *
      */
     public void endTurn()   {
-            System.out.println(actualCharacter.getName() + " ended his turn");
             phase.toWaitingPhase();
             turns.poll();
             actualCharacter.waitTurn();
             beginTurnTaken = false;
             tryTurnTaken = false;
-            System.out.println("turn is now open to begin a new one");
             if(!turns.isEmpty()){
                 tryToBeginTurn();
             }
