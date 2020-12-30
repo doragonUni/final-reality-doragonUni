@@ -15,7 +15,7 @@ Broadly speaking for the combat the player has a group of characters to control 
 enemies controlled by the computer.
 
 ---
-* **Versión Tarea3**
+# **Versión Tarea3**
 # **COMO JUGAR**
 Bienvenido a Final Reality version creada por Lung Pang Wang.
 
@@ -49,7 +49,7 @@ La vista finalmente es quien se encarga de utilizar el controller de tal forma q
 
 
 ---
-**Version Tarea2**
+# **Version Tarea2**
 
 
 Corrección de errores de la entrega previa, implementación del ataque  y equipamiento de armas usando Double Dispatch, se agrega
@@ -61,7 +61,7 @@ Puede ver en el Changelog.md seccion **VERSION 3.0 TAREA 2** los cambios explíc
 
 ---
 
-**Version Tarea1**
+# **Version Tarea1**
 
 
 Se modifica el package Model con tal de respetar los principios SOLID, teniendo esto en cuenta, lo que se hizo fue eliminar las enumeraciones debido a que limitan la extensibilidad del código a un futuro, luego se divide el método waitTurn() debido a que no estaba implendado bajo el principio de Single responsability por lo que se decide a bajarlo a cada clase correspondiente.
