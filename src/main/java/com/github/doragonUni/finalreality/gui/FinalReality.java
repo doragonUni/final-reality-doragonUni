@@ -758,14 +758,14 @@ public class FinalReality extends Application {
     if ("Create Axe".equals(weaponButton.getText())) {
       weaponButton.setOnAction(action -> {
         nameInput.setPromptText("Axe name");
-        controller.axeCreator(nameInput.getText(), new Random().nextInt(50-40) + 40,
+        controller.axeCreator(nameInput.getText(), new Random().nextInt(75-40) + 40,
                 new Random().nextInt(30) + 10);
         nameInput.setText("");
       });
     } else if ("Create Bow".equals(weaponButton.getText())) {
       weaponButton.setOnAction(action -> {
         nameInput.setPromptText("Bow name");
-        controller.bowCreator(nameInput.getText(), new Random().nextInt(46-30) + 30,
+        controller.bowCreator(nameInput.getText(), new Random().nextInt(70-50) + 50,
                 new Random().nextInt(40-15) + 15);
 
 

@@ -22,17 +22,17 @@ class TurnTest {
         controller.knightCreator("KNGHT",100,30);
         controller.thiefCreator("Thief",1000,10);
         controller.blackMageCreator("BM1",100,10,1);
-        controller.enemyCreator("Enemy",22,100,10,100000);
+        controller.enemyCreator("Enemy",1000,1,1,100000);
         //controller.enemyCreator("Enemy2",15,100,13,100);
         //controller.enemyCreator("Enemy3",10,100,5,300);
         //controller.enemyCreator("Enemy4",12,100,0,70);
         //controller.enemyCreator("Enemy5",15,120,0,240);
 
 
-        controller.bowCreator("Bow0",110,1);
-        controller.bowCreator("Bow1",70,7);
+        controller.bowCreator("Bow0",10000,1);
+        controller.bowCreator("Bow1",7000,7);
         controller.swordCreator("excaliber", 100000,10);
-        controller.knifeCreator("karambit", 69,11);
+        controller.knifeCreator("karambit", 69000,11);
 
         controller.tryToEquip(controller.selectInventoryItem("Bow0"), controller.getFromParty(0));
         controller.tryToEquip(controller.selectInventoryItem("Bow1"), controller.getFromParty(2));
@@ -48,12 +48,17 @@ class TurnTest {
         controller.loadingGame();
         Thread.sleep(5500);
         controller.tryToAttack(controller.getActualCharacter(), controller.getFromEnemy(0));
-
+        assertTrue(controller.winner());
+        assertFalse(controller.looser());
         controller.blackMageCreator("jaja", 1,2,4);
         controller.whiteMageCreator("jaja1", 1,2,4);
         controller.knightCreator("jaja2", 1,2);
         controller.thiefCreator("jaja3", 1,2);
         controller.engineerCreator("jaja4", 1,2);
+        controller.enemyCreator("jaja4", 1,2, 1, 1);
+        controller.loadingGame();
+        controller.getActualName();
+        controller.tryToBeginTurn();
 
 
     }

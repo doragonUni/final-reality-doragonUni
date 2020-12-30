@@ -25,6 +25,16 @@ public class ControllerTest {
         controller.knifeCreator("knife",102,4 );
         controller.swordCreator("sword", 10000000,28);
         controller.staffCreator("staff",102, 14, 100);
+        controller.bowCreator("bow1",47, 17);
+        controller.axeCreator("axe1",10, 6);
+        controller.knifeCreator("knife1",102,4 );
+        controller.swordCreator("sword1", 10000000,28);
+        controller.staffCreator("staff1",102, 14, 100);
+        controller.bowCreator("bow2",47, 17);
+        controller.axeCreator("axe2",10, 6);
+        controller.knifeCreator("knife2",102,4 );
+        controller.swordCreator("sword2", 10000000,28);
+        controller.staffCreator("staff2",102, 14, 100);
 
         controller.enemyCreator("enemy", 102, 20, 10, 1000000);
         controller.enemyCreator("enemy1", 15, 20, 0, 1);
@@ -63,7 +73,7 @@ public class ControllerTest {
     void constructorTest(){
         assertEquals(4, controller.getPartyNum());
         assertEquals(4, controller.getPartySize());
-        assertEquals(5, controller.getInventorySpace());
+        assertEquals(10, controller.getInventorySpace());
         assertEquals(5, controller.getEnemySize());
         assertEquals("no name", controller.getActualName());
         assertEquals(controller.getInventorySpace(), controller.getInventory().size());
@@ -100,6 +110,7 @@ public class ControllerTest {
         assertEquals("knife", controller.getFromParty(3).getEquippedWeapon().getName());
         assertTrue(controller.isItemInventory("bow"));
         assertFalse(controller.isItemInventory("knife"));
+        assertFalse(controller.isItemInventory("knife2"));
 
     }
 
