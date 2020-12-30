@@ -21,17 +21,17 @@ public class Turn2Test {
         controller.knightCreator("KNGHT",1,0);
         controller.thiefCreator("Thief",1,0);
         controller.blackMageCreator("BM1",1,10,1);
-        controller.enemyCreator("Enemy",5,1000,10,100000);
-        controller.enemyCreator("Enemy2",15,100,13,100);
-        controller.enemyCreator("Enemy3",10,100,5,300);
-        //controller.enemyCreator("Enemy4",12,100,0,70);
+        controller.enemyCreator("Enemy",1,10000,10,100000);
+        controller.enemyCreator("Enemy2",1,10000,13,100000);
+        controller.enemyCreator("Enemy3",1,10000,5,100000);
+        controller.enemyCreator("Enemy4",1,100,0,100000);
         //controller.enemyCreator("Enemy5",15,120,0,240);
 
 
-        controller.bowCreator("Bow0",1,40);
-        controller.bowCreator("Bow1",7,40);
-        controller.swordCreator("excaliber", 1,40);
-        controller.knifeCreator("karambit", 6,11);
+        controller.bowCreator("Bow0",1,400);
+        controller.bowCreator("Bow1",7,400);
+        controller.swordCreator("excaliber", 1,400);
+        controller.knifeCreator("karambit", 6,110);
 
         controller.tryToEquip(controller.selectInventoryItem("Bow0"), controller.getFromParty(0));
         controller.tryToEquip(controller.selectInventoryItem("Bow1"), controller.getFromParty(2));
