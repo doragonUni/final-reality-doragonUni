@@ -18,6 +18,7 @@ enemies controlled by the computer.
 * **Versión Tarea3**
 # **COMO JUGAR**
 Bienvenido a Final Reality version creada por Lung Pang Wang.
+
 ## Inicio
 Para ejecutar el programa porfavor presionar el boton Run haciendo click derecho en el archivo FinalReality.java. Una vez "runeado", debería aparecer una Ventana con un Menú con el título "Main menu Final Reality Beta" y aparecerán 3 botones; Character Menu, Weapon Menu y Start Game!. Porfavor no presionar Start Game si no ha creado sus personajes ni les ha equipado un arma, ya que si presiona el boton antes de tiempo no tendrá ningún efecto pues no estaría cumpliendo los requisitos para empezar el juego. Si no estan las condiciones el botón no hará nada. 
 ## Creación de personajes y enemigos
