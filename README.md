@@ -32,7 +32,20 @@ Recuerde, como se menciona al inicio, el juego no empezará si es que no estan t
 Una vez cumplido los requisitos si presiona el botón Start Game! podrá empezar a jugar, en el display del centro superior de la ventana, tendrá un visor donde se le indicará de quién es el turno, como los enemigos atacan de manera instantánea usted podrá ver el último ataque realizado por ellos cuando le toca a usted, tenga ojo que podría existir que 2 enemigos distintos ataquen antes que usted (debido a sus velocidades y pesos) y en este caso solo se verá el último enemigo que realizó el ataque. Cuando sea su turno podrá volver al inventario y cambiar las armas equipadas y luego realizar un Ataque para terminar su turno. Su turno solo puede terminar cuando realice un ataque de lo contrario el juego esperará a que realice uno. Para atacar tendrá abajo en el cuadro inferior una entrada de Texto para que usted escriba el nombre del enemigo (por lo general, los enemigos se llaman enemy0, enemy1,...,enemy4) tendrá que escribir el nombre, por ejemplo enemy0 y luego presionar el botón atacar para realizar el ataque. Aviso, cuando usted o la CPU logren acabar con la vida de un personaje/enemigo, en el display aparecerá que el jugador está "dead" y si por algun motivo usted quisiera atacar un enemigo muerto no podrá hacerlo no perderá el turno pero sí su tiempo, asi que porfavor mire bien el display antes de atacar a su objetivo. Los enemigos por su parte solamente escogen automáticamente un personaje vivo de su party
 ## Fin del juego
 Usted ganará si es que logra matar a todos los enemigos y perderá si se le mueren sus personajes. Si gana deberá aparecer un fondo y un sonido de victoria, si pierde le aparecerá otro fondo de tonalidad morada y sin sonido. En ambos casos tendrá 2 opciones; Exit y Play Again. Exit lo que hace es cerrar la ventana y Play Again inicia otro juego, pero para este caso sus personajes desaparecerán por lo que tendrá que crear las armas, enemigos, personajes y equiparle las armas nuevamente. Por ejemplo si es que encontró que la partida estuvo muy fácil, podría disminuir el Hp y la Defensa de sus jugadores ó si encontró el juego muy dificil podría aumentar su hp y su defensa para un mayor aguante.
-
+## Fast Game setup
+-Para un juego "normal"
+Crear sus personajes, aproximadamente,con hp = 120, def = 20, name = tipo del personaje para no perder tiempo en el equipamiento
+Armas como el staff tienen daño fijo = 30.
+-Si quiere ganar para ver la escena ganadora
+Crear personajes que puedan equipar Knives y Swords como el Knight, Thief, BlackMage. (pues son las armas con mayor daño)
+Crear sus personajes con hp = 1000, def = 100, name = tipo del personaje para no perder tiempo en el equipamiento
+Crear 1 enemigo
+-Si quiere ganar para ver la escena perdedora
+Crear cualquier personaje que quiera
+Crear sus personajes con hp = 10, def = 1, name = tipo del personaje para no perder tiempo en el equipamiento
+Crear 5 enemigos
+(Probablemente los enemigos te maten de un golpe y puede que varios enemigos ataquen antes que el turno del jugador
+por lo que el juego terminaría rapidamente y así podrá usted ver la pantalla de derrota)
 
 ---
 **Agradecimientos y miceláneos**
