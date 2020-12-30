@@ -1,7 +1,9 @@
 package com.github.doragonUni.finalreality.model.character;
 
 
-import com.github.doragonUni.finalreality.controller.IHandler;
+import com.github.doragonUni.finalreality.controller.handlers.IHandler;
+
+
 import org.jetbrains.annotations.NotNull;
 
 import java.beans.PropertyChangeSupport;
@@ -13,18 +15,22 @@ public abstract class AbstractCharacter  implements  ICharacter {
     private final String name;
     private int hp;
     private final int defense;
-    private boolean isAlive;
+    private final int totalHp;
+
     protected final BlockingQueue<ICharacter> turnsQueue;
     protected ScheduledExecutorService scheduledExecutor;
     private final PropertyChangeSupport characterDeathEvent = new PropertyChangeSupport(this);
+    private final PropertyChangeSupport characterTurnEvent = new PropertyChangeSupport(this);
 
     public AbstractCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue, String name, int hp, int defense) {
         this.turnsQueue = turnsQueue;
         this.name = name;
         this.hp = hp;
+        this.totalHp = hp;
         this.defense = defense;
-        this.isAlive = true;
+
     }
+
 
     @Override
     public abstract void waitTurn();
@@ -66,7 +72,7 @@ public abstract class AbstractCharacter  implements  ICharacter {
      */
     @Override
     public boolean isAlive(){
-        return this.isAlive;
+        return this.getHp()>0;
     }
 
     /**
@@ -75,9 +81,9 @@ public abstract class AbstractCharacter  implements  ICharacter {
      */
     @Override
     public void attack(ICharacter pj){
-        pj.attackedBy(this);
-
-
+        if(this.isAlive()  && pj.isAlive()) {
+            pj.attackedBy(this);
+        }
     }
 
     /**
@@ -104,7 +110,7 @@ public abstract class AbstractCharacter  implements  ICharacter {
         if (hp <= 0){
             hp = 0;
             characterDeathEvent.firePropertyChange("Dead Character: " + name, null, this);
-            this.isAlive = false;
+
         }
         this.hp = hp;
     }
@@ -114,9 +120,13 @@ public abstract class AbstractCharacter  implements  ICharacter {
      */
     @Override
     public void addToQueue() {
-        turnsQueue.add(this);
-        scheduledExecutor.shutdown();
 
+        if(this.isAlive()){
+            turnsQueue.add(this);
+            scheduledExecutor.shutdown();
+            characterTurnEvent.firePropertyChange("someone entered to the Q", null, this);
+
+        }
     }
 
 
@@ -124,8 +134,28 @@ public abstract class AbstractCharacter  implements  ICharacter {
      * adds a listener for the dead event
      * @param handler
      */
+    @Override
     public void addDeathListener(IHandler handler){
         characterDeathEvent.addPropertyChangeListener(handler);
+    }
+
+    /**
+     * adds a listener for the turn event
+     * @param handler
+     */
+    @Override
+    public void addTurnListener(IHandler handler){
+        characterTurnEvent.addPropertyChangeListener(handler);
+
+    }
+
+    /**
+     * get the totalHp of this character
+     * @return
+     */
+    @Override
+    public int getTotalHp(){
+        return this.totalHp;
     }
 
 

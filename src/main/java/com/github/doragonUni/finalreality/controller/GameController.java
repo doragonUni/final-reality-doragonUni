@@ -1,5 +1,10 @@
 package com.github.doragonUni.finalreality.controller;
 
+import com.github.doragonUni.finalreality.controller.handlers.EnemyDeathHandler;
+import com.github.doragonUni.finalreality.controller.handlers.IHandler;
+import com.github.doragonUni.finalreality.controller.handlers.PlayerDeathHandler;
+import com.github.doragonUni.finalreality.controller.handlers.TurnHandler;
+import com.github.doragonUni.finalreality.controller.phases.*;
 import com.github.doragonUni.finalreality.model.character.Enemy;
 import com.github.doragonUni.finalreality.model.character.ICharacter;
 import com.github.doragonUni.finalreality.model.character.player.*;
@@ -7,6 +12,7 @@ import com.github.doragonUni.finalreality.model.weapon.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -14,17 +20,25 @@ public class GameController {
     private final int partyNum;
     private  final int enemyNum;
     private int playersAlive;
-    private int enemiesAlive;
+    private int enemyKilled;
     protected BlockingQueue<ICharacter> turns = new LinkedBlockingQueue<>();
+    private String log = "";
+
 
     private HashMap<String, IWeapon> inventory;
     private final IHandler playerDeathHandler = new PlayerDeathHandler(this);
     private final IHandler enemyDeathHandler = new EnemyDeathHandler(this);
+    private final IHandler characterTurnHandler = new TurnHandler(this);
 
 
-    private ArrayList<IPlayerCharacter> party = new ArrayList();
-    private ArrayList<Enemy> enemyParty = new ArrayList();
+    private ArrayList<IPlayerCharacter> party = new ArrayList<>();
+    private ArrayList<Enemy> enemyParty = new ArrayList<>();
     private ICharacter actualCharacter;
+    private Phase phase;
+    private boolean beginTurnTaken = false;
+    private boolean tryTurnTaken = false;
+
+
 
 
     /**
@@ -34,8 +48,9 @@ public class GameController {
         this.inventory = new HashMap<>();
         this.partyNum = 4; //para no perder la referencia
         this.enemyNum = 5; //new Random().nextInt( (9-1) + 1 ) + 1;
-        this.playersAlive = 0; //contador editable
-        this.enemiesAlive = 0;
+        this.playersAlive = partyNum; //contador editable
+        this.enemyKilled = 0;
+        setPhase(new LoadingPhase());
 
     }
 
@@ -46,82 +61,84 @@ public class GameController {
      * creates a BlackMage and is added to the party
      */
     public void blackMageCreator(String name, int hp, int def, int mana){
-        BlackMage blackMage = new BlackMage(name, turns, hp, def, mana);
-        blackMage.addDeathListener(playerDeathHandler);
-
-        addToParty(blackMage);
+        if(phase.isSetUpPhase()) {
+            BlackMage blackMage = new BlackMage(name, turns, hp, def, mana);
+            addToParty(blackMage);
+        }
     }
 
     /**
      * creates a whiteMageCreator and is added to the party
      */
     public void whiteMageCreator(String name, int hp, int def, int mana){
-        WhiteMage whiteMage = new WhiteMage(name, turns, hp, def, mana);
-        whiteMage.addDeathListener(playerDeathHandler);
-        addToParty(whiteMage);
+        if(phase.isSetUpPhase()) {
+            WhiteMage whiteMage = new WhiteMage(name, turns, hp, def, mana);
+            addToParty(whiteMage);
+        }
     }
 
     /**
      * creates a engineer and is added to the party
      */
     public void engineerCreator(String name, int hp, int def){
-        Engineer engineer = new Engineer(name, turns, hp, def);
-        engineer.addDeathListener(playerDeathHandler);
-
-        addToParty(engineer);
+        if(phase.isSetUpPhase()) {
+            Engineer engineer = new Engineer(name, turns, hp, def);
+            addToParty(engineer);
+        }
     }
 
     /**
      * creates a thief and is added to the party
      */
-    public void thiefCreator(String name, int hp, int def){
-        Thief thief = new Thief(name, turns, hp, def);
-        thief.addDeathListener(playerDeathHandler);
-
-        addToParty(thief);
+    public void thiefCreator(String name, int hp, int def) {
+        if (phase.isSetUpPhase()){
+            Thief thief = new Thief(name, turns, hp, def);
+            addToParty(thief);
+        }
     }
 
     /**
      * creates a knight and is added to the party
      */
     public void knightCreator(String name, int hp, int def){
-        Knight knight = new Knight(name, turns, hp, def);
-        knight.addDeathListener(playerDeathHandler);
-
-        addToParty(knight);
+        if(phase.isSetUpPhase()) {
+            Knight knight = new Knight(name, turns, hp, def);
+            addToParty(knight);
+        }
     }
 
     /**
      * creates an enemy and is added to the enemy's party
      */
     public void enemyCreator(String name, int weight, int hp, int def, int attack){
-
-        Enemy enemy = new Enemy(name, turns, weight, hp, def, attack);
-        enemy.addDeathListener(enemyDeathHandler);
-
-        addToEnemy(enemy);
+        if(phase.isSetUpPhase()) {
+            Enemy enemy = new Enemy(name, turns, weight, hp, def, attack);
+            addToEnemy(enemy);
+        }
 
     }
 
     /**
      * adds an IPlayer to the Party
-     * @param character
      */
     public void addToParty(IPlayerCharacter character){
         if(party.size() < partyNum){
             party.add(character);
-            playersAlive++;
+            character.addDeathListener(playerDeathHandler);
+            character.addTurnListener(characterTurnHandler);
+
         }
 
     }
     /**
      * adds an Enemy to the enemyParty
-     * @param enemy
      */
     public void addToEnemy(Enemy enemy){
         if(enemyParty.size() < enemyNum){
             enemyParty.add(enemy);
-            enemiesAlive++;
+            enemy.addDeathListener(enemyDeathHandler);
+            enemy.addTurnListener(characterTurnHandler);
+
 
         }
     }
@@ -246,25 +263,37 @@ public class GameController {
         return character.getEquippedWeapon();
     }
 
+    /**
+     * get the player's weapon name
+     */
+    public String getCharacterWeaponName(IPlayerCharacter character){return character.getWeaponName();}
+
 //equip------------------------------//
 
     /**
      * equip's a Weapon directly from the inventory
      */
     public void equipWeaponInventory(IWeapon weapon, IPlayerCharacter pj){
-        IWeapon oldWeapon = pj.getEquippedWeapon();
-        pj.equipWeapon(selectInventoryItem(weapon.getName()));
-        removeInventoryItem(weapon.getName());
-        if(pj.getEquippedWeapon() == null){
-            putInventoryItem(weapon);
-        }
-        else if (!pj.getEquippedWeapon().equals(weapon)){
-            putInventoryItem(weapon);
-        }
-        else{
-            putInventoryItem(oldWeapon);
-        }
 
+            IWeapon oldWeapon = pj.getEquippedWeapon();
+            pj.equipWeapon(selectInventoryItem(weapon.getName()));
+            removeInventoryItem(weapon.getName());
+            if(pj.getEquippedWeapon() == null){
+                putInventoryItem(weapon);
+            }
+            else if (!pj.getEquippedWeapon().equals(weapon)){
+                putInventoryItem(weapon);
+            }
+            else{
+                putInventoryItem(oldWeapon);
+            }
+
+
+
+    }
+
+    public void tryToEquip(IWeapon weapon, IPlayerCharacter pj){
+        phase.tryEquip(weapon, pj);
     }
 
 
@@ -274,9 +303,10 @@ public class GameController {
      * the attacker attacks target lowering the target's health point
      * and calls the end of the turn
      */
-    public void controllerAttack(ICharacter attacker, ICharacter target){
-        attacker.attack(target);
-        endTurn(attacker);
+    public void controllerAttack(ICharacter attacker, ICharacter target)  {
+            attacker.attack(target);
+            endTurn();
+
 
 
     }
@@ -287,7 +317,7 @@ public class GameController {
      * puts the weapon into the inventory
      */
     public void putInventoryItem(IWeapon weapon){
-        if(!(weapon == null)) {
+        if(!(weapon == null) && inventory.size()<10) {
             inventory.put(weapon.getName(), weapon);
         }
     }
@@ -324,22 +354,26 @@ public class GameController {
     /**
      * notify every time a player is dead and announce if your entire party is dead
      */
-    public void playerDeathNotification(){
+    public void playerDeathNotification(IPlayerCharacter character){
+        this.turns.remove(character);
         playersAlive--;
 
         if(looser()){
-            System.out.println("u lost :/");
+            phase.toLosePhase();
+
         }
     }
 
     /**
      * notify every time a enemy is dead and announce if the enemy's party is dead
      */
-    public void enemyDeathNotification(){
-        enemiesAlive--;
+    public void enemyDeathNotification(Enemy enemy){
+        this.turns.remove(enemy);
+        enemyKilled++;
 
         if(winner()){
-            System.out.println("u win :)");
+            phase.toWinPhase();
+
         }
     }
 
@@ -348,7 +382,7 @@ public class GameController {
      * false otherwise
      */
     public boolean winner(){
-        return enemiesAlive == 0;
+        return enemyKilled == enemyParty.size();
     }
     /**
      * return true if the party is all dead
@@ -359,37 +393,109 @@ public class GameController {
     }
 
 
+
 //turns
 
     /**
      * puts everyone in the queue according to the weight
      */
-    public void start(){
-        for(var enemy : enemyParty){
-            enemy.waitTurn();
+    public void loadingGame()   {
+        if(phase.isSetUpPhase()){
+                for (var character : party ){
+                    character.waitTurn();
+                }
+                for(var enemy : enemyParty){
+                    enemy.waitTurn();
+                }
+            phase.toWaitingPhase();
+
         }
-        for (var character : party ){
-            character.waitTurn();
-        }
+
 
     }
 
     /**
-     * begin of a turn
+     * return the action made by an Enemy when his turn arrive
      */
-    public void beginTurn(){
-        actualCharacter = turns.poll();
+    public String getLog(){
+        return log;
+    }
+
+    /**
+     * the begin of a turn
+     */
+    public void characterTurn()  {
+
+        if(phase.isTurnPhase() && !beginTurnTaken)  {
+            beginTurnTaken = true;
+            actualCharacter = turns.peek();
+            phase.toSelectPhase();
+            if (actualCharacter.isAlive()) {
+                if (actualCharacter.getCharacter() == 0) {
+                    IPlayerCharacter target = rngPlayerCharacter();
+                    log = actualCharacter.getName() + " attacked " + target.getName();
+                    tryToAttack(actualCharacter, target);
+                } else if (actualCharacter.getCharacter() == 1) {
+
+                }
+            }
+        }
+
+    }
 
 
+    /**
+     * used when the actual character is an Enemy to select a random character from the player's party
+     */
+    public IPlayerCharacter rngPlayerCharacter(){
+
+        int rng = new Random().nextInt( getParty().size() );
+        while(true){
+
+            IPlayerCharacter candidate = getFromParty(rng);
+            if(candidate.isAlive()){
+                return candidate;
+            }
+            rng = (rng+1)%getParty().size();
+        }
+    }
+
+    /**
+     * method used to verify if now is it possible to begin a new turn
+     */
+    public void tryToBeginTurn(){
+        if(phase.isWaitingPhase() && !tryTurnTaken) {
+            tryTurnTaken = true;
+            phase.toTurnPhase();
+            characterTurn();
+        }
+        else{
+        }
+    }
+
+    /**
+     * method used to verify if now the character can attack
+     */
+    public void tryToAttack(ICharacter attacker, ICharacter target){
+        phase.tryAttack(attacker, target);
     }
 
     /**
      * called by controllerAttack
      * calls the end of the turn;
-     * @param character
+     *
      */
-    public void endTurn(ICharacter character){
-        character.waitTurn();
+    public void endTurn()   {
+            phase.toWaitingPhase();
+            turns.poll();
+            actualCharacter.waitTurn();
+            beginTurnTaken = false;
+            tryTurnTaken = false;
+            if(!turns.isEmpty()){
+                tryToBeginTurn();
+            }
+
+
 
     }
 
@@ -401,8 +507,74 @@ public class GameController {
     }
 
 
+    /**
+     * set's the current phase of the controller
+     */
+    public void setPhase(Phase phase){
+        this.phase = phase;
+        phase.setController(this);
+    }
+
+
+    /**
+     * return the expected amount of party members
+     */
+    public int getPartyNum(){
+        return partyNum;
+    }
+
+    /**
+     * gets the amount of characters in the party
+     */
+    public int getPartySize(){
+        return party.size();
+    }
+
+    /**
+     * return the size of the inventory
+     */
+    public int getInventorySpace(){
+        return inventory.size();
+    }
+
+    /**
+     * return the inventory of the game
+     */
+    public HashMap<String, IWeapon> getInventory(){
+        return inventory;
+    }
+
+    /**
+     * return the enemy size
+     */
+    public int getEnemySize(){
+        return enemyParty.size();
+    }
+
+    /**
+     * used in the GUI
+     * get the name of the actual cHaracter
+     */
+    public String getActualName(){
+        if(actualCharacter == null){
+            return "no name";
+        }
+        else{
+            return actualCharacter.getName();
+        }
+    }
+
+    /**
+     * returns this controller current phase
+     */
+    public Phase getPhase(){
+        return this.phase;
+    }
 
 
 
-//
+
+
+
+    //
 }

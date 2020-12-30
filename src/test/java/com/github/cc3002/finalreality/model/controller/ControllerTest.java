@@ -1,16 +1,13 @@
 package com.github.cc3002.finalreality.model.controller;
 
 import com.github.doragonUni.finalreality.controller.*;
-import com.github.doragonUni.finalreality.model.character.Enemy;
-import com.github.doragonUni.finalreality.model.character.ICharacter;
+import com.github.doragonUni.finalreality.controller.phases.*;
 import com.github.doragonUni.finalreality.model.character.player.*;
-import com.github.doragonUni.finalreality.model.weapon.*;
+import com.github.doragonUni.finalreality.model.weapon.IWeapon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,10 +31,10 @@ public class ControllerTest {
         controller.enemyCreator("enemy2", 13, 2, 0, 13);
         controller.enemyCreator("enemy3", 10,2,4,56);
         controller.enemyCreator("enemy4", 1,200,40,6);
-        controller.enemyCreator("no deberia agregarse", 100000,200000,40000,56000);
+        controller.enemyCreator("XD", 100000,200000,40000,56000);
         controller.knightCreator("knight", 10, 10);
         controller.whiteMageCreator("white", 16, 0, 10);
-        controller.blackMageCreator("nibba", 1,2,30);
+        controller.blackMageCreator("nig", 1,2,30);
         controller.thiefCreator("thief", 178,2);
         controller.engineerCreator("engine", 13,45);
 
@@ -62,74 +59,77 @@ public class ControllerTest {
         assertEquals(30, controller.getMageMana((IMage) controller.getFromParty(2)));
     }
 
+    @Test
+    void constructorTest(){
+        assertEquals(4, controller.getPartyNum());
+        assertEquals(4, controller.getPartySize());
+        assertEquals(5, controller.getInventorySpace());
+        assertEquals(5, controller.getEnemySize());
+        assertEquals("no name", controller.getActualName());
+        assertEquals(controller.getInventorySpace(), controller.getInventory().size());
+        assertNull(controller.getActualCharacter());
+        assertEquals("", controller.getLog());
+        assertFalse(controller.winner());
+        assertFalse(controller.looser());
+
+
+    }
+
 
     @Test
-    void inventoryTest() {
+    void inventoryTest()   {
 
-        assertEquals(false, controller.isInventoryEmpty());
-        controller.equipWeaponInventory(controller.selectInventoryItem("sword"), controller.getFromParty(0));
-        controller.equipWeaponInventory(controller.selectInventoryItem("staff"), controller.getFromParty(1));
-        assertEquals(false, controller.isItemInventory("sword"));
-        controller.controllerAttack(controller.getFromParty(0), controller.getFromEnemy(2));
-        controller.controllerAttack(controller.getFromEnemy(0), controller.getFromParty(1));
-        assertEquals(0, controller.getFromEnemy(2).getHp());
-        assertEquals(0, controller.getFromParty(1).getHp());
-
-        assertEquals(null, controller.getCharacterEquipWeapon(controller.getFromParty(3)));
-        controller.equipWeaponInventory(controller.selectInventoryItem("axe"), controller.getFromParty(3));
-        assertEquals(true, controller.isItemInventory("axe"));
-        assertEquals(null, controller.getCharacterEquipWeapon(controller.getFromParty(3)));
-        controller.equipWeaponInventory(controller.selectInventoryItem("bow"), controller.getFromParty(3));
+        assertFalse(controller.isInventoryEmpty());
+        controller.tryToEquip(controller.selectInventoryItem("sword"), controller.getFromParty(0));
+        assertEquals("sword", controller.getCharacterWeaponName(controller.getFromParty(0)));
+        controller.setPhase(new SelectPhase());
+        controller.tryToEquip(controller.selectInventoryItem("staff"), controller.getFromParty(1));
+        assertFalse(controller.isItemInventory("sword"));
+        controller.setPhase(new LoadingPhase());
+        assertNull(controller.getCharacterEquipWeapon(controller.getFromParty(3)));
+        controller.tryToEquip(controller.selectInventoryItem("axe"), controller.getFromParty(3));
+        assertTrue(controller.isItemInventory("axe"));
+        assertNull(controller.getCharacterEquipWeapon(controller.getFromParty(3)));
+        controller.tryToEquip(controller.selectInventoryItem("bow"), controller.getFromParty(3));
         assertEquals(47, controller.getCharacterAttack(controller.getFromParty(3)));
-        assertEquals(false, controller.isItemInventory("bow"));
-        controller.equipWeaponInventory(controller.selectInventoryItem("axe"), controller.getFromParty(3));
+        assertFalse(controller.isItemInventory("bow"));
+        controller.tryToEquip(controller.selectInventoryItem("axe"), controller.getFromParty(3));
         assertEquals("bow", controller.getFromParty(3).getEquippedWeapon().getName());
-        assertEquals(true, controller.isItemInventory("axe"));
-        controller.equipWeaponInventory(controller.selectInventoryItem("knife"), controller.getFromParty(3));
+        assertTrue(controller.isItemInventory("axe"));
+        controller.tryToEquip(controller.selectInventoryItem("knife"), controller.getFromParty(3));
         assertEquals("knife", controller.getFromParty(3).getEquippedWeapon().getName());
-        assertEquals(true, controller.isItemInventory("bow"));
-        assertEquals(false, controller.isItemInventory("knife"));
-
-    }
-
-
-    @Test
-    public void winTest(){
-
-        controller.equipWeaponInventory(controller.selectInventoryItem("sword"), controller.getFromParty(0));
-
-        controller.controllerAttack(controller.getFromParty(0), controller.getFromEnemy(4));
-        controller.controllerAttack(controller.getFromParty(0), controller.getFromEnemy(3));
-        controller.controllerAttack(controller.getFromParty(0), controller.getFromEnemy(2));
-        controller.controllerAttack(controller.getFromParty(0), controller.getFromEnemy(1));
-        controller.controllerAttack(controller.getFromParty(0), controller.getFromEnemy(0));
-        assertEquals(0, controller.getFromEnemy(4).getHp());
-        assertEquals(0, controller.getFromEnemy(3).getHp());
-        assertEquals(0, controller.getFromEnemy(2).getHp());
-        assertEquals(0, controller.getFromEnemy(1).getHp());
-        assertEquals(0, controller.getFromEnemy(0).getHp());
-
-
+        assertTrue(controller.isItemInventory("bow"));
+        assertFalse(controller.isItemInventory("knife"));
 
     }
 
     @Test
-    public void loseTest(){
-
-        controller.equipWeaponInventory(controller.selectInventoryItem("sword"), controller.getFromParty(0));
-
-        controller.controllerAttack(controller.getFromEnemy(0), controller.getFromParty(3));
-        controller.controllerAttack(controller.getFromEnemy(0), controller.getFromParty(2));
-        controller.controllerAttack(controller.getFromEnemy(0), controller.getFromParty(1));
-        controller.controllerAttack(controller.getFromEnemy(0), controller.getFromParty(0));
-        assertEquals(0, controller.getFromParty(3).getHp());
-        assertEquals(0, controller.getFromParty(2).getHp());
-        assertEquals(0, controller.getFromParty(1).getHp());
-        assertEquals(0, controller.getFromParty(0).getHp());
-
-
-
+    void phaseWinTest(){
+        assertTrue(controller.getPhase().isSetUpPhase());
+        controller.setPhase(new WaitingPhase());
+        assertTrue(controller.getPhase().isWaitingPhase());
+        controller.setPhase(new TurnPhase());
+        assertTrue(controller.getPhase().isTurnPhase());
+        controller.setPhase(new SelectPhase());
+        assertFalse(controller.getPhase().isTurnPhase());
+        controller.setPhase(new WinPhase());
+        assertFalse(controller.getPhase().isTurnPhase());
     }
+
+    @Test
+    void phaseLoseTest(){
+        assertTrue(controller.getPhase().isSetUpPhase());
+        assertFalse(controller.getPhase().isTurnPhase());
+        controller.setPhase(new WaitingPhase());
+        assertTrue(controller.getPhase().isWaitingPhase());
+        controller.setPhase(new TurnPhase());
+        assertTrue(controller.getPhase().isTurnPhase());
+        controller.setPhase(new SelectPhase());
+        controller.setPhase(new LosePhase());
+    }
+
+
+
 
 
 

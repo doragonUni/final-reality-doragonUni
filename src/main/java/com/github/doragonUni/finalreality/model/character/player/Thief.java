@@ -24,6 +24,10 @@ public class Thief extends AbstractPlayerCharacter {
         super(turnsQueue, name, hp, defense);
     }
 
+
+    /**
+     *equip a weapon to this thief
+     */
     @Override
     public void equipWeapon(IWeapon weapon) {
         if (this.isAlive()){

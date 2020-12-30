@@ -93,6 +93,8 @@ class EnemyTest {
     assertEquals(ENEMY_NAME, testEnemy.getName());
     assertEquals(WEIGHT, testEnemy.getWeight());
     assertEquals(attack, testEnemy.getAttack());
+    assertEquals(hp, testEnemy.getTotalHp());
+    assertEquals(0, testEnemy.getCharacter());
 
   }
 

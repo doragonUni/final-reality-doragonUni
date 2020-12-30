@@ -73,6 +73,7 @@ public class KnightTest {
         assertEquals(name, testKnight.getName());
         assertEquals(hp, testKnight.getHp());
         assertEquals(def, testKnight.getDef());
+        assertEquals(hp, testKnight.getTotalHp());
     }
     /**
      * TEST FOR EQUIPPING SOME WEAPONS

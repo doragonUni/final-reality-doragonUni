@@ -75,6 +75,7 @@ public class ThiefTest {
         assertEquals(name, testThief.getName());
         assertEquals(hp, testThief.getHp());
         assertEquals(def, testThief.getDef());
+        assertEquals(hp, testThief.getTotalHp());
     }
 
     /**

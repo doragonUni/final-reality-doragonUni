@@ -20,16 +20,22 @@ public class Sword extends AbstractWeapon {
         super(name, damage, weight);
     }
 
-    
+    /**
+     * double dispatch for equipping weapons
+     */
     @Override
     public void equipToKnight(Knight knight) {
         knight.setEquippedWeapon(this);
     }
-
+    /**
+     * double dispatch for equipping weapons
+     */
     @Override
     public void equipToThief(Thief thief) {
         thief.setEquippedWeapon(this);
     }
+
+
 
 
     @Override

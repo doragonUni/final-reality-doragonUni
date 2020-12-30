@@ -74,8 +74,13 @@ public class Enemy extends AbstractCharacter {
   @Override
   public int getAttack(){ return this.attack;}
 
-
-  //public int takeTurn()
+  /**
+   * return 0 because is an enemy
+   */
+  @Override
+  public int getCharacter(){
+    return 0;
+  }
 
 
 

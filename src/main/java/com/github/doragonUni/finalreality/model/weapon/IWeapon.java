@@ -17,12 +17,32 @@ public interface IWeapon {
      */
     int getWeight();
 
-
+    /**
+     * double dispatch for equipping weapons
+     * @param BlackMage
+     */
     void equipToBlackMage(BlackMage blackMage);
+    /**
+     * double dispatch for equipping weapons
+     * @param Engineer
+     */
     void equipToEngineer(Engineer engineer);
+    /**
+     * double dispatch for equipping weapons
+     * @param Knight
+     */
     void equipToKnight(Knight knight);
+    /**
+     * double dispatch for equipping weapons
+     * @param Thief
+     */
     void equipToThief(Thief thief);
+    /**
+     * double dispatch for equipping weapons
+     * @param WhiteMage
+     */
     void equipToWhiteMage(WhiteMage WhiteMage);
+
 
 
 

@@ -27,7 +27,9 @@ public class BlackMage extends AbstractMage {
         this.mana = mana;
     }
 
-
+    /**
+     *equip a weapon to this BlackMAGE
+     */
     @Override
     public void equipWeapon(IWeapon weapon) {
         if (this.isAlive()) {

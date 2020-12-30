@@ -1,5 +1,6 @@
-package com.github.doragonUni.finalreality.controller;
+package com.github.doragonUni.finalreality.controller.handlers;
 
+import com.github.doragonUni.finalreality.controller.GameController;
 import com.github.doragonUni.finalreality.model.character.Enemy;
 
 import java.beans.PropertyChangeEvent;
@@ -22,7 +23,7 @@ public class EnemyDeathHandler implements IHandler {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        controller.enemyDeathNotification();
+        controller.enemyDeathNotification((Enemy) evt.getNewValue());
     }
 
 }
